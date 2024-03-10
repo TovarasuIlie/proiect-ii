@@ -1,0 +1,6 @@
+.tyre-card-img-object-fit {
+    width: auto;
+    height: 100px;
+    object-fit: cover;
+    object-position: 0% 0%;
+}

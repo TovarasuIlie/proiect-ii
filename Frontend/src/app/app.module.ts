@@ -6,17 +6,26 @@ import { AppComponent } from './app.component';
 import { IndexPageComponent } from './components/index-page/index-page.component';
 import { HeaderComponent } from './components/templates/header/header.component';
 import { FooterComponent } from './components/templates/footer/footer.component';
+import { TiresPageComponent } from './components/tires-page/tires-page.component';
+import { ToolsPageComponent } from './components/tools-page/tools-page.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
     AppComponent,
     IndexPageComponent,
     HeaderComponent,
-    FooterComponent
+    FooterComponent,
+    TiresPageComponent,
+    ToolsPageComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
