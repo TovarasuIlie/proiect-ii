@@ -12,8 +12,10 @@ import { UserService } from '../../../services/user.service';
 })
 export class HeaderComponent {
   currentPath: string = "";
+  loginFormSubmited: boolean = false;
+  registerFormSubmited: boolean = false;
   userRegister: User = {
-    name: "",
+    fullName: "",
     email: "",
     password: "",
     phone: "",
@@ -25,8 +27,8 @@ export class HeaderComponent {
     password: ""
   }
 
-  registerFrom = this.formBuilder.group({
-    name: ['', [Validators.required, UserValidator.nameValidator]],
+  registerForm = this.formBuilder.group({
+    fullName: ['', [Validators.required, UserValidator.nameValidator]],
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required, UserValidator.passwordStrengthValidator, Validators.minLength(8)]],
     confirmPassword: ['', [Validators.required, UserValidator.confirmPasswordValidator]],
@@ -48,22 +50,29 @@ export class HeaderComponent {
   }
 
   addNewUser() {
-    if(this.registerFrom.valid) {
+    this.registerFormSubmited = true;
+    if(this.registerForm.valid) {
       this.userService.addNewUser(this.userRegister).subscribe({
-        next: (user1) => {
-          console.log(user1);
-        }
+        next: (user) => {
+          console.log(user);
+        },
+        error: (response) => {
+          console.log(response);
+        } 
       });
     } else {
       console.log("laso asa");
+      this.registerForm.reset();
     }
   }
 
   loginUser() {
-    if(this.registerFrom.valid) {
+    this.loginFormSubmited = true;
+    if(this.loginForm.valid) {
       console.log(this.user);
     } else {
       console.log("laso asa");
+      this.loginForm.reset();
     }
   }
 

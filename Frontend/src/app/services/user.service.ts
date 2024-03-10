@@ -7,11 +7,11 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root'
 })
 export class UserService {
-  baseUrlApi: string = "";
+  baseUrlApi: string = "http://localhost:5020";
 
   constructor(private http: HttpClient) { }
 
   addNewUser(userRegister: User): Observable<User>{
-    return this.http.post<User>(this.baseUrlApi + "/test", userRegister);
+    return this.http.post<User>(this.baseUrlApi + "/api/Account/register", userRegister);
   }
 }
