@@ -50,7 +50,7 @@ namespace Backend.Controllers
             }
             var userToAdd = new User
             {
-                FullName = model.FullName.ToLower(),
+                FullName = model.FullName,
                 UserName = model.Email.ToLower(),
                 Email = model.Email.ToLower(),
                 EmailConfirmed = true,
@@ -59,7 +59,7 @@ namespace Backend.Controllers
             };
             var result=await _userManager.CreateAsync(userToAdd, model.Password);
             if(!result.Succeeded) { return BadRequest(result.Errors); }
-            return Ok("Your account has been created. You can now login.");
+            return Ok(new JsonResult(new {title="Account Created",message= "Your account has been created. You can now login." }));
         }
         #region Private Helper Methods
         private UserDto CreateApplicationUserDto(User user)
