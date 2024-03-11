@@ -166,7 +166,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="registerModalLabel">Inregistreaza-te</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" #closebutton class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form #form="ngForm" (ngSubmit)="addNewUser()" [formGroup]="registerForm">
@@ -245,6 +245,9 @@
                             </div>
                         </div>
                     </div>
+                    <div *ngIf="errors" class="alert alert-danger">
+                        {{errors}}
+                    </div>
                     <div class="d-flex flex-column mb-3">
                         <button type="submit" class="btn btn-danger"><i class="fa-solid fa-right-to-bracket"></i> Inregisteaza-te!</button>
                     </div>
@@ -256,3 +259,11 @@
         </div>
     </div>
 </div>
+
+@if(userSuccessRegistred) {
+<div class="toast-container position-fixed bottom-0 end-0 p-3 text-success">
+    <ngb-toast header='Test'>
+        <b>Contul a fost inregistrat cu succes!</b>
+    </ngb-toast>
+</div>
+}

@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, Input, ViewChild } from '@angular/core';
 import { Router, NavigationEnd, Event } from '@angular/router';
 import { User, UserLogin } from '../../../models/user.model';
 import { FormBuilder, Validators } from '@angular/forms';
 import { UserValidator } from '../../../validators/register-form.validator';
 import { UserService } from '../../../services/user.service';
+import { NgbToast } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-header',
@@ -14,6 +15,12 @@ export class HeaderComponent {
   currentPath: string = "";
   loginFormSubmited: boolean = false;
   registerFormSubmited: boolean = false;
+  userSuccessRegistred: boolean = false;
+  @Input() errors: string = "";
+  
+  successRegister: boolean = false;
+  @ViewChild('closebutton') closebutton: any;
+
   userRegister: User = {
     fullName: "",
     email: "",
@@ -49,15 +56,22 @@ export class HeaderComponent {
     });
   }
 
+  onInit() {
+
+  }
+
   addNewUser() {
     this.registerFormSubmited = true;
     if(this.registerForm.valid) {
       this.userService.addNewUser(this.userRegister).subscribe({
-        next: (user) => {
-          console.log(user);
+        next: (response) => {
+          this.successRegister = true;
+          this.closebutton.nativeElement.click();
+          this.userSuccessRegistred = true;
         },
         error: (response) => {
-          console.log(response);
+          this.errors = response.error;
+          console.log(response)
         } 
       });
     } else {
@@ -75,5 +89,4 @@ export class HeaderComponent {
       this.loginForm.reset();
     }
   }
-
 }
