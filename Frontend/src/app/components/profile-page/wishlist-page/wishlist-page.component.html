@@ -1,0 +1,31 @@
+<app-header />
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card shadow mb-2 mt-1 bg-body rounded profile-card">
+                <div class="list-group list-group-flush">
+                    <button type="button" class="list-group-item list-group-item-action" [routerLink]="['/profil/comenzile-mele']"><i class="fa-solid fa-layer-group"></i> Comenzile Mele</button>
+                    <button type="button" class="list-group-item list-group-item-action" [routerLink]="['/profil/contul-meu']"><i class="fa-solid fa-user"></i> Contul Meu</button>
+                    <button type="button" class="list-group-item list-group-item-action active" [routerLink]="['/profil/wishlist']"><i class="fa-solid fa-heart"></i> WishList</button>
+                    <button type="button" class="list-group-item list-group-item-action">A fourth button item</button>
+                    <button type="button" class="list-group-item list-group-item-action" disabled>A disabled button item</button>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="container-fluid">
+                <div class="card shadow mb-2 mt-1 bg-body rounded profile-card">
+                    <div class="card-body">
+                        <h3>WishList-ul Meu</h3>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">Momentan nu ai adaugat nici un produs la favorite.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<app-footer />

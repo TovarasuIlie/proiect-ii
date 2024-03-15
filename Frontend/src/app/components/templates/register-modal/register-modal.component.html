@@ -1,0 +1,108 @@
+<div #registerModal class="modal fade" id="register-form-modal" tabindex="-1" aria-hidden="true" aria-labelledby="registerModalLabel">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="registerModalLabel">Inregistreaza-te</h1>
+                <button type="button" #closeModal class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form (ngSubmit)="addNewUser()" [formGroup]="registerForm">
+                    <div class="form-floating mb-3">
+                        <input formControlName="fullName" type="text" class="form-control" [class.is-invalid]="(registerFormSubmited || registerForm.get('fullName')?.touched) && !registerForm.get('fullName')?.valid" id="fullName" name="fullName" placeholder="Popescu Ionel">
+                        <label for="name">Nume complet</label>
+                        <div *ngIf="registerFormSubmited || registerForm.get('fullName')?.touched && !registerForm.get('fullName')?.valid" class="text-danger">
+                            <div *ngIf="registerForm.get('fullName')?.errors?.['required']">
+                                <small>Este necesar sa introduci un nume!</small>
+                            </div>
+                            <div *ngIf="registerForm.get('fullName')?.errors?.['invalidName']">
+                                <small>Numele nu poate sa contina cifre sau caractere speciale!</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input formControlName="email" type="email" class="form-control" [class.is-invalid]="(registerFormSubmited || registerForm.get('email')?.touched) && !registerForm.get('email')?.valid" id="email" name="email" placeholder="name@example.com">
+                        <label for="email">Adresa de email</label>
+                        <div *ngIf="registerFormSubmited || registerForm.get('email')?.touched && !registerForm.get('email')?.valid" class="text-danger">
+                            <div *ngIf="registerForm.get('email')?.errors?.['required']">
+                                <small>Este necesar sa introduci o adresa de email!</small>
+                            </div>
+                            <div *ngIf="registerForm.get('email')?.errors?.['email']">
+                                <small>Adresa de email introdusa nu este valida!</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input formControlName="password" type="password" class="form-control" [class.is-invalid]="(registerFormSubmited || registerForm.get('password')?.touched) && !registerForm.get('password')?.valid" id="password" name="password" placeholder="Parola">
+                        <label for="password">Parola</label>
+                        <div *ngIf="registerFormSubmited || registerForm.get('password')?.touched && !registerForm.get('password')?.valid" class="text-danger">
+                            <div *ngIf="registerForm.get('password')?.errors?.['required']">
+                                <small>Este necesar sa introduci o parola!</small>
+                            </div>
+                            <div *ngIf="registerForm.get('password')?.errors?.['passwordStrength']">
+                                <small>Parola trebuie sa contina caractere mici, caractere mari si numere!</small>
+                            </div>
+                            <div *ngIf="registerForm.get('password')?.errors?.['minlength']">
+                                <small>Parola trebuie sa contina minim 8 caractere!</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input formControlName="confirmPassword" type="password" class="form-control" [class.is-invalid]="(registerFormSubmited || registerForm.get('confirmPassword')?.touched) && !registerForm.get('confirmPassword')?.valid" id="confirm-password" name="confirm-password" placeholder="Confirma parola">
+                        <label for="confirm-password">Confirma parola</label>
+                        <div *ngIf="registerFormSubmited || registerForm.get('confirmPassword')?.touched && !registerForm.get('confirmPassword')?.valid" class="text-danger">
+                            <div *ngIf="registerForm.get('confirmPassword')?.errors?.['required']">
+                                <small>Este necesar sa confirmi parola introdusa mai sus!</small>
+                            </div>
+                            <div *ngIf="registerForm.get('confirmPassword')?.errors?.['unmatched']">
+                                <small>Parole nu se potrivesc!</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input formControlName="phone" type="email" class="form-control" [class.is-invalid]="(registerFormSubmited || registerForm.get('phone')?.touched) && !registerForm.get('phone')?.valid" id="phone" name="phone" placeholder="name@example.com">
+                        <label for="phone">Numar de telefon</label>
+                        <div *ngIf="registerFormSubmited || registerForm.get('phone')?.touched && !registerForm.get('phone')?.valid" class="text-danger">
+                            <div *ngIf="registerForm.get('phone')?.errors?.['required']">
+                                <small>Este necesar sa introduci o parola!</small>
+                            </div>
+                            <div *ngIf="registerForm.get('phone')?.errors?.['maxlength'] || registerForm.get('phone')?.errors?.['minlength']">
+                                <small>Numarul de telefon trebuie sa contina 10 cifre!</small>
+                            </div>
+                            <div *ngIf="registerForm.get('phone')?.errors?.['pattern']">
+                                <small>Numarul introdus nu este nu numar de telefon valid!</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input formControlName="address" type="text" class="form-control" [class.is-invalid]="(registerFormSubmited || registerForm.get('address')?.touched) && !registerForm.get('address')?.valid" id="address" name="address" placeholder="Password">
+                        <label for="address">Adresa Dumneavoastra</label>
+                        <div *ngIf="registerFormSubmited || registerForm.get('address')?.touched && !registerForm.get('address')?.valid" class="text-danger">
+                            <div *ngIf="registerForm.get('address')?.errors?.['required']">
+                                <small>Este necesar sa introduci o adresa!</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="errorMessages.length > 0" class="alert alert-danger">
+                        <ul>
+                            <li *ngFor="let error of errorMessages">
+                                {{error}}
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="d-flex flex-column mb-3">
+                        <button type="submit" class="btn btn-danger"><i class="fa-solid fa-right-to-bracket"></i> Inregisteaza-te!</button>
+                    </div>
+                </form>
+                <div class="text-center">
+                    <p>Ai deja cont? <a class="text-decoration-none" role="button" data-bs-toggle="modal" data-bs-target="#login-form-modal">Conecteaza-te acum</a>!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="registerSuccess == true" class="toast-container position-fixed bottom-0 end-0 p-3 text-success">
+    <ngb-toast [header]="toaster.title" style="font-weight: bold;">
+        {{toaster.message}}
+    </ngb-toast>
+</div>
