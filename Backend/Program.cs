@@ -20,6 +20,7 @@ builder.Services.AddDbContext<ApiDbContext>(options=>
 options.UseSqlServer(builder.Configuration.GetConnectionString("ProiectIIConnectionString")));
 //inject JWTservice in controllers
 builder.Services.AddScoped<JWTService>();
+builder.Services.AddScoped<EmailService>();
 builder.Services.AddIdentityCore<User>(options =>
 {
     options.Password.RequiredLength = 6;
