@@ -174,6 +174,9 @@ namespace Backend.Controllers
         {
             return new UserDto
             {
+                Id = user.Id,
+                Email = user.Email,
+                UserName = user.UserName,
                 FullName = user.FullName,
                 Phone = user.Phone,
                 Address = user.Address,
