@@ -1,5 +1,5 @@
 import { Injectable} from '@angular/core';
-import { LoginUserInterface, UserInteface, RegisterUserInterface } from '../models/user.model';
+import { LoginUserInterface, UserInteface, RegisterUserInterface, ConfirmEmail, ResetPassword } from '../models/user.model';
 import { Observable, ReplaySubject, map, of } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../environments/environment.development';
@@ -36,6 +36,10 @@ export class UserService {
     return this.http.post<RegisterUserInterface>(environment.apiUrl + "/api/Account/register", registerUser);
   }
 
+  confirmEmail(confirmEmail: ConfirmEmail) {
+    return this.http.put<ConfirmEmail>(environment.apiUrl + "/api/Account/confirm-email", confirmEmail);
+  }
+
   loginUser(loginUser: LoginUserInterface) {
     return this.http.post<UserInteface>(environment.apiUrl + "/api/Account/login",  loginUser).pipe(
       map((user: UserInteface) => {
@@ -44,6 +48,14 @@ export class UserService {
         }
       })
     );
+  }
+
+  sendResetLink(email: string) {
+    return this.http.post(environment.apiUrl + "/api/Account/forgot-username-or-password/" + email, {})
+  }
+
+  resetPassword(resetPassword: ResetPassword) {
+    return this.http.put(environment.apiUrl + "/api/Account/reset-password", resetPassword);
   }
 
   logOut() {

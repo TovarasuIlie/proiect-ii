@@ -1,9 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { UserValidator } from '../../../validators/register-form.validator';
+import { UserValidator, passwordConfirmValidator } from '../../../validators/register-form.validator';
 import { UserService } from '../../../services/user.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ConfirmEmailComponent } from '../../account-component/confirm-email/confirm-email.component';
 
 @Component({
   selector: 'app-register-modal',
@@ -20,6 +21,8 @@ export class RegisterModalComponent implements OnInit {
     message: 'test'
   };
   registerSuccess: boolean = false;
+  @ViewChild(ConfirmEmailComponent) confirmEmailComponent: any;
+  emailConfirmed: boolean = false;
   @ViewChild('closeModal') closeModal: any;
 
   constructor(private userService: UserService, private formBuilder: FormBuilder, private router: Router) {
@@ -35,10 +38,14 @@ export class RegisterModalComponent implements OnInit {
       fullName: ['', [Validators.required, UserValidator.nameValidator]],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, UserValidator.passwordStrengthValidator, Validators.minLength(8)]],
-      confirmPassword: ['', [Validators.required, UserValidator.confirmPasswordValidator]],
+      confirmPassword: ['', [Validators.required]],
       phone: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(10), Validators.pattern('[0-9]*')]],
       address: ['', Validators.required]
-    })
+    },
+    {
+      validators: passwordConfirmValidator
+    }
+    )
   }
 
   addNewUser() {
@@ -55,6 +62,7 @@ export class RegisterModalComponent implements OnInit {
           this.registerForm.reset();
         },
         error: (response) => {
+          this.errorMessages.pop();
           this.errorMessages.push(response.error);
         } 
       });

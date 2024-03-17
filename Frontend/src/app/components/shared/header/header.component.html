@@ -33,13 +33,13 @@
                                 </li>
                                 <li><hr class="dropdown-divider"></li>
                                 <li>
-                                    <a class="dropdown-item" role="button" [routerLink]="['profil/comenzile-mele']"><i class="fa-solid fa-layer-group"></i> Comenzile Mele</a>
+                                    <a class="dropdown-item" role="button" [routerLinkActive]="['active']" [routerLink]="['/cont', 'comenzile-mele']"><i class="fa-solid fa-layer-group"></i> Comenzile Mele</a>
                                 </li>
                                 <li>
-                                    <a class="dropdown-item" role="button" [routerLink]="['profil/contul-meu']"><i class="fa-solid fa-user"></i> Contul Meu</a>
+                                    <a class="dropdown-item" role="button" [routerLinkActive]="['active']" [routerLink]="['/cont', 'contul-meu']"><i class="fa-solid fa-user"></i> Contul Meu</a>
                                 </li>
                                 <li>
-                                    <a class="dropdown-item" role="button" [routerLink]="['profil/wishlist']"><i class="fa-solid fa-heart"></i> Lista de favorite</a>
+                                    <a class="dropdown-item" role="button" [routerLinkActive]="['active']" [routerLink]="['/cont', 'wishlist']"><i class="fa-solid fa-heart"></i> Lista de favorite</a>
                                 </li>
                                 <li><hr class="dropdown-divider"></li>
                                 <li>
@@ -99,26 +99,22 @@
                     </ul>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" [class.active]="currentPath === '/anvelope'"
-                        [routerLink]="['/anvelope']">Anvelope</a>
+                    <a class="nav-link" [routerLinkActive]="['active']" [routerLink]="['/anvelope']">Anvelope</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" [class.active]="currentPath === '/scule'" [routerLink]="['/scule']">Scule</a>
+                    <a class="nav-link" [routerLinkActive]="['active']" [routerLink]="['/scule']">Scule</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" [class.active]="currentPath === '/accesori-auto'"
-                        [routerLink]="['/accesorii-auto']">Accesorii auto</a>
+                    <a class="nav-link" [routerLinkActive]="['active']" [routerLink]="['/accesorii-auto']">Accesorii auto</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" [class.active]="currentPath === '/ulei-motor'"
-                        [routerLink]="['/ulei-motor']">Ulei de motor</a>
+                    <a class="nav-link" [routerLinkActive]="['active']" [routerLink]="['/ulei-motor']">Ulei de motor</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" [class.active]="currentPath === '/filtre'" [routerLink]="['/filtre']">Filtre</a>
+                    <a class="nav-link" [routerLinkActive]="['active']" [routerLink]="['/filtre']">Filtre</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" [class.active]="currentPath === '/sistem-frana'"
-                        [routerLink]="['/sistem-frana']">Sistem de franare</a>
+                    <a class="nav-link" [routerLinkActive]="['active']" [routerLink]="['/sistem-frana']">Sistem de franare</a>
                 </li>
             </ul>
         </div>

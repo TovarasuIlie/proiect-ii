@@ -47,13 +47,13 @@
                         </div>
                     </div>
                     <div class="form-floating mb-3">
-                        <input formControlName="confirmPassword" type="password" class="form-control" [class.is-invalid]="(registerFormSubmited || registerForm.get('confirmPassword')?.touched) && !registerForm.get('confirmPassword')?.valid" id="confirm-password" name="confirm-password" placeholder="Confirma parola">
+                        <input formControlName="confirmPassword" type="password" class="form-control" [class.is-invalid]="(registerFormSubmited || registerForm.get('confirmPassword')?.touched || registerForm.errors?.['unmatched']) && !registerForm.get('confirmPassword')?.valid" id="confirm-password" name="confirm-password" placeholder="Confirma parola">
                         <label for="confirm-password">Confirma parola</label>
-                        <div *ngIf="registerFormSubmited || registerForm.get('confirmPassword')?.touched && !registerForm.get('confirmPassword')?.valid" class="text-danger">
+                        <div *ngIf="(registerFormSubmited || registerForm.get('confirmPassword')?.touched) && !registerForm.get('confirmPassword')?.valid || registerForm.errors?.['unmatched']" class="text-danger">
                             <div *ngIf="registerForm.get('confirmPassword')?.errors?.['required']">
                                 <small>Este necesar sa confirmi parola introdusa mai sus!</small>
                             </div>
-                            <div *ngIf="registerForm.get('confirmPassword')?.errors?.['unmatched']">
+                            <div *ngIf="registerForm.errors?.['unmatched']">
                                 <small>Parole nu se potrivesc!</small>
                             </div>
                         </div>
@@ -101,8 +101,13 @@
     </div>
 </div>
 
-<div *ngIf="registerSuccess == true" class="toast-container position-fixed bottom-0 end-0 p-3 text-success">
+<!-- <div *ngIf="registerSuccess == true" class="toast-container position-fixed bottom-0 end-0 p-3 text-success">
     <ngb-toast [header]="toaster.title" style="font-weight: bold;">
         {{toaster.message}}
     </ngb-toast>
 </div>
+<div *ngIf="emailConfirmed == true" class="toast-container position-fixed bottom-0 end-0 p-3 text-danger">
+    <ngb-toast [header]="toaster.title" style="font-weight: bold;">
+        {{toaster.message}}
+    </ngb-toast>
+</div> -->

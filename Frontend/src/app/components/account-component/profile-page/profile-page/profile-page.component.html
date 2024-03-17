@@ -6,12 +6,12 @@
             <div class="card shadow mb-2 mt-1 bg-body rounded profile-card">
                 <div class="list-group list-group-flush">
                     <button type="button" class="list-group-item list-group-item-action"
-                        [routerLink]="['/profil/comenzile-mele']"><i class="fa-solid fa-layer-group"></i> Comenzile
+                        [routerLink]="['/cont', 'comenzile-mele']"><i class="fa-solid fa-layer-group"></i> Comenzile
                         Mele</button>
                     <button type="button" class="list-group-item list-group-item-action active"
-                        [routerLink]="['/profil/contul-meu']"><i class="fa-solid fa-user"></i> Contul Meu</button>
+                        [routerLink]="['/cont', 'contul-meu']"><i class="fa-solid fa-user"></i> Contul Meu</button>
                     <button type="button" class="list-group-item list-group-item-action"
-                        [routerLink]="['/profil/wishlist']"><i class="fa-solid fa-heart"></i> WishList</button>
+                        [routerLink]="['/cont', 'wishlist']"><i class="fa-solid fa-heart"></i> WishList</button>
                     <button type="button" class="list-group-item list-group-item-action">A fourth button item</button>
                     <button type="button" class="list-group-item list-group-item-action" disabled>A disabled button
                         item</button>
@@ -67,8 +67,8 @@
                     <div class="form-floating mb-3">
                         <input formControlName="phone" type="text" class="form-control"
                             [class.is-invalid]="(editAccountFormSubmited || editAccountForm.get('phone')?.touched) && !editAccountForm.get('phone')?.valid"
-                            id="phone" name="phone"
-                            [value]="(userService.user$ | async)?.phone">
+                            id="phone" name="phone">
+                            <!-- [value]="(userService.user$ | async)?.phone"> -->
                         <label for="phone">Numar De Telefon</label>
                         <div *ngIf="(editAccountFormSubmited || editAccountForm.get('phone')?.touched) && !editAccountForm.get('phone')?.valid"
                             class="text-danger">
@@ -86,8 +86,7 @@
                     <div class="form-floating mb-3">
                         <input formControlName="address" type="text" class="form-control"
                             [class.is-invalid]="(editAccountFormSubmited || editAccountForm.get('address')?.touched) && !editAccountForm.get('address')?.valid"
-                            id="address" name="address"
-                            [value]="(userService.user$ | async)?.address">
+                            id="address" name="address">
                         <label for="address">Adresa</label>
                         <div *ngIf="(editAccountFormSubmited || editAccountForm.get('address')?.touched) && !editAccountForm.get('address')?.valid"
                             class="text-danger">

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, inject } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService } from '../../../services/user.service';
 import { Router } from '@angular/router';
@@ -46,6 +46,7 @@ export class LoginModalComponent implements OnInit {
         },
         error: (response) => {
           console.log(response);
+          this.errorMessages.pop();
           this.errorMessages.push(response.error);
         } 
       });

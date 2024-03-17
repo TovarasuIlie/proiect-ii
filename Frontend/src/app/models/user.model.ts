@@ -21,3 +21,14 @@ export interface UserInteface {
     address: string,
     jwt: string
 }
+
+export interface ConfirmEmail {
+    email: string,
+    token: string
+}
+
+export interface ResetPassword {
+    email: string,
+    token: string,
+    newPassword: string
+}

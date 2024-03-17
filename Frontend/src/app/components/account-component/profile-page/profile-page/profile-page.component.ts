@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationEnd, Router, Event } from '@angular/router';
-import { UserService } from '../../../services/user.service';
+import { UserService } from '../../../../services/user.service';
+import { environment } from '../../../../../environments/environment.development';
+import { UserValidator } from '../../../../validators/register-form.validator';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { UserValidator } from '../../../validators/register-form.validator';
-import { environment } from '../../../../environments/environment.development';
 
 @Component({
   selector: 'app-profile-page',
