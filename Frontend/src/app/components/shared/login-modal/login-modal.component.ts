@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService } from '../../../services/user.service';
 import { Router } from '@angular/router';
+import { ToastService } from '../services/toast.service';
 
 @Component({
   selector: 'app-login-modal',
@@ -17,7 +18,7 @@ export class LoginModalComponent implements OnInit {
   loginSuccess: boolean = false;
   toaster: any;
 
-  constructor(private formBuilder: FormBuilder, private userService: UserService, private router: Router) {}
+  constructor(private formBuilder: FormBuilder, private userService: UserService, private router: Router, private toastService: ToastService) {}
 
   ngOnInit(): void {
     this.initializerForm();
@@ -37,12 +38,9 @@ export class LoginModalComponent implements OnInit {
       this.userService.loginUser(this.loginForm.value).subscribe({
         next: (response: any) => {
           console.log(response);
-          this. router.navigateByUrl('/');
-          // this.loginSuccess = true;
+          this.router.navigateByUrl('/');
           this.closeModal.nativeElement.click();
-          // this.toaster.title = response.value.title;
-          // this.toaster.message = response.value.message;
-          // this.loginForm.reset();
+          this.toastService.show({title: "Autentificare cu succes!", message: "Sunteti autentificat in contul dumnevoastra!", classname: "text-success"});
         },
         error: (response) => {
           console.log(response);
@@ -51,7 +49,7 @@ export class LoginModalComponent implements OnInit {
         } 
       });
     } else {
-      // this.loginForm.reset();
+      this.loginForm.reset();
     }
   }
 }

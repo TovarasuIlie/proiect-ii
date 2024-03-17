@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationEnd, Event } from '@angular/router';
 import { UserService } from '../../../services/user.service';
+import { ToastComponent } from '../toast/toast.component';
+import { ToastService } from '../services/toast.service';
 
 @Component({
   selector: 'app-header',
@@ -10,7 +12,7 @@ import { UserService } from '../../../services/user.service';
 export class HeaderComponent implements OnInit {
   public currentPath: string = "";
 
-  constructor(private router: Router, public userService: UserService) {
+  constructor(private router: Router, public userService: UserService, private toastService: ToastService) {
 
   }
 
@@ -24,5 +26,6 @@ export class HeaderComponent implements OnInit {
 
   logoutUser() {
     this.userService.logOut();
+    this.toastService.show({title: "Delogare cu succes", message: "V-ati delogat cu succes!", classname: "text-success"});
   }
 }

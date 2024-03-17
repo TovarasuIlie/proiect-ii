@@ -2,13 +2,12 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
-import { AppRoutingModule } from '../../app-routing.module';
 import { LoginModalComponent } from './login-modal/login-modal.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RegisterModalComponent } from './register-modal/register-modal.component';
-import { AccountModule } from '../account-component/account.module';
 import { RouterModule } from '@angular/router';
-
+import { ToastComponent } from './toast/toast.component';
+import { NgbToastModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 @NgModule({
@@ -16,16 +15,19 @@ import { RouterModule } from '@angular/router';
     HeaderComponent,
     FooterComponent,
     LoginModalComponent,
-    RegisterModalComponent
+    RegisterModalComponent,
+    ToastComponent
   ],
   imports: [
     CommonModule,
     RouterModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgbToastModule
   ],
   exports: [
     HeaderComponent,
     FooterComponent,
+    // ToastComponent
   ]
 })
 export class SharedModule { }

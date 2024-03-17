@@ -6,6 +6,7 @@ import { UserValidator, passwordConfirmValidator } from '../../../validators/reg
 import { ResetPassword, UserInteface } from '../../../models/user.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { take } from 'rxjs';
+import { ToastService } from '../../shared/services/toast.service';
 
 @Component({
   selector: 'app-reset-password-page',
@@ -21,7 +22,7 @@ export class ResetPasswordPageComponent implements OnInit {
   email: string | undefined;
   token: string | undefined;
 
-  constructor(private titleService: Title, private formBuilder: FormBuilder, private router:Router, private activatedRoute: ActivatedRoute, private userService: UserService) {
+  constructor(private titleService: Title, private formBuilder: FormBuilder, private router:Router, private activatedRoute: ActivatedRoute, private userService: UserService, private toastService: ToastService) {
     this.titleService.setTitle("Recuperare Parola - La Vericu' SRL");
   }
 
@@ -70,6 +71,7 @@ export class ResetPasswordPageComponent implements OnInit {
       this.userService.resetPassword(resetPassword).subscribe({
         next: (response: any) => {
           this.router.navigateByUrl('/');
+          this.toastService.show({title: response.value.title, message: response.value.message, classname: "bg-success"});
         },
         error: (response) => {
           this.errorMessages.pop();

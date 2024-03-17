@@ -5,6 +5,8 @@ import { UserValidator, passwordConfirmValidator } from '../../../validators/reg
 import { UserService } from '../../../services/user.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmEmailComponent } from '../../account-component/confirm-email/confirm-email.component';
+import { ToastComponent } from '../toast/toast.component';
+import { ToastService } from '../services/toast.service';
 
 @Component({
   selector: 'app-register-modal',
@@ -16,16 +18,12 @@ export class RegisterModalComponent implements OnInit {
   registerForm: FormGroup = new FormGroup({});
   registerFormSubmited: boolean = false;
   errorMessages: string[] = [];
-  toaster: any = {
-    title: 'Test',
-    message: 'test'
-  };
   registerSuccess: boolean = false;
   @ViewChild(ConfirmEmailComponent) confirmEmailComponent: any;
   emailConfirmed: boolean = false;
   @ViewChild('closeModal') closeModal: any;
 
-  constructor(private userService: UserService, private formBuilder: FormBuilder, private router: Router) {
+  constructor(private userService: UserService, private formBuilder: FormBuilder, private router: Router, private toastService: ToastService) {
 
   }
 
@@ -55,11 +53,9 @@ export class RegisterModalComponent implements OnInit {
       this.userService.addNewUser(this.registerForm.value).subscribe({
         next: (response: any) => {
           this. router.navigateByUrl('/');
-          this.registerSuccess = true;
           this.closeModal.nativeElement.click();
-          this.toaster.title = response.value.title;
-          this.toaster.message = response.value.message;
           this.registerForm.reset();
+          this.toastService.show({title: response.value.title, message: response.value.message, classname: "text-success"});
         },
         error: (response) => {
           this.errorMessages.pop();
