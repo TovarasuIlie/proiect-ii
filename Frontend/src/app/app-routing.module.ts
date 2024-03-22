@@ -8,6 +8,7 @@ import { DashboardIndexPageComponent } from './components/dashboard/index-page/i
 import { NotFoundPageComponent } from './components/not-found-page/not-found-page.component';
 import { adminGuard } from './route-guards/admin-guard.guard';
 import { authGuard } from './route-guards/auth-guard.guard';
+import { MotorOilPageComponent } from './components/motor-oil-page/motor-oil-page.component';
 
 const routes: Routes = [
   {
@@ -28,6 +29,10 @@ const routes: Routes = [
     component: ToolsPageComponent
   },
   {
+    path: 'ulei-motor',
+    component: MotorOilPageComponent
+  },
+  {
     path: 'piese-auto/:carMark',
     component: CarPartsComponent
   },
@@ -38,8 +43,7 @@ const routes: Routes = [
   },
   {
     path: 'cont', 
-    loadChildren: () => import('./components/account-component/account.module').then(module => module.AccountModule),
-    canActivate: [authGuard]
+    loadChildren: () => import('./components/account-component/account.module').then(module => module.AccountModule)
   },
   {
     path: '**',

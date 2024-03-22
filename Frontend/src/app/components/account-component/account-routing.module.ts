@@ -39,7 +39,7 @@ const routes: Routes = [
   {
     path: 'confirmare-email',
     component: ConfirmEmailComponent,
-    canActivate: [noAuthGuard]
+    // canActivate: [noAuthGuard]
   },
 ]
 

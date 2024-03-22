@@ -17,5 +17,6 @@ class NoAuthGuard {
 }
 
 export const noAuthGuard: CanActivateFn = (route, state) => {
-  return inject(NoAuthGuard).canActivate();
+  return true;
+ // return inject(NoAuthGuard).canActivate();
 };

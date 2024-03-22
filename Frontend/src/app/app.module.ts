@@ -14,6 +14,7 @@ import { ForgotPasswordPageComponent } from './components/account-component/forg
 import { ResetPasswordPageComponent } from './components/account-component/reset-password-page/reset-password-page.component';
 import { SharedModule } from './components/shared/shared.module';
 import { NotFoundPageComponent } from './components/not-found-page/not-found-page.component';
+import { MotorOilPageComponent } from './components/motor-oil-page/motor-oil-page.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { NotFoundPageComponent } from './components/not-found-page/not-found-pag
     NotFoundPageComponent,
     DashboardIndexPageComponent,
     ForgotPasswordPageComponent,
-    ResetPasswordPageComponent
+    ResetPasswordPageComponent,
+    MotorOilPageComponent
   ],
   imports: [
     BrowserModule,
