@@ -1,7 +1,9 @@
+<app-header />
+
 <div class="container pt-5">
-  <div class="container">
+  <div class="container mb-5 bg-light">
     <div class="row">
-      <div class="col-5">
+      <div class="col-lg-5">
         <div class="">
           <h6>Selectați-vă automobilul pentru a căuta piesele</h6>
           <form>
@@ -32,16 +34,19 @@
               </select>
               <label for="floatingSelect">Motorizarea</label>
             </div>
-            <button class="btn btn-danger w-100">Cauta!</button>
+            <button class="btn btn-danger w-100 mb-3">Cauta!</button>
           </form>
         </div>
       </div>
-      <div class="col">
+      <div class="col-lg">
         <div id="carouselExampleIndicators" class="carousel carousel-dark slide">
           <div class="carousel-indicators">
-            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"
+              aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
+              aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
+              aria-label="Slide 3"></button>
           </div>
           <div class="carousel-inner">
             <div class="carousel-item active">
@@ -54,11 +59,13 @@
               <img src="..\..\..\assets\index-page-imgs\index-carousel-1.jpg" class="d-block w-100" alt="...">
             </div>
           </div>
-          <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+          <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
+            data-bs-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
             <span class="visually-hidden">Previous</span>
           </button>
-          <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+          <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
+            data-bs-slide="next">
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
             <span class="visually-hidden">Next</span>
           </button>
@@ -66,4 +73,95 @@
       </div>
     </div>
   </div>
+  <div class="container">
+    <h4 class="mb-3 text-center">MĂRCI AUTO DE TOP</h4>
+    <div class="row row-gap row-cols-2 row-cols-sm-6 align-items-center">
+      <div class="col">
+        <div class="p-2 container text-center w-100">
+          <a [routerLink]="['piese-auto', 'ford']">
+            <img src="..\..\..\assets\index-page-imgs\car-names\vw.svg" alt="" class="img-fluid">
+          </a>
+        </div>
+      </div>
+      <div class="col">
+        <div class="p-2 container text-center w-100">
+          <a [routerLink]="['piese-auto', 'ford']">
+          <img src="..\..\..\assets\index-page-imgs\car-names\bmw.svg" class="img-fluid">
+          </a>
+        </div>
+      </div>
+      <div class="col">
+        <div class="p-2 container text-center w-100">
+          <a [routerLink]="['piese-auto', 'ford']">
+          <img src="..\..\..\assets\index-page-imgs\car-names\mercedes-benz.svg" alt="" class="img-fluid">
+          </a>
+        </div>
+      </div>
+      <div class="col">
+        <div class="p-2 container text-center w-100">
+          <a [routerLink]="['piese-auto', 'ford']">
+          <img src="..\..\..\assets\index-page-imgs\car-names\audi.svg" alt="" class="img-fluid">
+          </a>
+        </div>
+      </div>
+      <div class="col">
+        <div class="p-2 container text-center w-100">
+          <a [routerLink]="['piese-auto', 'ford']">
+          <img src="..\..\..\assets\index-page-imgs\car-names\ford.svg" alt="" class="img-fluid">
+          </a>
+        </div>
+      </div>
+      <div class="col">
+        <div class="p-2 container text-center w-100">
+          <a [routerLink]="['piese-auto', 'ford']">
+          <img src="..\..\..\assets\index-page-imgs\car-names\opel.svg" alt="" class="img-fluid">
+          </a>
+        </div>
+      </div>
+      <div class="col">
+        <div class="p-2 container text-center w-100">
+          <a [routerLink]="['piese-auto', 'ford']">
+          <img src="..\..\..\assets\index-page-imgs\car-names\renault.svg" alt="" class="img-fluid">
+          </a>
+        </div>
+      </div>
+      <div class="col">
+        <div class="p-2 container text-center w-100">
+          <a [routerLink]="['piese-auto', 'ford']">
+          <img src="..\..\..\assets\index-page-imgs\car-names\skoda.svg" alt="" class="img-fluid">
+          </a>
+        </div>
+      </div>
+      <div class="col">
+        <div class="p-2 container text-center w-100">
+          <a [routerLink]="['piese-auto', 'ford']">
+          <img src="..\..\..\assets\index-page-imgs\car-names\toyota.svg" alt="" class="img-fluid">
+          </a>
+        </div>
+      </div>
+      <div class="col">
+        <div class="p-2 container text-center w-100">
+          <a [routerLink]="['piese-auto', 'ford']">
+          <img src="..\..\..\assets\index-page-imgs\car-names\mazda.svg" alt="" class="img-fluid">
+          </a>
+        </div>
+      </div>
+      <div class="col">
+        <div class="p-2 container text-center w-100">
+          <a [routerLink]="['piese-auto', 'ford']">
+          <img src="..\..\..\assets\index-page-imgs\car-names\nissan.svg" alt="" class="img-fluid">
+          </a>
+        </div>
+      </div>
+      <div class="col">
+        <div class="p-2 container text-center w-100">
+          <a [routerLink]="['piese-auto', 'ford']">
+          <img src="..\..\..\assets\index-page-imgs\car-names\peugeot.svg" alt="" class="img-fluid">
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
+
+<app-footer />

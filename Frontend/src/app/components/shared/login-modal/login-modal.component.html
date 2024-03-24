@@ -1,0 +1,64 @@
+<div class="modal fade" id="login-form-modal" tabindex="-1" aria-hidden="true" aria-labelledby="loginModalLabel">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="loginModalLabel">Conectati-va</h1>
+                <button type="button" #closeModal class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form class="mb-3" (ngSubmit)="loginUser()" [formGroup]="loginForm">
+                    <div class="form-floating mb-3">
+                        <input formControlName="userName" type="text" class="form-control" [class.is-invalid]="(loginFormSubmited || loginForm.get('userName')?.touched) && !loginForm.get('userName')?.valid" id="userName" name="userName" placeholder="name@example.com">
+                        <label for="email">Adresa de email</label>
+                        <div *ngIf="(loginFormSubmited || loginForm.get('userName')?.touched) && !loginForm.get('userName')?.valid" class="text-danger">
+                            <div *ngIf="loginForm.get('userName')?.errors?.['required']">
+                                <small>Este necesar sa introduci o adresa de email!</small>
+                            </div>
+                            <div *ngIf="loginForm.get('userName')?.errors?.['email']">
+                                <small>Adresa de email introdusa nu este valida!</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input formControlName="password" type="password" class="form-control" [class.is-invalid]="(loginFormSubmited || loginForm.get('password')?.touched) && !loginForm.get('password')?.valid"  id="password" name="password" placeholder="Password">
+                        <label for="password">Parola</label>
+                        <div *ngIf="(loginFormSubmited || loginForm.get('password')?.touched) && !loginForm.get('password')?.valid" class="text-danger">
+                            <div *ngIf="loginForm.get('password')?.errors?.['required']">
+                                <small>Este necesar sa introduci o parola!</small>
+                            </div>
+                            <div *ngIf="loginForm.get('password')?.errors?.['minlength']">
+                                <small>Parola trebuie sa contina minim 8 caractere!</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                <label class="form-check-label" for="flexCheckDefault">
+                                    Salveaza
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <a class="float-end" href="/cont/recuperare-parola">Ati uitat parola?</a>
+                        </div>
+                    </div>
+                    <div *ngIf="errorMessages.length > 0" class="alert alert-danger">
+                        <ul>
+                            <li *ngFor="let error of errorMessages">
+                                {{error}}
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="d-flex flex-column mb-3">
+                        <button type="submit" class="btn btn-danger"><i class="fa-solid fa-right-to-bracket"></i> Contecteaza-te!</button>
+                    </div>
+                </form>
+                <div class="text-center">
+                    <p>Daca nu ai un cont <a class="text-decoration-none" role="button" data-bs-toggle="modal" data-bs-target="#register-form-modal">Inscrie-te acum</a>!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 

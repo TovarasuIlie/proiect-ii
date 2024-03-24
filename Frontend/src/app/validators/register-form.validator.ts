@@ -1,4 +1,4 @@
-import { AbstractControl } from "@angular/forms";
+import { AbstractControl, ValidationErrors, ValidatorFn } from "@angular/forms";
 
 export class UserValidator {
     constructor() {}
@@ -32,8 +32,12 @@ export class UserValidator {
     
         return validPassword ? null : {passwordStrength: true}
     }
-    
-    static confirmPasswordValidator(control: AbstractControl) {
-        
+}
+
+export const passwordConfirmValidator: ValidatorFn = (control: AbstractControl): ValidationErrors|null => {
+    if(control.get('password')) {
+        return (control.get('password')?.value == control.get('confirmPassword')?.value) ? null : { unmatched: true };
+    } else {
+        return (control.get('resetPassword')?.value == control.get('resetPasswordConfirm')?.value) ? null : { unmatched: true };
     }
 }

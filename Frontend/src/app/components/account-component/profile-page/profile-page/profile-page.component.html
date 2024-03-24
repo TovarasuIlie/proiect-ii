@@ -1,0 +1,115 @@
+<app-header />
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card shadow mb-2 mt-1 bg-body rounded profile-card">
+                <div class="list-group list-group-flush">
+                    <button type="button" class="list-group-item list-group-item-action"
+                        [routerLink]="['/cont', 'comenzile-mele']"><i class="fa-solid fa-layer-group"></i> Comenzile
+                        Mele</button>
+                    <button type="button" class="list-group-item list-group-item-action active"
+                        [routerLink]="['/cont', 'contul-meu']"><i class="fa-solid fa-user"></i> Contul Meu</button>
+                    <button type="button" class="list-group-item list-group-item-action"
+                        [routerLink]="['/cont', 'wishlist']"><i class="fa-solid fa-heart"></i> WishList</button>
+                    <button type="button" class="list-group-item list-group-item-action">A fourth button item</button>
+                    <button type="button" class="list-group-item list-group-item-action" disabled>A disabled button
+                        item</button>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="container-fluid">
+                <div class="card shadow mb-2 mt-1 bg-body rounded profile-card">
+                    <div class="card-body">
+                        <h3>Datele Contului</h3>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">Nume: <b>{{ (userService.user$ | async)?.fullName }}</b></li>
+                            <li class="list-group-item">Email: <b>{{ (userService.user$ | async)?.userName }}</b></li>
+                            <li class="list-group-item">Numar de telefon: <b>{{ (userService.user$ | async)?.phone
+                                    }}</b></li>
+                            <li class="list-group-item">Adresa: <b>{{ (userService.user$ | async)?.address }}</b></li>
+                        </ul>
+                        <div class="card-footer text-center">
+                            <button role="button" class="btn btn-sm btn-dark w-100" data-bs-toggle="modal"
+                                data-bs-target="#editAccount">Administreaza Contul</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="editAccount" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Editeza Cont</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form (ngSubmit)="editAccountDetails()" [formGroup]="editAccountForm">
+                    <div class="form-floating mb-3">
+                        <input formControlName="fullName" type="text" class="form-control"
+                            [class.is-invalid]="(editAccountFormSubmited || editAccountForm.get('fullName')?.touched) && !editAccountForm.get('fullName')?.valid"
+                            id="fullName" name="fullName">
+                        <label for="fullName">Numele Complet</label>
+                        <div *ngIf="(editAccountFormSubmited || editAccountForm.get('fullName')?.touched) && !editAccountForm.get('fullName')?.valid"
+                            class="text-danger">
+                            <div *ngIf="editAccountForm.get('fullName')?.errors?.['required']">
+                                <small>Este necesar sa introduci un nume!</small>
+                            </div>
+                            <div *ngIf="editAccountForm.get('fullName')?.errors?.['invalidName']">
+                                <small>Numele nu poate sa contina cifre sau caractere speciale!</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input formControlName="phone" type="text" class="form-control"
+                            [class.is-invalid]="(editAccountFormSubmited || editAccountForm.get('phone')?.touched) && !editAccountForm.get('phone')?.valid"
+                            id="phone" name="phone">
+                            <!-- [value]="(userService.user$ | async)?.phone"> -->
+                        <label for="phone">Numar De Telefon</label>
+                        <div *ngIf="(editAccountFormSubmited || editAccountForm.get('phone')?.touched) && !editAccountForm.get('phone')?.valid"
+                            class="text-danger">
+                            <div *ngIf="editAccountForm.get('phone')?.errors?.['required']">
+                                <small>Este necesar sa introduci un numar de telefon!</small>
+                            </div>
+                            <div *ngIf="editAccountForm.get('phone')?.errors?.['maxlength'] || editAccountForm.get('phone')?.errors?.['minlength']">
+                                <small>Numarul de telefon trebuie sa contina 10 cifre!</small>
+                            </div>
+                            <div *ngIf="editAccountForm.get('phone')?.errors?.['pattern']">
+                                <small>Numarul introdus nu este nu numar de telefon valid!</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input formControlName="address" type="text" class="form-control"
+                            [class.is-invalid]="(editAccountFormSubmited || editAccountForm.get('address')?.touched) && !editAccountForm.get('address')?.valid"
+                            id="address" name="address">
+                        <label for="address">Adresa</label>
+                        <div *ngIf="(editAccountFormSubmited || editAccountForm.get('address')?.touched) && !editAccountForm.get('address')?.valid"
+                            class="text-danger">
+                            <div *ngIf="editAccountForm.get('address')?.errors?.['required']">
+                                <small>Este necesar sa introduci o parola!</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="errorMessages.length > 0" class="alert alert-danger">
+                        <ul>
+                            <li *ngFor="let error of errorMessages">
+                                {{error}}
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Inchide</button>
+                        <button type="submit" class="btn btn-sm btn-success">Salveaza schimbari!</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<app-footer />
