@@ -7,12 +7,11 @@ namespace Backend.Models
     {
         [Required]
         public string FullName {  get; set; }
-        [Required]
-        public string Email { get; set; }
-        [Required]
+
         public string Phone { get; set; }
-        [Required]
+
         public string Address { get; set; }
-        public DateTime CreatedDate { get; set; }=DateTime.UtcNow;
+        public DateTime DateCreated { get; set; }=DateTime.UtcNow;
+        public ICollection<RefreshToken> RefreshTokens { get; set; } = new List<RefreshToken>();
     }
 }

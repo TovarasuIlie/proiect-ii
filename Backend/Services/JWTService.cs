@@ -1,7 +1,9 @@
 ﻿using Backend.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 
 namespace Backend.Services
@@ -9,14 +11,16 @@ namespace Backend.Services
     public class JWTService
     {
         private readonly IConfiguration _config;
+        private readonly UserManager<User> _userManager;
         private readonly SymmetricSecurityKey _jwtKey;
-        public JWTService(IConfiguration config)
+        public JWTService(IConfiguration config, UserManager<User> userManager)
         {
             _config = config;
+            _userManager = userManager;
             //to encrypt and decrypt the token
             _jwtKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["JWT:Key"]));
         }
-        public string CreateJWT(User user)
+        public async Task<string> CreateJWT(User user)
         {
             var userClaims = new List<Claim>
             {
@@ -25,6 +29,8 @@ namespace Backend.Services
                 new Claim("fullname", user.FullName),
 
             };
+            var roles = await _userManager.GetRolesAsync(user);
+            userClaims.AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role)));
             var credentials=new SigningCredentials(_jwtKey,SecurityAlgorithms.HmacSha512Signature);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
@@ -36,6 +42,21 @@ namespace Backend.Services
             var tokenHandler = new JwtSecurityTokenHandler();
             var jwt=tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(jwt);
+        }
+        public RefreshToken CreateRefreshToken(User user)
+        {
+            var token = new byte[32];
+            using var randomNumberGenerator = RandomNumberGenerator.Create();
+            randomNumberGenerator.GetBytes(token);
+
+            var refreshToken = new RefreshToken()
+            {
+                Token = Convert.ToBase64String(token),
+                User = user,
+                DateExpiresUtc = DateTime.UtcNow.AddDays(int.Parse(_config["JWT:RefreshTokenExpiresInDays"]))
+            };
+
+            return refreshToken;
         }
     }
 }

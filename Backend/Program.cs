@@ -21,6 +21,8 @@ options.UseSqlServer(builder.Configuration.GetConnectionString("ProiectIIConnect
 //inject JWTservice in controllers
 builder.Services.AddScoped<JWTService>();
 builder.Services.AddScoped<EmailService>();
+builder.Services.AddScoped<ContextSeedService>();
+
 builder.Services.AddIdentityCore<User>(options =>
 {
     options.Password.RequiredLength = 6;
@@ -51,7 +53,9 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             //validate the issuer whoever
             ValidateIssuer = true,
             //don't validate the angular side
-            ValidateAudience = false
+            ValidateAudience = false,
+            ValidateLifetime = true,
+            ClockSkew = TimeSpan.Zero
         };
     }
     );
@@ -63,7 +67,7 @@ builder.Services.Configure<ApiBehaviorOptions>(options =>
         var errors = actionContext.ModelState
         .Where(x => x.Value.Errors.Count > 0)
         .SelectMany(x => x.Value.Errors)
-        .Select(x => x.ErrorMessage.ToArray());
+        .Select(x => x.ErrorMessage).ToArray();
 
         var toReturn = new
         {
@@ -93,5 +97,17 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-
+#region ContextSeed
+/*using var scope = app.Services.CreateScope();
+try
+{
+    var contextSeedService = scope.ServiceProvider.GetService<ContextSeedService>();
+    await contextSeedService.InitializeContextAsync();
+}
+catch (Exception ex)
+{
+    var logger = scope.ServiceProvider.GetService<ILogger<Program>>();
+    logger.LogError(ex.Message, "Failed to initialize and seed the database");
+}*/
+#endregion
 app.Run();

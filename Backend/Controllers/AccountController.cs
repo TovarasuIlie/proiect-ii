@@ -1,13 +1,12 @@
-﻿using Backend.DTOs.Account;
+﻿using Backend.Data;
+using Backend.DTOs.Account;
 using Backend.Models;
 using Backend.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage.Json;
 using System.Security.Claims;
 using System.Text;
 
@@ -21,36 +20,91 @@ namespace Backend.Controllers
         private readonly SignInManager<User> _signInManager;
         private readonly UserManager<User> _userManager;
         private readonly EmailService _emailService;
+        private readonly ApiDbContext _context;
         private readonly IConfiguration _config;
 
         public AccountController(JWTService jwtService,
             SignInManager<User> signInManager,
             UserManager<User> userManager,
             EmailService emailService,
+            ApiDbContext context,
             IConfiguration config)
         {
             _jwtService = jwtService;
             _signInManager = signInManager;
             _userManager = userManager;
             _emailService = emailService;
+            _context = context;
             _config = config;
         }
         [Authorize]
-        [HttpGet("refresh-user-token")]
-        public async Task<ActionResult<UserDto>> RefreshUserToken()
+        [HttpPost("refresh-token")]
+        public async Task<ActionResult<UserDto>> RefereshToken()
+        {
+            var token = Request.Cookies["ApiRefreshToken"];
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if (IsValidRefreshTokenAsync(userId, token).GetAwaiter().GetResult())
+            {
+                var user = await _userManager.FindByIdAsync(userId);
+                if (user == null) return Unauthorized("Token expirat sau invalid");
+                return await CreateApplicationUserDto(user);
+            }
+
+            return Unauthorized("Token expirat sau invalid");
+        }
+
+        [Authorize]
+        [HttpGet("refresh-page")]
+        public async Task<ActionResult<UserDto>> RefreshPage()
         {
             var user = await _userManager.FindByNameAsync(User.FindFirst(ClaimTypes.Email)?.Value);
-            return CreateApplicationUserDto(user);
+
+            if (await _userManager.IsLockedOutAsync(user))
+            {
+                return Unauthorized("Ati fost blocat");
+            }
+            return await CreateApplicationUserDto(user);
         }
         [HttpPost("login")]
         public async Task<ActionResult<UserDto>> Login(LoginDto model)
         {
             var user = await _userManager.FindByNameAsync(model.UserName);
-            if (user == null) { return Unauthorized("Email-ul sau parola sunt gresite"); }
-            if (user.EmailConfirmed == false) { return Unauthorized("Va rugam confirmati email-ul"); }
+            if (user == null) return Unauthorized("Nume de utilizator sau parola invalide");
+
+            if (user.EmailConfirmed == false) return Unauthorized("Confirmati adresa de email.");
+
             var result = await _signInManager.CheckPasswordSignInAsync(user, model.Password, false);
-            if (!result.Succeeded) { return Unauthorized("Email-ul sau parola sunt gresite"); }
-            return CreateApplicationUserDto(user);
+
+            if (result.IsLockedOut)
+            {
+                return Unauthorized(string.Format("Contul este blocat. Asteptati pana la {0} (UTC time) pentru a va va loga", user.LockoutEnd));
+            }
+
+            if (!result.Succeeded)
+            {
+                // User has input an invalid password
+                if (!user.UserName.Equals(SD.AdminUserName))
+                {
+                    // Increamenting AccessFailedCount of the AspNetUser by 1
+                    await _userManager.AccessFailedAsync(user);
+                }
+
+                if (user.AccessFailedCount >= SD.MaximumLoginAttempts)
+                {
+                    // Lock the user for one day
+                    await _userManager.SetLockoutEndDateAsync(user, DateTime.UtcNow.AddDays(1));
+                    return Unauthorized(string.Format("Contul este blocat. Asteptati pana la {0} (UTC time) pentru a va va loga", user.LockoutEnd));
+                }
+
+
+                return Unauthorized("Nume de utilizator sau parola invalide");
+            }
+
+            await _userManager.ResetAccessFailedCountAsync(user);
+            await _userManager.SetLockoutEndDateAsync(user, null);
+
+            return await CreateApplicationUserDto(user);
         }
         [HttpPost("register")]
         public async Task<IActionResult> Register(RegisterDto model)
@@ -69,6 +123,7 @@ namespace Backend.Controllers
             };
             var result=await _userManager.CreateAsync(userToAdd, model.Password);
             if(!result.Succeeded) { return BadRequest(result.Errors); }
+            await _userManager.AddToRoleAsync(userToAdd, SD.ClientRole);
             try
             {
                 if(await SendConfirmEmailAsync(userToAdd))
@@ -87,7 +142,7 @@ namespace Backend.Controllers
         [HttpPut("confirm-email")]
         public async Task<IActionResult> ConfirmEmail(ConfirmEmailDto model)
         {
-            var user=await _userManager.FindByNameAsync(model.Email);
+            var user=await _userManager.FindByEmailAsync(model.Email);
             if(user == null) return Unauthorized("Aceasta adresa de email nu este inregistrata");
             if (user.EmailConfirmed) return BadRequest("Email-ul a mai fost confirmat. Va rugam accesati contul");
             try
@@ -95,7 +150,10 @@ namespace Backend.Controllers
                 var decodedTokenBytes = WebEncoders.Base64UrlDecode(model.Token);
                 var decodedToken = Encoding.UTF8.GetString(decodedTokenBytes);
                 var result = await _userManager.ConfirmEmailAsync(user, decodedToken);
-                if(result.Succeeded) { return Ok(new JsonResult(new { title = "Email confirmat", message = "Email-ul este confirmat. Acum puteti accesa contul" })); }
+                if(result.Succeeded) 
+                { 
+                    return Ok(new JsonResult(new { title = "Email confirmat", message = "Email-ul este confirmat. Acum puteti accesa contul" })); 
+                }
                 return BadRequest("Token invalid");
             }catch(Exception ex)
             {
@@ -108,7 +166,7 @@ namespace Backend.Controllers
         public async Task<IActionResult> ResendEmailConfirmationLink(string email)
         {
             if(string.IsNullOrEmpty(email)) return BadRequest("Email invalid");
-            var user=await _userManager.FindByNameAsync(email);
+            var user=await _userManager.FindByEmailAsync(email);
             if (user == null) return Unauthorized("Aceasta adresa de email nu este inregistrata");
             if (user.EmailConfirmed)  return BadRequest("Email-ul a mai fost confirmat. Va rugam accesati contul");
             try
@@ -129,7 +187,7 @@ namespace Backend.Controllers
         public async Task<IActionResult> ForgotUsernameOrPassword(string email)
         {
             if (string.IsNullOrEmpty(email)) return BadRequest("Email invalid");
-            var user = await _userManager.FindByNameAsync(email);
+            var user = await _userManager.FindByEmailAsync(email);
             if (user == null) return Unauthorized("Aceasta adresa de email nu este inregistrata");
             if (user.EmailConfirmed==false) return BadRequest("Va rugam confirmati adresa de email");
             try
@@ -151,7 +209,7 @@ namespace Backend.Controllers
         [HttpPut("reset-password")]
         public async Task<IActionResult> ResetPassword(ResetPasswordDto model)
         {
-            var user = await _userManager.FindByNameAsync(model.Email);
+            var user = await _userManager.FindByEmailAsync(model.Email);
             if (user == null) return Unauthorized("Aceasta adresa de email nu este inregistrata");
             if (user.EmailConfirmed == false) return BadRequest("Va rugam confirmati adresa de email");
             try
@@ -170,14 +228,16 @@ namespace Backend.Controllers
         }
 
         #region Private Helper Methods
-        private UserDto CreateApplicationUserDto(User user)
+        private async Task<UserDto> CreateApplicationUserDto(User user)
         {
+            await SaveRefreshTokenAsync(user);
             return new UserDto
             {
+                UserName=user.UserName,
                 FullName = user.FullName,
                 Phone = user.Phone,
                 Address = user.Address,
-                JWT = _jwtService.CreateJWT(user)
+                JWT = await _jwtService.CreateJWT(user)
             };
         }
         private async Task<bool> CheckEmailExistsAsync(string email)
@@ -210,6 +270,45 @@ namespace Backend.Controllers
                $"<br>{_config["Email:ApplicationName"]}";
             var emailSend = new EmailSendDto(user.Email, "Resetarea parolei", body);
             return await _emailService.SendEmailAsync(emailSend);
+        }
+        private async Task SaveRefreshTokenAsync(User user)
+        {
+            var refreshToken = _jwtService.CreateRefreshToken(user);
+
+            var existingRefreshToken = await _context.RefreshTokens.SingleOrDefaultAsync(x => x.UserId == user.Id);
+            if (existingRefreshToken != null)
+            {
+                existingRefreshToken.Token = refreshToken.Token;
+                existingRefreshToken.DateCreatedUtc = refreshToken.DateCreatedUtc;
+                existingRefreshToken.DateExpiresUtc = refreshToken.DateExpiresUtc;
+            }
+            else
+            {
+                user.RefreshTokens.Add(refreshToken);
+            }
+
+            await _context.SaveChangesAsync();
+
+            var cookieOptions = new CookieOptions
+            {
+                Expires = refreshToken.DateExpiresUtc,
+                IsEssential = true,
+                HttpOnly = true,
+            };
+
+            Response.Cookies.Append("ApiRefreshToken", refreshToken.Token, cookieOptions);
+        }
+        [HttpGet]
+        public async Task<bool> IsValidRefreshTokenAsync(string userId, string token)
+        {
+            if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(token)) return false;
+
+            var fetchedRefreshToken = await _context.RefreshTokens
+                .FirstOrDefaultAsync(x => x.UserId == userId && x.Token == token);
+            if (fetchedRefreshToken == null) return false;
+            if (fetchedRefreshToken.IsExpired) return false;
+
+            return true;
         }
         #endregion
     }
