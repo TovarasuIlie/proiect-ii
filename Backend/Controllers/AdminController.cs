@@ -94,15 +94,6 @@ namespace Backend.Controllers
             {
                 // editing an existing member
 
-                if (!string.IsNullOrEmpty(model.Password))
-                {
-                    if (model.Password.Length < 6)
-                    {
-                        ModelState.AddModelError("errors", "Parola trebuie sa contina cel putin 6 caractere");
-                        return BadRequest(ModelState);
-                    }
-                }
-
                 if (IsAdminUserId(model.Id))
                 {
                     return BadRequest(SD.SuperAdminChangeNotAllowed);
@@ -113,12 +104,7 @@ namespace Backend.Controllers
 
                 user.FullName = model.FullName.ToLower();
                 user.UserName = model.UserName.ToLower();
-
-                if (!string.IsNullOrEmpty(model.Password))
-                {
-                    await _userManager.RemovePasswordAsync(user);
-                    await _userManager.AddPasswordAsync(user, model.Password);
-                }
+               
             }
 
             var userRoles = await _userManager.GetRolesAsync(user);
