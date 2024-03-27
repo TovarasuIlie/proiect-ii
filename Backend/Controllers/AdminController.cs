@@ -38,14 +38,16 @@ namespace Backend.Controllers
                     UserName = user.UserName,
                     FullName = user.FullName,
                     Email=user.Email,
-                    DateCreated = user.DateCreated,
-                    LockoutEnd = (DateTimeOffset)user.LockoutEnd,
+                    DateCreated = user.DateCreated,  
                     IsLocked = await _userManager.IsLockedOutAsync(user),
                     Roles = await _userManager.GetRolesAsync(user),
                     Phone=user.Phone,
                     Address = user.Address
                 };
-
+                if (user.LockoutEnd != null)
+                {
+                    memberToAdd.LockoutEnd = (DateTimeOffset)user.LockoutEnd;
+                }
                 members.Add(memberToAdd);
             }
 
@@ -68,11 +70,14 @@ namespace Backend.Controllers
                 Phone=user.Phone,
                 Address=user.Address,
                 DateCreated=user.DateCreated,
-                LockoutEnd=(DateTimeOffset)user.LockoutEnd,
+                
                 IsLocked = await _userManager.IsLockedOutAsync(user),
                 Roles = await _userManager.GetRolesAsync(user)
             };
-
+            if (user.LockoutEnd != null)
+            {
+                member.LockoutEnd = (DateTimeOffset)user.LockoutEnd;
+            }
             return Ok(member);
         }
 
@@ -172,6 +177,7 @@ namespace Backend.Controllers
             }
 
             await _userManager.SetLockoutEndDateAsync(user, null);
+            await _userManager.ResetAccessFailedCountAsync(user);
             return NoContent();
         }
 
