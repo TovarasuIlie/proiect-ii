@@ -7,7 +7,6 @@ import { CarPartsComponent } from './components/car-parts-page/car-parts/car-par
 import { DashboardIndexPageComponent } from './components/dashboard/index-page/index-page.component';
 import { NotFoundPageComponent } from './components/not-found-page/not-found-page.component';
 import { adminGuard } from './route-guards/admin-guard.guard';
-import { authGuard } from './route-guards/auth-guard.guard';
 import { MotorOilPageComponent } from './components/motor-oil-page/motor-oil-page.component';
 
 const routes: Routes = [

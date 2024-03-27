@@ -23,7 +23,7 @@ export class UserService {
     let headers = new HttpHeaders();
     headers = headers.set("Authorization", "Bearer " + jwt);
 
-    return this.http.get<UserInteface>(environment.apiUrl + "/api/Account/refresh-user-token", {headers}).pipe(
+    return this.http.get<UserInteface>(environment.apiUrl + "/api/Account/refresh-page", {headers}).pipe(
       map((user: UserInteface) => {
         if(user) {
           this.setUser(user);

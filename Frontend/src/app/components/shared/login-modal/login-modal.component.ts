@@ -27,7 +27,7 @@ export class LoginModalComponent implements OnInit {
   initializerForm() {
     this.loginForm = this.formBuilder.group({
       userName: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(8)]]
+      password: ['', [Validators.required, Validators.minLength(6)]]
     })
   }
 
