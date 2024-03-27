@@ -93,7 +93,7 @@ namespace Backend.Controllers
                 if (user.AccessFailedCount >= SD.MaximumLoginAttempts)
                 {
                     // Lock the user for one day
-                    await _userManager.SetLockoutEndDateAsync(user, DateTime.UtcNow.AddDays(1));
+                    await _userManager.SetLockoutEndDateAsync(user, DateTime.UtcNow.AddMinutes(30));
                     return Unauthorized(string.Format("Contul este blocat. Asteptati pana la {0} (UTC time) pentru a va va loga", user.LockoutEnd));
                 }
 
