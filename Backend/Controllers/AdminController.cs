@@ -40,6 +40,8 @@ namespace Backend.Controllers
                     DateCreated = user.DateCreated,
                     IsLocked = await _userManager.IsLockedOutAsync(user),
                     Roles = await _userManager.GetRolesAsync(user),
+                    Phone=user.Phone,
+                    Address = user.Address
                 };
 
                 members.Add(memberToAdd);
@@ -60,6 +62,9 @@ namespace Backend.Controllers
                 Id = user.Id,
                 UserName = user.UserName,
                 FullName = user.FullName,
+                Phone=user.Phone,
+                Address=user.Address,
+                IsLocked = await _userManager.IsLockedOutAsync(user),
                 Roles = string.Join(",", await _userManager.GetRolesAsync(user))
             };
 
@@ -84,6 +89,8 @@ namespace Backend.Controllers
                 {
                     FullName = model.FullName.ToLower(),
                     UserName = model.UserName.ToLower(),
+                    Phone=model.Phone,
+                    Address=model.Address,
                     EmailConfirmed = true
                 };
 
@@ -104,6 +111,8 @@ namespace Backend.Controllers
 
                 user.FullName = model.FullName.ToLower();
                 user.UserName = model.UserName.ToLower();
+                user.Phone = model.Phone;
+                user.Address = model.Address;
                
             }
 

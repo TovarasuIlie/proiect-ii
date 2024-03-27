@@ -8,5 +8,8 @@
         public bool IsLocked { get; set; }
         public DateTime DateCreated { get; set; }
         public IEnumerable<string> Roles { get; set; }
+
+        public string Phone { get; set; }
+        public string Address { get; set; }
     }
 }
