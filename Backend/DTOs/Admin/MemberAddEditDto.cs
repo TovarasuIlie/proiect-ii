@@ -15,7 +15,7 @@ namespace Backend.DTOs.Admin
         public string Password { get; set; }
         [Required]
         // eg: "Admin,Client"
-        public string Roles { get; set; }
+        public IEnumerable<string> Roles { get; set; }
         [Required]
         public string Phone { get; set; }
         [Required]

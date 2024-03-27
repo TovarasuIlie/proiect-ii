@@ -37,7 +37,9 @@ namespace Backend.Controllers
                     Id = user.Id,
                     UserName = user.UserName,
                     FullName = user.FullName,
+                    Email=user.Email,
                     DateCreated = user.DateCreated,
+                    LockoutEnd = (DateTimeOffset)user.LockoutEnd,
                     IsLocked = await _userManager.IsLockedOutAsync(user),
                     Roles = await _userManager.GetRolesAsync(user),
                     Phone=user.Phone,
@@ -51,21 +53,24 @@ namespace Backend.Controllers
         }
 
         [HttpGet("get-member/{id}")]
-        public async Task<ActionResult<MemberAddEditDto>> GetMember(string id)
+        public async Task<ActionResult<MemberViewDto>> GetMember(string id)
         {
             var user = await _userManager.Users
                 .Where(x => x.UserName != SD.AdminUserName && x.Id == id)
                 .FirstOrDefaultAsync();
 
-            var member = new MemberAddEditDto
+            var member = new MemberViewDto
             {
                 Id = user.Id,
                 UserName = user.UserName,
                 FullName = user.FullName,
+                Email=user.Email,
                 Phone=user.Phone,
                 Address=user.Address,
+                DateCreated=user.DateCreated,
+                LockoutEnd=(DateTimeOffset)user.LockoutEnd,
                 IsLocked = await _userManager.IsLockedOutAsync(user),
-                Roles = string.Join(",", await _userManager.GetRolesAsync(user))
+                Roles = await _userManager.GetRolesAsync(user)
             };
 
             return Ok(member);
@@ -121,7 +126,7 @@ namespace Backend.Controllers
             // removing users' existing role(s)
             await _userManager.RemoveFromRolesAsync(user, userRoles);
 
-            foreach (var role in model.Roles.Split(",").ToArray())
+            foreach (var role in model.Roles)
             {
                 var roleToAdd = await _roleManager.Roles.FirstOrDefaultAsync(r => r.Name == role);
                 if (roleToAdd != null)
