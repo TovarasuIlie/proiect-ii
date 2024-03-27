@@ -8,6 +8,7 @@ import { RegisterModalComponent } from './register-modal/register-modal.componen
 import { RouterModule } from '@angular/router';
 import { ToastComponent } from './toast/toast.component';
 import { NgbToastModule } from '@ng-bootstrap/ng-bootstrap';
+import { UserHasRoleDirective } from '../directives/user-has-role.directive';
 
 
 @NgModule({
@@ -16,7 +17,8 @@ import { NgbToastModule } from '@ng-bootstrap/ng-bootstrap';
     FooterComponent,
     LoginModalComponent,
     RegisterModalComponent,
-    ToastComponent
+    ToastComponent,
+    UserHasRoleDirective
   ],
   imports: [
     CommonModule,
@@ -27,7 +29,7 @@ import { NgbToastModule } from '@ng-bootstrap/ng-bootstrap';
   exports: [
     HeaderComponent,
     FooterComponent,
-    // ToastComponent
+    ToastComponent
   ]
 })
 export class SharedModule { }

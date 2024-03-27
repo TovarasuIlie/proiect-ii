@@ -7,9 +7,8 @@ export class ToastService {
   toasts: any[] = [];
 
   show(option: any = {}) {
-    if(this.toasts.length === 0) {
       this.toasts.push({...option});
-    }
+      console.log(option);
   }
 
   remove(toast: any) {

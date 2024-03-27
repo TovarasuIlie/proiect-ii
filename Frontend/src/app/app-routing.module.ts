@@ -4,9 +4,7 @@ import { IndexPageComponent } from './components/index-page/index-page.component
 import { TiresPageComponent } from './components/tires-page/tires-page.component';
 import { ToolsPageComponent } from './components/tools-page/tools-page.component';
 import { CarPartsComponent } from './components/car-parts-page/car-parts/car-parts.component';
-import { DashboardIndexPageComponent } from './components/dashboard/index-page/index-page.component';
 import { NotFoundPageComponent } from './components/not-found-page/not-found-page.component';
-import { adminGuard } from './route-guards/admin-guard.guard';
 import { MotorOilPageComponent } from './components/motor-oil-page/motor-oil-page.component';
 
 const routes: Routes = [
@@ -36,13 +34,12 @@ const routes: Routes = [
     component: CarPartsComponent
   },
   {
-    path: 'dashboard',
-    component: DashboardIndexPageComponent,
-    canActivate: [adminGuard]
-  },
-  {
     path: 'cont', 
     loadChildren: () => import('./components/account-component/account.module').then(module => module.AccountModule)
+  },
+  {
+    path: "dashboard",
+    loadChildren: () => import('./components/dashboard/admin.module').then(module => module.AdminModule)
   },
   {
     path: '**',

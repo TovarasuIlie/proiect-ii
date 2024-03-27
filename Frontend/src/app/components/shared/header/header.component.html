@@ -41,6 +41,12 @@
                                 <li>
                                     <a class="dropdown-item" role="button" [routerLinkActive]="['active']" [routerLink]="['/cont', 'wishlist']"><i class="fa-solid fa-heart"></i> Lista de favorite</a>
                                 </li>
+                                <ng-template [appUserHasRole]="['Admin']" >
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li>
+                                        <a class="dropdown-item" role="button" [routerLink]="['/dashboard']"><i class="fa-solid fa-gauge-high"></i> Dashboard</a>
+                                    </li>
+                                </ng-template>
                                 <li><hr class="dropdown-divider"></li>
                                 <li>
                                     <a class="dropdown-item" role="button" (click)="logoutUser()">Delogheaza-te</a>

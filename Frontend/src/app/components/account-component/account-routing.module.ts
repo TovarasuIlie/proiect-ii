@@ -7,39 +7,35 @@ import { WishlistPageComponent } from './profile-page/wishlist-page/wishlist-pag
 import { ResetPasswordPageComponent } from './reset-password-page/reset-password-page.component';
 import { ForgotPasswordPageComponent } from './forgot-password-page/forgot-password-page.component';
 import { ConfirmEmailComponent } from './confirm-email/confirm-email.component';
-import { authGuard } from '../../route-guards/auth-guard.guard';
-import { noAuthGuard } from '../../route-guards/no-auth.guard';
+import { AuthorizationGuard } from '../../route-guards/authorization.guard';
 
 const routes: Routes = [
   {
     path: 'contul-meu',
     component: ProfilePageComponent,
-    canActivate: [authGuard]
+    canActivate: [AuthorizationGuard]
   },
   {
     path: 'comenzile-mele',
     component: OrdersPageComponent,
-    canActivate: [authGuard]
+    canActivate: [AuthorizationGuard]
   },
   {
     path: 'wishlist',
     component: WishlistPageComponent,
-    canActivate: [authGuard]
+    canActivate: [AuthorizationGuard]
   },
   {
     path: 'recuperare-parola',
     component: ForgotPasswordPageComponent,
-    canActivate: [noAuthGuard]
   },
   {
     path: 'recuperare-parola/reseteaza',
     component: ResetPasswordPageComponent,
-    canActivate: [noAuthGuard]
   },
   {
     path: 'confirmare-email',
     component: ConfirmEmailComponent,
-    // canActivate: [noAuthGuard]
   },
 ]
 

@@ -1,0 +1,350 @@
+<div class="sb-nav-fixed" id="#divSidenav">
+    <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+        <!-- Navbar Brand-->
+        <a class="navbar-brand ps-3" [routerLink]="['/']">La Vericu' SRL</a>
+        <!-- Sidebar Toggle-->
+        <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i
+                class="fas fa-bars"></i></button>
+        <!-- Navbar Search-->
+        <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+            <div class="input-group">
+                <input class="form-control" type="text" placeholder="Search for..." aria-label="Search for..."
+                    aria-describedby="btnNavbarSearch" />
+                <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i
+                        class="fas fa-search"></i></button>
+            </div>
+        </form>
+        <!-- Navbar-->
+        <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
+                    aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                    <li><a class="dropdown-item" href="#!">Settings</a></li>
+                    <li><a class="dropdown-item" href="#!">Activity Log</a></li>
+                    <li>
+                        <hr class="dropdown-divider" />
+                    </li>
+                    <li><a class="dropdown-item" href="#!">Logout</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+    <div id="layoutSidenav">
+        <div id="layoutSidenav_nav" class="sb-sidenav-toggled">
+            <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+                <div class="sb-sidenav-menu">
+                    <div class="nav">
+                        <div class="sb-sidenav-menu-heading">Core</div>
+                        <a class="nav-link" [routerLink]="['/dashboard']">
+                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                            Dashboard
+                        </a>
+                        <div class="sb-sidenav-menu-heading">Management Utilizatori</div>
+                        <a class="nav-link" [routerLinkActive]="['active']"
+                            [routerLink]="['/dashboard', 'utilizatori']">
+                            <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                            Utilizatori
+                        </a>
+                        <a class="nav-link" [routerLinkActive]="['active']"
+                            [routerLink]="['/dashboard', 'administratori']">
+                            <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                            Administratori
+                        </a>
+                        <div class="sb-sidenav-menu-heading">Management Categorii</div>
+                        <a class="nav-link" [routerLink]="['/dashboard', 'categorii']">
+                            <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                            Vizualizeaza Categorii
+                        </a>
+                        <a class="nav-link" [routerLink]="['/dashboard', 'categorii', 'adauga-categorii']">
+                            <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                            Adaugare Categorii
+                        </a>
+                        <div class="sb-sidenav-menu-heading">Produse</div>
+                        <a class="nav-link" href="charts.html">
+                            <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                            Adaugare Produse
+                        </a>
+                        <a class="nav-link" href="tables.html">
+                            <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                            Stock Produse
+                        </a>
+                        <a class="nav-link" href="tables.html">
+                            <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                            Comentarii Produse
+                        </a>
+                        <div class="sb-sidenav-menu-heading">Comenzi</div>
+                        <a class="nav-link" href="tables.html">
+                            <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                            Comezi Active
+                        </a>
+                        <a class="nav-link" href="tables.html">
+                            <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                            Retur Comenzi
+                        </a>
+                        <div class="sb-sidenav-menu-heading">Setari</div>
+                        <a class="nav-link" href="tables.html">
+                            <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                            Setari Magazin Online
+                        </a>
+                    </div>
+                </div>
+                <div class="sb-sidenav-footer">
+                    <div class="small">Autentificat ca si:</div>
+                    <b>{{ (userService.user$ | async)?.fullName }}</b>
+                </div>
+            </nav>
+        </div>
+        <div id="layoutSidenav_content">
+            <main>
+                <div class="modal fade" id="edit-modal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="exampleModalLabel">Editeaza utilizator</h1>
+                                <button type="button" #closeModalEdit class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <form [formGroup]="editForm" (ngSubmit)="editUser()">
+                                <div class="modal-body">
+                                    <input formControlName="id" type="hidden" id="id" [value]="member.id">
+                                    <div class="form-floating mb-3">
+                                        <input formControlName="userName" type="text" class="form-control" id="username"
+                                            placeholder="name@example.com">
+                                        <label for="username">Username</label>
+                                    </div>
+                                    <div class="form-floating mb-3">
+                                        <input formControlName="fullName" type="text" class="form-control" id="fullname"
+                                            placeholder="name@example.com">
+                                        <label for="fullname">Nume Complet</label>
+                                    </div>
+                                    <div class="form-floating mb-3">
+                                        <input formControlName="phone" type="text" class="form-control" id="phone"
+                                            placeholder="name@example.com">
+                                        <label for="phone">Numar de telefon</label>
+                                    </div>
+                                    <div class="form-floating mb-3">
+                                        <input formControlName="address" type="text" class="form-control" id="address"
+                                            placeholder="name@example.com">
+                                        <label for="address">Adresa</label>
+                                    </div>
+                                    <label>Adauga / Retrage Roluri</label>
+                                    <div class="container">
+                                            <div class="form-check">
+                                                <input class="form-check-input selected" type="checkbox"
+                                                    id="Client" value="Client" (click)="handleRoles($event)" [checked]="member.roles.includes('Client') === true" disabled>
+                                                <label class="form-check-label" for="Client">
+                                                    <span class="badge bg-secondary">Client</span>
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input selected" type="checkbox"
+                                                    id="Admin" value="Admin" (click)="handleRoles($event)" [checked]="member.roles.includes('Admin') === true">
+                                                <label class="form-check-label" for="Admin">
+                                                    <span class="badge bg-danger">Admin</span>
+                                                </label>
+                                            </div>
+                                    </div>
+                                    <div *ngIf="errorMessages.length > 0" class="alert alert-danger">
+                                        <ul>
+                                            <li *ngFor="let error of errorMessages">
+                                                {{error}}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Anuleaza</button>
+                                    <button type="submit" class="btn btn-success">Salveaza</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal fade" id="delete-modal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header bg-danger">
+                                <h1 class="modal-title fs-5" id="exampleModalLabel">Stergere Cont!</h1>
+                                <button type="button" #closeModalDelete class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <p>Esti pe care sa stergi contul <b>{{ member.userName }}</b>. Esti sigur ca doresti sa
+                                    faci acest lucru?</p>
+                                Odata apasat butonul <span class="badge bg-danger fs-6">Sterge cont!</span> contul nu
+                                mai poate fi recuperat, actiunea fiind <b>ireversibila</b>!
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary"
+                                    data-bs-dismiss="modal">Anuleaza</button>
+                                <button type="button" class="btn btn-danger" (click)="deleteUser()">Sterge
+                                    cont!</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="member.isLocked == true" class="modal fade" id="unblock-modal" tabindex="-1"
+                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header bg-success">
+                                <h1 class="modal-title fs-5" id="exampleModalLabel">Deblocare Cont!</h1>
+                                <button type="button" #closeModalUnblock class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <p>Esti pe care sa deblochezi contul <b>{{ member.userName }}</b>. Esti sigur ca doresti
+                                    sa faci acest lucru?</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary"
+                                    data-bs-dismiss="modal">Anuleaza</button>
+                                <button type="button" class="btn btn-success" (click)="unlockUser()">Deblocare
+                                    cont!</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="member.isLocked == false" class="modal fade" id="block-modal" tabindex="-1"
+                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header bg-danger">
+                                <h1 class="modal-title fs-5" id="exampleModalLabel">Blocare Cont!</h1>
+                                <button type="button" #closeModalBlock class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <p>Esti pe care sa blochezi contul <b>{{ member.userName }}</b> timp de 5 zile. Esti
+                                    sigur ca doresti sa faci acest lucru?</p>
+                                <p>Acesta se va debloca automat dupa trecerea celor 5 zile, sau va putea fi deblocat de
+                                    un administrator.</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary"
+                                    data-bs-dismiss="modal">Anuleaza</button>
+                                <button type="button" class="btn btn-danger" (click)="lockUser()">Blocheaza
+                                    cont!</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="container-fluid px-4">
+                    <h1 class="mt-4">Detalii utilizator <b>{{ member.userName }}</b></h1>
+                    <div class="container">
+                        <div class="row mt-5">
+                            <div class="col-xl mb-5">
+                                <div class="card shadow-lg bg-body rounded" style="border: 0;">
+                                    <div class="card-header fs-5 fw-bolder">
+                                        Detalii utilizator
+                                    </div>
+                                    <div class="card-body p-5">
+                                        <table class="table table-striped">
+                                            <tbody>
+                                                <tr>
+                                                    <td><b>ID:</b></td>
+                                                    <td>{{ member.id }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><b>Username: </b></td>
+                                                    <td>{{ member.userName }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><b>Email: </b></td>
+                                                    <td>{{ member.email }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><b>Nume Complet: </b></td>
+                                                    <td>{{ member.fullName }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><b>Numar de Telefon: </b></td>
+                                                    <td>{{ member.phone }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><b>Adresa: </b></td>
+                                                    <td>{{ member.address }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><b>Cont Creat In: </b></td>
+                                                    <td>{{ member.dateCreated | date:"dd.MM.YYYY HH:MM" }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><b>Roluri: </b></td>
+                                                    <td>
+                                                        <div *ngFor="let role of member.roles">
+                                                            <span class="badge"
+                                                                [class.text-bg-danger]="role === 'Admin'"
+                                                                [class.text-bg-secondary]="role !== 'Admin'">{{ role
+                                                                }}</span>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td><b>Status Cont: </b></td>
+                                                    <td>
+                                                        <span *ngIf="member.isLocked === true"
+                                                            class="badge text-bg-danger">Blocat</span>
+                                                        <span *ngIf="member.isLocked === false"
+                                                            class="badge text-bg-success">Deblocat</span>
+                                                    </td>
+                                                </tr>
+                                                <tr *ngIf="member.isLocked === true">
+                                                    <td><b>Blocat pana la: </b></td>
+                                                    <td>{{ member.lockoutEnd | date:"dd.MM.YYYY HH:MM" }}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3">
+                                <div class="card shadow-lg bg-body rounded" style="border: 0;">
+                                    <div class="card-header fs-5 fw-bolder">
+                                        Admin Area
+                                    </div>
+                                    <div class="card-body p-5 d-grid gap-3">
+                                        <button class="btn w-100 btn-danger" *ngIf="member.isLocked === false"
+                                            data-bs-toggle="modal" data-bs-target="#block-modal">Blocheaza
+                                            Cont!</button>
+                                        <button class="btn w-100 btn-success" *ngIf="member.isLocked === true"
+                                            data-bs-toggle="modal" data-bs-target="#unblock-modal">Deblocheaza
+                                            Cont!</button>
+                                        <button class="btn w-100 btn-primary" data-bs-toggle="modal"
+                                            data-bs-target="#edit-modal">Editeaza Cont</button>
+                                        <button class="btn w-100 btn-danger" data-bs-toggle="modal"
+                                            data-bs-target="#delete-modal">Sterge Cont</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+            <footer class="py-4 bg-light mt-auto">
+                <div class="container-fluid px-4">
+                    <div class="d-flex align-items-center justify-content-between small">
+                        <div class="text-muted">Copyright &copy; Your Website 2023</div>
+                        <div>
+                            <a href="#">Privacy Policy</a>
+                            &middot;
+                            <a href="#">Terms &amp; Conditions</a>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous"></script>
+    <!-- <script src="js/scripts.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+    <script src="assets/demo/chart-area-demo.js"></script>
+    <script src="assets/demo/chart-bar-demo.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
+    <script src="js/datatables-simple-demo.js"></script> -->
+</div>

@@ -19,7 +19,8 @@ export interface UserInteface {
     password: string,
     phone: string,
     address: string,
-    jwt: string
+    jwt: string,
+    roles: string[]
 }
 
 export interface ConfirmEmail {

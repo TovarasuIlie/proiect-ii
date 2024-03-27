@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationEnd, Event } from '@angular/router';
 import { UserService } from '../../../services/user.service';
-import { ToastComponent } from '../toast/toast.component';
 import { ToastService } from '../services/toast.service';
 
 @Component({
