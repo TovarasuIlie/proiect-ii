@@ -88,24 +88,7 @@ namespace Backend.Controllers
 
             if (string.IsNullOrEmpty(model.Id))
             {
-                // adding a new member
-                if (string.IsNullOrEmpty(model.Password) || model.Password.Length < 6)
-                {
-                    ModelState.AddModelError("errors", "Parola trebuie sa contina cel putin 6 caractere");
-                    return BadRequest(ModelState);
-                }
-
-                user = new User
-                {
-                    FullName = model.FullName.ToLower(),
-                    UserName = model.UserName.ToLower(),
-                    Phone=model.Phone,
-                    Address=model.Address,
-                    EmailConfirmed = true
-                };
-
-                var result = await _userManager.CreateAsync(user, model.Password);
-                if (!result.Succeeded) return BadRequest(result.Errors);
+                return BadRequest();
             }
             else
             {
@@ -140,14 +123,9 @@ namespace Backend.Controllers
                 }
             }
 
-            if (string.IsNullOrEmpty(model.Id))
-            {
-                return Ok(new JsonResult(new { title = "Utilizator creat", message = $"{model.UserName} a fost creat" }));
-            }
-            else
-            {
+          
                 return Ok(new JsonResult(new { title = "Utilizator modificat", message = $"{model.UserName} a fost modificat" }));
-            }
+            
         }
 
         [HttpPut("lock-member/{id}")]

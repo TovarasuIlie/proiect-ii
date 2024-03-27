@@ -12,7 +12,6 @@ namespace Backend.DTOs.Admin
 
         public bool IsLocked { get; set; }
 
-        public string Password { get; set; }
         [Required]
         // eg: "Admin,Client"
         public IEnumerable<string> Roles { get; set; }
