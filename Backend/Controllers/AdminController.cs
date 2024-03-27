@@ -102,8 +102,8 @@ namespace Backend.Controllers
                 user = await _userManager.FindByIdAsync(model.Id);
                 if (user == null) return NotFound();
 
-                user.FullName = model.FullName.ToLower();
-                user.UserName = model.UserName.ToLower();
+                user.FullName = model.FullName;
+                user.UserName = model.UserName;
                 user.Phone = model.Phone;
                 user.Address = model.Address;
                
