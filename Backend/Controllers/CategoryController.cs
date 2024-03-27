@@ -16,21 +16,22 @@ namespace Backend.Controllers
             _context = context;
         }
 
-        [HttpPost]
-        public async Task<ActionResult<Category>> CreateCategory(Category category)
+        [HttpPost("add-category")]
+        [Authorize(Roles = "Admin")]
+        public async Task<ActionResult<Category>> AddCategory(Category category)
         {
             _context.Categories.Add(category);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetCategory", new { id = category.Id }, category);
         }
-        [HttpGet]
+        [HttpGet("get-categories")]
         public async Task<ActionResult<IEnumerable<Category>>> GetCategories()
         {
             return await _context.Categories.ToListAsync();
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("get-category/{id}")]
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult<Category>> GetCategory(int id)
         {
@@ -43,7 +44,7 @@ namespace Backend.Controllers
 
             return category;
         }
-        [HttpPut("{id}")]
+        [HttpPut("update-category/{id}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateCategory(Category category)
         {
@@ -74,7 +75,7 @@ namespace Backend.Controllers
 
             return NoContent();
         }
-        [HttpDelete("{id}")]
+        [HttpDelete("delete-category/{id}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteCategory(int id)
         {
