@@ -8,6 +8,9 @@ import { AllUsersPageComponent } from './users-management/all-users-page/all-use
 import { UserDetailsPageComponent } from './users-management/user-details-page/user-details-page.component';
 import { SharedModule } from '../shared/shared.module';
 import { AllCategoriesComponent } from './category-management/all-categories/all-categories.component';
+import { ViewProductsPageComponent } from './products-management/view-products-page/view-products-page.component';
+import { AddProductsPageComponent } from './products-management/add-products-page/add-products-page.component';
+import { ProductsDetailsPageComponent } from './products-management/products-details-page/products-details-page.component';
 
 
 
@@ -17,6 +20,9 @@ import { AllCategoriesComponent } from './category-management/all-categories/all
     AllUsersPageComponent,
     UserDetailsPageComponent,
     AllCategoriesComponent,
+    ViewProductsPageComponent,
+    AddProductsPageComponent,
+    ProductsDetailsPageComponent,
   ],
   imports: [
     CommonModule,

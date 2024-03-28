@@ -11,14 +11,18 @@ export class CategoriesService {
   constructor(private http: HttpClient) { }
 
   addCategory(category: CategoryInterface) {
-    return this.http.post(environment.apiUrl + "/api/Category", category);
+    return this.http.post(environment.apiUrl + "/api/Category/add-category", category);
   }
 
   getCategories() {
-    return this.http.get<CategoryInterface[]>(environment.apiUrl + "/api/Category");
+    return this.http.get<CategoryInterface[]>(environment.apiUrl + "/api/Category/get-categories");
   }
 
-  deleteCategory(id: string) {
-    return this.http.delete(environment.apiUrl + "/api/Category/" + id);
+  getCategory(id: number) {
+    return this.http.get<CategoryInterface>(environment.apiUrl + "/api/Category/get-category/" + id);
+  }
+
+  deleteCategory(id: number) {
+    return this.http.delete(environment.apiUrl + "/api/Category/delete-category" + id);
   }
 }

@@ -35,8 +35,7 @@
             <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
                 <div class="sb-sidenav-menu">
                     <div class="nav">
-                        <div class="sb-sidenav-menu-heading">Core</div>
-                        <a class="nav-link" [routerLink]="['/dashboard']">
+                        <a class="nav-link"  [routerLinkActive]="['active']" [routerLink]="['/dashboard']">
                             <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                             Dashboard
                         </a>
@@ -45,31 +44,19 @@
                             <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
                             Utilizatori
                         </a>
-                        <a class="nav-link" [routerLink]="['/dashboard', 'administratori']">
-                            <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                            Administratori
-                        </a>
                         <div class="sb-sidenav-menu-heading">Management Categorii</div>
                         <a class="nav-link" [routerLink]="['/dashboard', 'categorii']">
                             <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
                             Vizualizeaza Categorii
                         </a>
-                        <a class="nav-link" [routerLink]="['/dashboard', 'categorii', 'adauga-categorii']">
-                            <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
-                            Adaugare Categorii
-                        </a>
                         <div class="sb-sidenav-menu-heading">Produse</div>
-                        <a class="nav-link" href="charts.html">
+                        <a class="nav-link" [routerLink]="['/dashboard', 'produse', 'adauga-produs']">
                             <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
                             Adaugare Produse
                         </a>
-                        <a class="nav-link" href="tables.html">
+                        <a class="nav-link" [routerLink]="['/dashboard', 'produse']">
                             <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
                             Stock Produse
-                        </a>
-                        <a class="nav-link" href="tables.html">
-                            <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                            Comentarii Produse
                         </a>
                         <div class="sb-sidenav-menu-heading">Comenzi</div>
                         <a class="nav-link" href="tables.html">

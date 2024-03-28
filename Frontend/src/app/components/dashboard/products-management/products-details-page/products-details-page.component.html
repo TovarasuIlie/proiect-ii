@@ -45,7 +45,7 @@
                             Utilizatori
                         </a>
                         <div class="sb-sidenav-menu-heading">Management Categorii</div>
-                        <a class="nav-link" [routerLinkActive]="['active']"  [routerLink]="['/dashboard', 'categorii']">
+                        <a class="nav-link" [routerLink]="['/dashboard', 'categorii']">
                             <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
                             Vizualizeaza Categorii
                         </a>
@@ -54,7 +54,8 @@
                             <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
                             Adaugare Produse
                         </a>
-                        <a class="nav-link" [routerLink]="['/dashboard', 'produse']">
+                        <a class="nav-link" [routerLinkActive]="['active']"
+                            [routerLink]="['/dashboard', 'produse']">
                             <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
                             Stock Produse
                         </a>
@@ -82,58 +83,76 @@
         </div>
         <div id="layoutSidenav_content">
             <main>
-                <div class="modal fade" id="add-category-modal" tabindex="-1" aria-labelledby="exampleModalLabel"
-                    aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h1 class="modal-title fs-5" id="exampleModalLabel">Adauga Categorie</h1>
-                                <button type="button" #closeModal class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
-                            </div>
-                            <form [formGroup]="addCategoryForm" (ngSubmit)="addCategory()">
-                                <div class="modal-body">
-                                    <div class="form-floating mb-3">
-                                        <input formControlName="name" type="text" class="form-control" id="category-name" placeholder="name@example.com">
-                                        <label for="category-name">Nume Categorie</label>
+                <div class="container-fluid px-4">
+                    <h1 class="mt-4">Vizualizare Produs</h1>
+                    <div class="container mt-5">
+                        <div class="row">
+                            <div class="col-xl">
+                                <div class="card border-0 shadow-lg mb-5 bg-body rounded">
+                                    <div class="card-header">
+                                        <h4>Detalii Produs</h4>
+                                    </div>
+                                    <div class="card-body p-5">
+                                        <table class="table table-striped">
+                                            <tbody>
+                                                <tr>
+                                                    <td><b>Nume Produs</b></td>
+                                                    <td>{{ product.title }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><b>ID Produs</b></td>
+                                                    <td>{{ product.id }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><b>Descriere Produs</b></td>
+                                                    <td>{{ product.description }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><b>Specificati Produs</b></td>
+                                                    <td>
+                                                        <table class="table table-borderless w-25"
+                                                            style="background-color:rgba(0, 0, 0, 0);">
+                                                            <tbody>
+                                                                <tr
+                                                                    *ngFor="let specification of product.technicalDetailsJson">
+                                                                    <td>{{ specification.specificationTitle }}</td>
+                                                                    <td>{{ specification.specificationValue }}</td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td><b>Categorie Produs</b></td>
+                                                    <td>{{ product.category?.name + ' ( ID Categorie: ' +
+                                                        product.category?.id + ')' }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><b>Cantitate Produs</b></td>
+                                                    <td>{{ product.quantity + ' buc' }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><b>Pret Produs</b></td>
+                                                    <td>{{ product.price + ' lei' }}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Anuleaza</button>
-                                    <button type="submit" class="btn btn-sm btn-success">Adauga!</button>
+                            </div>
+                            <div class="col-xl-3">
+                                <div class="card border-0 shadow-lg mb-5 bg-body rounded">
+                                    <div class="card-header">
+                                        <h4>Admin Area</h4>
+                                    </div>
+                                    <div class="card-body p-5 d-grid gap-3">
+                                        <button class="btn btn-primary w-100">Mergi spre Site</button>
+                                        <button class="btn btn-warning w-100">Editeaza Produs</button>
+                                        <button class="btn btn-danger w-100">Serge Produs</button>
+                                    </div>
                                 </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-                <div class="container-fluid px-4">
-                    <h1 class="mt-4">Categorii</h1>
-                    <div class="container">
-                        <div class="row mb-3">
-                            <div class="col">
-                                <button type="button" class="btn btn-success" data-bs-toggle="modal"
-                                    data-bs-target="#add-category-modal">Adauga Categorie</button>
-                            </div>
-                            <div class="col">
-
                             </div>
                         </div>
-                        <table class="table text-center table-striped">
-                            <thead class="table-dark">
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Nume Categorie</th>
-                                    <th>Actiuni</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr *ngFor="let category of categories">
-                                    <td>{{ category.id }}</td>
-                                    <td>{{ category.name }}</td>
-                                    <td><button type="button" class="btn btn-sm btn-danger" (click)="deleteCategoyr(category.id)">Sterge Categorie</button></td>
-                                </tr>
-                            </tbody>
-                        </table>
                     </div>
                 </div>
             </main>

@@ -21,9 +21,16 @@ export class AllCategoriesComponent implements OnInit {
   constructor(private titleService: Title, private _renderer2: Renderer2, @Inject(DOCUMENT) private _document: Document, public userService: UserService, private categoryService: CategoriesService, private formBuilder: FormBuilder) {
     this.titleService.setTitle("Dashboard - La Verucu' SRL");
   }
+
   ngOnInit(): void {
     this.initializeGategory();
     this.initializeForm();
+  }
+
+  ngAfterViewInit() {
+    const script = this._renderer2.createElement('script');
+    script.src = "/assets/js/index-page.js";
+    this._renderer2.appendChild(this._document.body, script);
   }
 
   initializeGategory() {
@@ -58,7 +65,7 @@ export class AllCategoriesComponent implements OnInit {
     }
   }
 
-  deleteCategoyr(id: string) {
+  deleteCategoyr(id: number) {
     this.categoryService.deleteCategory(id).subscribe({
       next: (response) => {
         console.log(response);
