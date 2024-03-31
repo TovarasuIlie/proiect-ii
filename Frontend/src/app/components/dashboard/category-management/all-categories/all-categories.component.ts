@@ -5,6 +5,7 @@ import { UserService } from '../../../../services/user.service';
 import { CategoriesService } from '../../services/categories.service';
 import { CategoryInterface } from '../../models/category-interface';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ToastService } from '../../../shared/services/toast.service';
 
 @Component({
   selector: 'app-all-categories',
@@ -14,11 +15,13 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class AllCategoriesComponent implements OnInit {
 
   categories: CategoryInterface[] = [];
-  addCategoryForm: FormGroup = new FormGroup({});
+  categoryForm: FormGroup = new FormGroup({});
   errorMessages: string[] = [];
   @ViewChild('closeModal') closeModal: any;
+  categoryID: number = 0;
 
-  constructor(private titleService: Title, private _renderer2: Renderer2, @Inject(DOCUMENT) private _document: Document, public userService: UserService, private categoryService: CategoriesService, private formBuilder: FormBuilder) {
+  constructor(private titleService: Title, private _renderer2: Renderer2, @Inject(DOCUMENT) private _document: Document, public userService: UserService, private categoryService: CategoriesService, 
+              private formBuilder: FormBuilder, private toastService: ToastService) {
     this.titleService.setTitle("Dashboard - La Verucu' SRL");
   }
 
@@ -42,38 +45,67 @@ export class AllCategoriesComponent implements OnInit {
   }
 
   initializeForm() {
-    this.addCategoryForm = this.formBuilder.group({
+    this.categoryForm = this.formBuilder.group({
       name: ['', [Validators.required]]
     })
   }
 
   addCategory() {
-    if(this.addCategoryForm.valid) {
-      this.categoryService.addCategory(this.addCategoryForm.value).subscribe({
+    if(this.categoryForm.valid) {
+      this.categoryService.addCategory(this.categoryForm.value).subscribe({
         next: (response) => {
           console.log(response);
           this.closeModal.nativeElement.click();
           this.initializeGategory();
+          this.toastService.show({title: "Categorie adaugata!", message: "Categoria " + this.categoryForm.get('name')?.value + " a fosta adaugata cu succes!", classname: "text-success"});
+          this.categoryForm.reset();
+          this.categoryForm.clearValidators()
         },
         error: (response) => {
-          console.log(response);
+          this.errorMessages.pop();
+          this.errorMessages.push(response.error.errors);
         }
       })
-    } else {
-      this.errorMessages.pop();
-      this.errorMessages.push("Test");
     }
   }
 
   deleteCategoyr(id: number) {
     this.categoryService.deleteCategory(id).subscribe({
       next: (response) => {
-        console.log(response);
         this.initializeGategory();
+        this.toastService.show({title: "Categorie stersa!", message: "Categoria a fosta stearsa cu succes!", classname: "text-success"});
       },
       error: (response) => {
         console.log(response);
       }
     })
+  }
+
+  editCategory() {
+    if(this.categoryForm.valid) {
+      console.log(this.categoryForm.value);
+      const editCategory: CategoryInterface = {
+        id: this.categoryID,
+        name: this.categoryForm.get('name')?.value
+      }
+      this.categoryService.updateCategory(editCategory).subscribe({
+        next: (response) => {
+          this.closeModal.nativeElement.click();
+          this.initializeGategory();
+          this.toastService.show({title: "Categorie editata!", message: "Categoria " + this.categoryForm.get('name')?.value + " a fosta adaugata cu succes!", classname: "text-success"});
+          this.categoryForm.reset();
+          this.categoryForm.clearValidators()
+        },
+        error: (response) => {
+          console.log(response);
+          this.errorMessages.pop();
+          this.errorMessages.push(response.error.errors);
+        }
+      })
+    }
+  }
+
+  setCategoryID(id: number) {
+    this.categoryID = id;
   }
 }

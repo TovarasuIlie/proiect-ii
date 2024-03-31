@@ -8,7 +8,6 @@ export class ToastService {
 
   show(option: any = {}) {
       this.toasts.push({...option});
-      console.log(option);
   }
 
   remove(toast: any) {

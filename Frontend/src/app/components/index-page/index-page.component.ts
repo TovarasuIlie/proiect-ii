@@ -8,6 +8,6 @@ import { Title } from '@angular/platform-browser';
 })
 export class IndexPageComponent {
   constructor(private titleService: Title) {
-    this.titleService.setTitle("La Verucu' SRL");
+    this.titleService.setTitle("La Vericu' SRL");
   }
 }

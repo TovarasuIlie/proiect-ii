@@ -9,6 +9,7 @@ import { RouterModule } from '@angular/router';
 import { ToastComponent } from './toast/toast.component';
 import { NgbToastModule } from '@ng-bootstrap/ng-bootstrap';
 import { UserHasRoleDirective } from '../directives/user-has-role.directive';
+import { OffcanvasCategoriesComponent } from './offcanvas-categories/offcanvas-categories.component';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { UserHasRoleDirective } from '../directives/user-has-role.directive';
     LoginModalComponent,
     RegisterModalComponent,
     ToastComponent,
-    UserHasRoleDirective
+    UserHasRoleDirective,
+    OffcanvasCategoriesComponent
   ],
   imports: [
     CommonModule,

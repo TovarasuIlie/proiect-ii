@@ -23,6 +23,10 @@ export class CategoriesService {
   }
 
   deleteCategory(id: number) {
-    return this.http.delete(environment.apiUrl + "/api/Category/delete-category" + id);
+    return this.http.delete(environment.apiUrl + "/api/Category/delete-category/" + id);
+  }
+
+  updateCategory(category: CategoryInterface) {
+    return this.http.put(environment.apiUrl + "/api/Category/update-category/" + category.id, category);
   }
 }
