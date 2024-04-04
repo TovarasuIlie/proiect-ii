@@ -1,0 +1,14 @@
+#tools-category .card {
+    border-color: white;
+}
+
+#tools-category .col:hover .card {
+    border-color: red;
+    transition: 0.5s ease;
+    cursor: pointer;
+}
+
+#tools-category .col:hover hr {
+    border-color: red;
+    transition: 0.5s ease;
+}

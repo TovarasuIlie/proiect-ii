@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { IndexPageComponent } from './components/index-page/index-page.component';
-import { TiresPageComponent } from './components/tires-page/tires-page.component';
-import { ToolsPageComponent } from './components/tools-page/tools-page.component';
-import { CarPartsComponent } from './components/car-parts-page/car-parts/car-parts.component';
-import { NotFoundPageComponent } from './components/not-found-page/not-found-page.component';
-import { MotorOilPageComponent } from './components/motor-oil-page/motor-oil-page.component';
+import { IndexPageComponent } from './components/site-main-pages/index-page/index-page.component';
+import { TiresPageComponent } from './components/site-main-pages/tires-page/tires-page.component';
+import { ToolsPageComponent } from './components/site-main-pages/tools-page/tools-page.component';
+import { CarPartsComponent } from './components/site-main-pages/car-parts-page/car-parts/car-parts.component';
+import { NotFoundPageComponent } from './components/site-main-pages/not-found-page/not-found-page.component';
+import { MotorOilPageComponent } from './components/site-main-pages/motor-oil-page/motor-oil-page.component';
+import { AccesoriesPageComponent } from './components/site-main-pages/accesories-page/accesories-page.component';
 
 const routes: Routes = [
   {
@@ -24,6 +25,10 @@ const routes: Routes = [
   {
     path: 'scule',
     component: ToolsPageComponent
+  },
+  {
+    path: 'accesorii-auto',
+    component: AccesoriesPageComponent
   },
   {
     path: 'ulei-motor',

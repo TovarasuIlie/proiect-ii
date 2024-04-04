@@ -1,0 +1,31 @@
+.flex-even {
+    flex: 1;
+    display: block;
+  }
+
+  #parts-catalog .card {
+    border-color:white;
+  }
+
+  #parts-catalog .col:hover .card {
+    border-color: red;
+    transition: 0.5s ease;
+    cursor: pointer;
+  }
+
+  #parts-catalog .col:hover hr {
+    border-color: red;
+    transition: 0.5s ease;
+  }
+
+  #car-logos .card {
+    height: 70px;
+    width: auto;
+    border: 1px solid white;
+  }
+
+  #car-logos .card:hover {
+    border: 1px solid red;
+    transition: 0.5s ease;
+    cursor: pointer;
+  }
