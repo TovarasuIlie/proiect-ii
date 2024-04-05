@@ -13,7 +13,7 @@ export interface ProductsInterface {
 export interface ProductAddInterface {
     title: string;
     description: string;
-    category: number;
+    category:CategoryInterface | null;
     technicalDetailsJson: string;
     quantity: number;
     price: number;

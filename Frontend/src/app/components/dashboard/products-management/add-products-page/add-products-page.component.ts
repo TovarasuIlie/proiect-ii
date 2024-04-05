@@ -73,19 +73,24 @@ export class AddProductsPageComponent implements OnInit {
       specificationValue: [,[Validators.required]]
     }));
   }
-
+  
   addNewProduct() {
     this.formSubmited = true;
     this.errorMessages = [];
     if(this.addProductForm.valid) {
       if((this.addProductForm.get('technicalDetailsJson') as FormArray).length >= 3) {
+        const categoryId = parseInt(this.addProductForm.get('category')?.value, 10);
+        const selectedCategory: CategoryInterface = this.categories.find(c => c.id === categoryId) || { 
+          id: 0, 
+          name: 'Categoria nu exista'
+        };
         const addProduct: ProductAddInterface = {
           title: this.addProductForm.get('title')?.value,
           description: this.addProductForm.get('description')?.value,
           technicalDetailsJson: (JSON.stringify(this.addProductForm.get('technicalDetailsJson')?.value)).replace('/', ''),
-          category: this.addProductForm.get('category')?.value,
+          category: selectedCategory,
           quantity: this.addProductForm.get('quantity')?.value,
-          price: this.addProductForm.get('price')?.value
+          price: parseFloat(this.addProductForm.get('price')?.value.replace(",", "."))
         };
         console.log(addProduct);
         this.productsService.addNewProduct(addProduct).subscribe({

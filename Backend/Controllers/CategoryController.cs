@@ -44,7 +44,7 @@ namespace Backend.Controllers
 
             return category;
         }
-        [HttpPut("update-category/{id}")]
+        [HttpPut("update-category")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateCategory(Category category)
         {
@@ -55,7 +55,12 @@ namespace Backend.Controllers
                 return NotFound();
             }
 
-            _context.Entry(category).State = EntityState.Modified;
+            _context.Entry(categoryToUpdate).State = EntityState.Detached;
+
+
+            categoryToUpdate.Name = category.Name; 
+
+            _context.Entry(categoryToUpdate).State = EntityState.Modified;
 
             try
             {

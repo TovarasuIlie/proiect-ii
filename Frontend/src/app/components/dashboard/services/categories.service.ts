@@ -27,6 +27,6 @@ export class CategoriesService {
   }
 
   updateCategory(category: CategoryInterface) {
-    return this.http.put(environment.apiUrl + "/api/Category/update-category/" + category.id, category);
+    return this.http.put(environment.apiUrl + "/api/Category/update-category/", category);
   }
 }

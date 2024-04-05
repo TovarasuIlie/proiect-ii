@@ -42,10 +42,27 @@ namespace Backend.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult<Product>> CreateProduct(Product product)
         {
-            _context.Products.Add(product);
-            await _context.SaveChangesAsync();
+            var existingCategory = await _context.Categories.FindAsync(product.Category.Id);
+            if (existingCategory != null)
+            {
+                // Associate the category
+                product.Category = existingCategory;
 
-            return CreatedAtAction("GetProduct", new { id = product.Id }, product);
+                // Add the new product 
+                _context.Products.Add(product);
+                await _context.SaveChangesAsync();
+
+                return CreatedAtAction("GetProduct", new { id = product.Id }, product);
+
+            }
+            else
+            {
+                // Handle invalid category ID (ex: show error message on form)
+                ModelState.AddModelError("CategoryId", "Invalid category selected.");
+                return BadRequest(); // Return to the form
+            }
+          
+
         }
         [HttpPut("{id}")]
         [Authorize(Roles = "Admin")]
