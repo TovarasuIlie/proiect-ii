@@ -109,7 +109,7 @@
         </div>
     </div>
 </nav>
-<app-offcanvas-categories></app-offcanvas-categories>
+<app-offcanvas-categories (categoriesEmitter)="getCategories($event)"></app-offcanvas-categories>
 
 <div *ngIf="(userService.user$ | async) == null">
     <app-login-modal></app-login-modal>

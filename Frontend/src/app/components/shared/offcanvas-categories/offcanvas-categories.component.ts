@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { CategoriesService } from '../../dashboard/services/categories.service';
 import { CategoryInterface } from '../../dashboard/models/category-interface';
 
@@ -10,6 +10,8 @@ import { CategoryInterface } from '../../dashboard/models/category-interface';
 export class OffcanvasCategoriesComponent implements OnInit {
 
   categories: CategoryInterface[] = [];
+
+  @Output() categoriesEmitter = new EventEmitter<CategoryInterface[]>();
   constructor(private categoryService: CategoriesService) {
 
   }
@@ -18,10 +20,15 @@ export class OffcanvasCategoriesComponent implements OnInit {
     this.initializeCategories();
   }
 
+  loadCategories() {
+    this.categoriesEmitter.emit(this.categories);
+  }
+
   initializeCategories() {
     this.categoryService.getCategories().subscribe({
       next: (value) => {
         this.categories = value;
+        this.loadCategories();
       }
     })
   }

@@ -6,7 +6,8 @@ import { CategoriesService } from '../../services/categories.service';
 import { FormBuilder } from '@angular/forms';
 import { ProductsInterface } from '../../models/products.model';
 import { ProductsService } from '../../services/products.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ToastService } from '../../../shared/services/toast.service';
 
 @Component({
   selector: 'app-products-details-page',
@@ -25,7 +26,8 @@ export class ProductsDetailsPageComponent implements OnInit {
   };
   id: string = '';
   constructor(private titleService: Title, private _renderer2: Renderer2, @Inject(DOCUMENT) private _document: Document, public userService: UserService, 
-              private categoryService: CategoriesService, private formBuilder: FormBuilder, private productsService: ProductsService, private activedroute: ActivatedRoute) {
+              private categoryService: CategoriesService, private formBuilder: FormBuilder, private productsService: ProductsService, private activedroute: ActivatedRoute,
+              private router: Router, private toastService: ToastService) {
     this.titleService.setTitle("Dashboard - La Verucu' SRL");
   }
 
@@ -52,8 +54,19 @@ export class ProductsDetailsPageComponent implements OnInit {
       next: (value) => {
         this.product = value;
         this.product.technicalDetailsJson = JSON.parse(value.technicalDetailsJson);
-        console.log(this.product);
       }
+    })
+  }
+
+  deteleProduct() {
+    this.productsService.deleteProduct(parseInt(this.id)).subscribe({
+      next: (response) => {
+        this.toastService.show({title: "Produse sters cu succes!", message: "Produsul a fost sters cu succes!", classname: "text-success"});
+        this.router.navigateByUrl('/dashboard/produse');
+      },
+      error: (err) => {
+        console.log(err);
+      },
     })
   }
   

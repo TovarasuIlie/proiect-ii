@@ -51,7 +51,7 @@ export class AddProductsPageComponent implements OnInit {
   initializeForm() {
     this.addProductForm = this.formBuilder.group({
       title: [, [Validators.required, Validators.minLength(8)]],
-      description: [, [Validators.required, Validators.minLength(50)]],
+      description: [, [Validators.required, Validators.minLength(10)]],
       category: [0, [Validators.required, Validators.min(1)]],
       quantity: [, [Validators.required, Validators.min(1)]],
       price: [, [Validators.required, Validators.pattern('[0-9]+.[0-9][0-9]')]],

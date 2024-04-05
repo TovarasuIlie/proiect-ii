@@ -22,4 +22,7 @@ export class ProductsService {
     return this.http.post(environment.apiUrl + "/api/Product", product);
   }
   
+  deleteProduct(ID: number) {
+    return this.http.delete(environment.apiUrl + "/api/Product/" + ID);
+  }
 }
