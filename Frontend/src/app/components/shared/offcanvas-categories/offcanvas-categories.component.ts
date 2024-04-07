@@ -1,6 +1,8 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { CategoriesService } from '../../dashboard/services/categories.service';
 import { CategoryInterface } from '../../dashboard/models/category-interface';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { ShareDataService } from '../../../services/share-data.service';
 
 @Component({
   selector: 'app-offcanvas-categories',
@@ -11,8 +13,7 @@ export class OffcanvasCategoriesComponent implements OnInit {
 
   categories: CategoryInterface[] = [];
 
-  @Output() categoriesEmitter = new EventEmitter<CategoryInterface[]>();
-  constructor(private categoryService: CategoriesService) {
+  constructor(private categoryService: CategoriesService, private shareData: ShareDataService) {
 
   }
 
@@ -20,15 +21,11 @@ export class OffcanvasCategoriesComponent implements OnInit {
     this.initializeCategories();
   }
 
-  loadCategories() {
-    this.categoriesEmitter.emit(this.categories);
-  }
-
   initializeCategories() {
     this.categoryService.getCategories().subscribe({
       next: (value) => {
         this.categories = value;
-        this.loadCategories();
+        this.shareData.setData(value);
       }
     })
   }

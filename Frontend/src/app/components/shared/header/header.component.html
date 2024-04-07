@@ -48,7 +48,7 @@
                                 <ng-template [appUserHasRole]="['Admin']" >
                                     <li><hr class="dropdown-divider"></li>
                                     <li>
-                                        <a class="dropdown-item" role="button" [routerLink]="['/dashboard']"><i class="fa-solid fa-gauge-high"></i> Dashboard</a>
+                                        <a class="dropdown-item" role="button" href="/dashboard"><i class="fa-solid fa-gauge-high"></i> Dashboard</a>
                                     </li>
                                 </ng-template>
                                 <li><hr class="dropdown-divider"></li>
@@ -109,7 +109,7 @@
         </div>
     </div>
 </nav>
-<app-offcanvas-categories (categoriesEmitter)="getCategories($event)"></app-offcanvas-categories>
+<app-offcanvas-categories></app-offcanvas-categories>
 
 <div *ngIf="(userService.user$ | async) == null">
     <app-login-modal></app-login-modal>

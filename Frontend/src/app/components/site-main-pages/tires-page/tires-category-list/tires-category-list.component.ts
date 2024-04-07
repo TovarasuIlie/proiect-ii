@@ -1,11 +1,9 @@
-import { AfterViewChecked, AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ProductsInterface } from '../../../dashboard/models/products.model';
 import { Title } from '@angular/platform-browser';
-import { ActivatedRoute } from '@angular/router';
-import { ProductsService } from '../../../dashboard/services/products.service';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CategoryInterface } from '../../../dashboard/models/category-interface';
-import { HeaderComponent } from '../../../shared/header/header.component';
-import { SharedModule } from '../../../shared/shared.module';
+import { ShareDataService } from '../../../../services/share-data.service';
 
 @Component({
   selector: 'app-tires-category-list',
@@ -14,13 +12,12 @@ import { SharedModule } from '../../../shared/shared.module';
 })
 export class TiresCategoryListComponent implements OnInit {
   tires: ProductsInterface[] = [];
-  @ViewChild(HeaderComponent) child: any;
   currentCategory: CategoryInterface = {
     id: 0,
     name: ''
   }
 
-  constructor(private title: Title, private activatedRoute: ActivatedRoute, private productService: ProductsService) {
+  constructor(private title: Title, private activatedRoute: ActivatedRoute, private router: Router, private shareData: ShareDataService) {
     this.activatedRoute.paramMap.subscribe({
       next: (params) => {
         const tireType = params.get('tireCategory');
@@ -28,25 +25,27 @@ export class TiresCategoryListComponent implements OnInit {
           this.title.setTitle("Anvelope " + tireType + "- La Vericu' SRL");
         }
       }
-    })
+    });
+    window.scrollTo();
   }
 
   ngOnInit(): void {
-    setTimeout(() => {
-      this.currentCategory = this.child.categories.find((c: CategoryInterface) => c.name = "Anvelope");
-      this.initializeList();
-    }, 50);
+    this.initializeList();
+    this.shareData.getData().subscribe((value) => {
+        console.log(value.find((c: CategoryInterface) =>  c.name == 'Anvelope'));
+    })
+    // this.activatedRoute.data.subscribe((response: any) => {
+    //   console.log(response);
+    // })
   }
 
   initializeList() {
-    this.productService.getProducts().subscribe({
-      next: (value) => {
-        value.map((tire) => {
-          tire.technicalDetailsJson = JSON.parse(tire.technicalDetailsJson);
-          this.tires.push(tire);
-        })
-      }
-    });
+    this.activatedRoute.data.subscribe((response: any) => { 
+      response.productsList.map((tire: any) => {
+        tire.technicalDetailsJson = JSON.parse(tire.technicalDetailsJson);
+        this.tires.push(tire);
+      })
+    })
   }
 
   sliceJSONArray(object: any[], from: number, to: number) {

@@ -47,9 +47,13 @@ const routes: Routes = [
   },
   {
     path: '**',
+    redirectTo: "eroarea-404",
     pathMatch: "full",
-    component: NotFoundPageComponent
   },
+  {
+    path: 'eroarea-404',
+    component: NotFoundPageComponent
+  }
 ];
 
 @NgModule({
