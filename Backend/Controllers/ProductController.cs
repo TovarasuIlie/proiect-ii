@@ -111,7 +111,27 @@ namespace Backend.Controllers
 
             return NoContent();
         }
+        [HttpGet("products-by-category-name/{categoryName}")]
+        public IActionResult GetProductsByCategoryName(string categoryName)
+        {
+            try
+            {
+                var products = _context.Products
+                                       .Where(p => p.Category.Name == categoryName);
 
+                if (!products.Any())
+                {
+                    return NotFound("Categoria nu a fost gasita");
+                }
+
+                return Ok(products);
+            }
+            catch (Exception ex)
+            {
+               
+                return BadRequest();
+            }
+        }
         //Helper
         private bool ProductExists(int id)
         {
