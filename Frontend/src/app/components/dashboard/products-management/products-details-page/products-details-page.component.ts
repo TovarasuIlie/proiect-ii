@@ -140,7 +140,7 @@ export class ProductsDetailsPageComponent implements OnInit {
           price: parseFloat(this.editForm.get('price')?.value.replace(",", "."))
         };
         console.log(editProduct);
-        this.productsService.editProduct(this.id, editProduct).subscribe({
+        this.productsService.editProduct(editProduct).subscribe({
           next: (response) => {
             this.toastService.show({title: "Produsul editat!", message: "Produsul " + editProduct.title + " a fost editat cu succes!", classname: "text-success"});
             this.initializeProduct();

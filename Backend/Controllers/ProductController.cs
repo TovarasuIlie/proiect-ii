@@ -15,7 +15,7 @@ namespace Backend.Controllers
         {
             _context = context;
         }
-        [HttpGet]
+        [HttpGet("all-products")]
         public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
         {
             return await _context.Products
@@ -23,7 +23,7 @@ namespace Backend.Controllers
                          .ToListAsync();
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("get-product-by-id/{id}")]
         public async Task<ActionResult<Product>> GetProduct(int id)
         {
             var product = await _context.Products
@@ -38,7 +38,7 @@ namespace Backend.Controllers
             return product;
         }
 
-        [HttpPost]
+        [HttpPost("add-product")]
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult<Product>> CreateProduct(Product product)
         {
@@ -64,7 +64,7 @@ namespace Backend.Controllers
           
 
         }
-        [HttpPut("{id}")]
+        [HttpPut("update-product")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateProduct(Product product)
         {
@@ -77,10 +77,11 @@ namespace Backend.Controllers
             _context.Entry(productToUpdate).State = EntityState.Detached;
             productToUpdate.Title = product.Title;
             productToUpdate.Description = product.Description;
-            productToUpdate.Category = product.Category;
             productToUpdate.TechnicalDetailsJson = product.TechnicalDetailsJson;
             productToUpdate.Quantity = product.Quantity;
             productToUpdate.Price = product.Price;
+            _context.Entry(productToUpdate).State = EntityState.Modified;
+
             try
             {
                 await _context.SaveChangesAsync();
@@ -100,7 +101,7 @@ namespace Backend.Controllers
             return NoContent();
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("delete-product/{id}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteProduct(int id)
         {
