@@ -22,6 +22,14 @@ export class ProductsService {
   addNewProduct(product: ProductAddInterface) {
     return this.http.post(environment.apiUrl + "/api/Product", product);
   }
+
+  getProductsByCategoryName(categoryName: string) {
+    return this.http.get<ProductsInterface[]>(environment.apiUrl + '/api/Product/products-by-category-name/' + categoryName);
+  }
+
+  editProduct(id: number, product: ProductsInterface) {
+    return this.http.put(environment.apiUrl + '/api/Product/' + id, product)
+  }
   
   deleteProduct(ID: number) {
     return this.http.delete(environment.apiUrl + "/api/Product/" + ID);

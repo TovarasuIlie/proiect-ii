@@ -74,9 +74,13 @@ namespace Backend.Controllers
             {
                 return NotFound();
             }
-
-            _context.Entry(product).State = EntityState.Modified;
-
+            _context.Entry(productToUpdate).State = EntityState.Detached;
+            productToUpdate.Title = product.Title;
+            productToUpdate.Description = product.Description;
+            productToUpdate.Category = product.Category;
+            productToUpdate.TechnicalDetailsJson = product.TechnicalDetailsJson;
+            productToUpdate.Quantity = product.Quantity;
+            productToUpdate.Price = product.Price;
             try
             {
                 await _context.SaveChangesAsync();

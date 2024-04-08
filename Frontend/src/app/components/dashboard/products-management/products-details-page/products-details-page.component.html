@@ -118,44 +118,125 @@
                             </div>
                             <form [formGroup]="editForm" (ngSubmit)="editProduct()">
                                 <div class="modal-body">
-                                    <div class="form-floating mb-3">
-                                        <input formControlName="title" type="text" class="form-control" id="title"
-                                            placeholder="name@example.com">
-                                        <label for="title">Nume Produs</label>
-                                    </div>
-                                    <div class="form-floating mb-3">
-                                        <textarea formControlName="description" type="text" class="form-control" id="description"
-                                            placeholder="name@example.com" style="height: 100px"></textarea>
-                                        <label for="description">Descriere Produs</label>
-                                    </div>
-                                    <div class="form-floating mb-3">
-                                        <select formControlName="category" class="form-select" id="floatingSelectGrid">
-                                            <option *ngFor="let category of categories" [value]="category.id" [selected]="category.id === product.category?.id">{{ category.name }}</option>
-                                        </select>
-                                        <label for="floatingSelectGrid">Works with selects</label>
-                                    </div>
-                                    <div class="form-floating mb-3">
-                                        <input formControlName="quantity" type="text" class="form-control" id="quantity"
-                                            placeholder="name@example.com">
-                                        <label for="quantity">Cantitate Produs</label>
-                                    </div>
-                                    <div class="form-floating mb-3">
-                                        <input formControlName="price" type="text" class="form-control" id="price"
-                                            placeholder="name@example.com">
-                                        <label for="price">Pret Produs</label>
-                                    </div>
-                                    <div *ngIf="errorMessages.length > 0" class="alert alert-danger">
-                                        <ul>
-                                            <li *ngFor="let error of errorMessages">
-                                                {{error}}
-                                            </li>
-                                        </ul>
-                                    </div>
+                                        <div class="form-floating mb-3">
+                                            <input formControlName="title" type="text" class="form-control" id="title"
+                                                [class.is-invalid]="(formSubmited || editForm.get('title')?.touched) && (!editForm.get('title')?.valid)"
+                                                placeholder="name@example.com">
+                                            <label for="title">Titlu Produs</label>
+                                            <div class="invalid-feedback" *ngIf="(formSubmited || editForm.get('title')?.touched) && !editForm.get('title')?.valid">
+                                                <div *ngIf="editForm.get('title')?.errors?.['required']"><i class="fa-solid fa-triangle-exclamation"></i> Campul <b>Titlu Produs</b> trebuie completat!</div>
+                                                <div *ngIf="editForm.get('title')?.errors?.['minlength']"><i class="fa-solid fa-triangle-exclamation"></i> Campul <b>Titlu Produs</b> trebuie sa fie mai lung de 8 caractere!</div>
+                                            </div>
+                                        </div>
+                                        <div class="form-floating mb-3">
+                                            <textarea formControlName="description" class="form-control" 
+                                                [class.is-invalid]="(formSubmited || editForm.get('description')?.touched) && (!editForm.get('description')?.valid)"
+                                                placeholder="Descriere Produs" id="description"
+                                                style="height: 200px"></textarea>
+                                            <label for="description">Descriere Produs</label>
+                                            <div class="invalid-feedback" *ngIf="(formSubmited || editForm.get('description')?.touched) && !editForm.get('description')?.valid">
+                                                <div *ngIf="editForm.get('description')?.errors?.['required']"><i class="fa-solid fa-triangle-exclamation"></i> Campul <b>Descriere Produs</b> trebuie completat!</div>
+                                                <div *ngIf="editForm.get('description')?.errors?.['minlength']"><i class="fa-solid fa-triangle-exclamation"></i> Campul <b>Descriere Produs</b> trebuie sa fie mai lung de 50 caractere!</div>
+                                            </div>
+                                        </div>
+                                        <div formArrayName="technicalDetailsJson">
+                                            <div class="container w-75"
+                                                *ngFor="let specification of technicalDetailsJson.controls; let i = index"
+                                                [formGroupName]="i">
+                                                <div class="card mb-3">
+                                                    <div class="card-header">
+                                                        <div class="row">
+                                                            <div class="col">
+                                                                <h5>Specificatia {{ i + 1 }}</h5>
+                                                            </div>
+                                                            <div class="col">
+                                                                <button class="btn btn-sm btn-danger float-end"
+                                                                (click)="deleteItem(i)"><i class="fa-solid fa-circle-xmark"></i></button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <div class="form-floating mb-3">
+                                                            <input formControlName="specificationTitle" type="text"
+                                                                class="form-control" id="specificationTitle"
+                                                                [class.is-invalid]="(formSubmited || specification.get('specificationTitle')?.touched) && (!specification.get('specificationTitle')?.valid)"
+                                                                placeholder="Titlu Specificatie">
+                                                            <label for="specificationTitle">Titlu Specificatie</label>
+                                                            <div class="invalid-feedback" *ngIf="(formSubmited || specification.get('specificationTitle')?.touched) && !specification.get('specificationTitle')?.valid">
+                                                                <div *ngIf="specification.get('specificationTitle')?.errors?.['required']"><i class="fa-solid fa-triangle-exclamation"></i> Campul <b>Titlu Specificatie</b> trebuie completat!</div>
+                                                                <div *ngIf="specification.get('specificationTitle')?.errors?.['minlength']"><i class="fa-solid fa-triangle-exclamation"></i> Campul <b>Titlu Specificatie</b> trebuie sa contina minim 3 caractere!</div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-floating mb-3">
+                                                            <input formControlName="specificationValue" type="text"
+                                                                class="form-control" id="specificationValue"
+                                                                [class.is-invalid]="(formSubmited || specification.get('specificationValue')?.touched) && (!specification.get('specificationValue')?.valid)"
+                                                                placeholder="Valoare Specificatie">
+                                                            <label for="specificationTitle">Valoare Specificatie</label>
+                                                            <div class="invalid-feedback" *ngIf="(formSubmited || specification.get('specificationValue')?.touched) && !specification.get('specificationValue')?.valid">
+                                                                <div *ngIf="specification.get('specificationValue')?.errors?.['required']"><i class="fa-solid fa-triangle-exclamation"></i> Selecteaza <b>Valoare Specificatie</b> din care face parte produsul!</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <button type="button" class="btn btn-sm w-100 btn-info mb-3" (click)="addItem()">Adauga
+                                            Specificatie</button>
+                                        <div class="form-floating mb-3">
+                                            <select formControlName="category" class="form-select" id="category"
+                                                [class.is-invalid]="(formSubmited || editForm.get('category')?.touched) && (!editForm.get('category')?.valid)"
+                                                aria-label="Categorie">
+                                                <option [selected]="true" value="0">Alege Categorie</option>
+                                                <option *ngFor="let category of categories" value="{{ category.id }}">{{
+                                                    category.name }}</option>
+                                            </select>
+                                            <label for="category">Categorie</label>
+                                            <div class="invalid-feedback" *ngIf="(formSubmited || editForm.get('category')?.touched) && !editForm.get('category')?.valid">
+                                                <div *ngIf="editForm.get('category')?.errors?.['required']"><i class="fa-solid fa-triangle-exclamation"></i> Selecteaza <b>Categoria</b> din care face parte produsul!</div>
+                                                <div *ngIf="editForm.get('category')?.errors?.['min']"><i class="fa-solid fa-triangle-exclamation"></i> Selecteaza <b>Categoria</b> din care face parte produsul!</div>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-5">
+                                            <div class="col-lg">
+                                                <div class="form-floating">
+                                                    <input formControlName="quantity" type="number" class="form-control"
+                                                        [class.is-invalid]="(formSubmited || editForm.get('quantity')?.touched) && (!editForm.get('quantity')?.valid)"
+                                                        id="quantity" placeholder="Cantitate">
+                                                    <label for="quantity">Cantitate</label>
+                                                    <div class="invalid-feedback" *ngIf="(formSubmited || editForm.get('category')?.touched) && !editForm.get('category')?.valid">
+                                                        <div *ngIf="editForm.get('quantity')?.errors?.['required']"><i class="fa-solid fa-triangle-exclamation"></i> Campul <b>Cantitate</b> trebuie completat!</div>
+                                                        <div *ngIf="editForm.get('quantity')?.errors?.['min']"><i class="fa-solid fa-triangle-exclamation"></i> Este necesar sa introduci minim o bucata din acest produs!</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg">
+                                                <div class="input-group">
+                                                    <div class="form-floating is-invalid">
+                                                        <input formControlName="price" type="text" class="form-control" id="price"
+                                                            [class.is-invalid]="(formSubmited || editForm.get('price')?.touched) && (!editForm.get('price')?.valid)"
+                                                            placeholder="Pret" aria-describedby="basic-addon2">
+                                                        <label for="price">Pret</label>
+                                                    </div>
+                                                    <span class="input-group-text" id="basic-addon2">Lei</span>
+                                                    <div class="invalid-feedback" *ngIf="(formSubmited || editForm.get('price')?.touched) && !editForm.get('price')?.valid">
+                                                        <div *ngIf="editForm.get('price')?.errors?.['required']"><i class="fa-solid fa-triangle-exclamation"></i> Campul <b>Pret</b> trebuie completat!</div>
+                                                        <div *ngIf="editForm.get('price')?.errors?.['pattern']"><i class="fa-solid fa-triangle-exclamation"></i> Pretul nu este valid. Acesta trebuie sa fie de forma <b>1000,99</b></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div *ngIf="errorMessages.length > 0" class="alert alert-danger mb-3">
+                                            <ul>
+                                                <li *ngFor="let error of errorMessages">
+                                                    {{error}}
+                                                </li>
+                                            </ul>
+                                        </div>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary"
-                                        data-bs-dismiss="modal">Anuleaza</button>
-                                    <button type="submit" class="btn btn-success">Salveaza</button>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Anuleaza!</button>
+                                    <button type="submit" class="btn btn-danger">Adauga Produs!</button>
                                 </div>
                             </form>
                         </div>

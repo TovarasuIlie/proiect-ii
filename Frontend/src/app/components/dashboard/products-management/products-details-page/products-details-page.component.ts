@@ -3,7 +3,7 @@ import { Component, Inject, OnInit, Renderer2 } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { UserService } from '../../../../services/user.service';
 import { CategoriesService } from '../../services/categories.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ProductsInterface } from '../../models/products.model';
 import { ProductsService } from '../../services/products.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -21,13 +21,14 @@ export class ProductsDetailsPageComponent implements OnInit {
     title: null,
     description: null,
     category: null,
-    technicalDetailsJson: null,
+    technicalDetailsJson: [],
     quantity: null,
     price: null
   };
   categories: CategoryInterface[] = [];
-  id: string = '';
+  id: number = 0;
   editForm: FormGroup = new FormGroup([]);
+  formSubmited: boolean = false;
   errorMessages: string[] = [];
 
   constructor(private titleService: Title, private _renderer2: Renderer2, @Inject(DOCUMENT) private _document: Document, public userService: UserService, 
@@ -38,7 +39,7 @@ export class ProductsDetailsPageComponent implements OnInit {
       next: (params) => {
         const id = params.get('id');
         if(id) {
-          this.id = id;
+          this.id = parseInt(id, 10);
         }
       },
     });
@@ -57,7 +58,7 @@ export class ProductsDetailsPageComponent implements OnInit {
   }
 
   initializeProduct() {
-    this.productsService.getProduct(this.id).subscribe({
+    this.productsService.getProduct(this.id.toString()).subscribe({
       next: (value) => {
         this.product = value;
         this.product.technicalDetailsJson = JSON.parse(value.technicalDetailsJson);
@@ -80,12 +81,20 @@ export class ProductsDetailsPageComponent implements OnInit {
       description: [this.product.description, [Validators.required]],
       category: [this.product.category?.id, [Validators.required]],
       quantity: [this.product.quantity, [Validators.required]],
-      price: [this.product.price, [Validators.required]]
+      price: [this.product.price?.toString(), [Validators.required]],
+      technicalDetailsJson: this.formBuilder.array([])
+    });
+
+    this.product.technicalDetailsJson.forEach((element: any) => {
+      this.technicalDetailsJson.push(this.formBuilder.group({
+        specificationTitle: [element.specificationTitle ,[Validators.required, Validators.minLength(3)]],
+        specificationValue: [element.specificationValue,[Validators.required]]
+      }));
     });
   }
 
   deteleProduct() {
-    this.productsService.deleteProduct(parseInt(this.id)).subscribe({
+    this.productsService.deleteProduct(this.id).subscribe({
       next: (response) => {
         this.toastService.show({title: "Produse sters cu succes!", message: "Produsul a fost sters cu succes!", classname: "text-success"});
         this.router.navigateByUrl('/dashboard/produse');
@@ -96,8 +105,54 @@ export class ProductsDetailsPageComponent implements OnInit {
     })
   }
 
-  editProduct() {
+  get technicalDetailsJson() {
+    return this.editForm.get('technicalDetailsJson') as FormArray;
+  }
 
+  deleteItem(index: number) {
+    this.technicalDetailsJson.removeAt(index);
   }
   
+  addItem() {
+    this.technicalDetailsJson.push(this.formBuilder.group({
+        specificationTitle: [null, [Validators.required, Validators.minLength(3)]],
+        specificationValue: [null, [Validators.required]]
+      }));
+  }
+
+  editProduct() {
+    this.formSubmited = true;
+    this.errorMessages = [];
+    if((this.editForm.get('technicalDetailsJson') as FormArray).length >= 3) {
+      if(this.editForm.valid) {
+        const categoryId = parseInt(this.editForm.get('category')?.value, 10);
+        const selectedCategory: CategoryInterface = this.categories.find(c => c.id === categoryId) || { 
+          id: 0, 
+          name: 'Categoria nu exista'
+        };
+        const editProduct: ProductsInterface = {
+          id: this.id,
+          title: this.editForm.get('title')?.value,
+          description: this.editForm.get('description')?.value,
+          technicalDetailsJson: (JSON.stringify(this.editForm.get('technicalDetailsJson')?.value)).replace('/', ''),
+          category: selectedCategory,
+          quantity: this.editForm.get('quantity')?.value,
+          price: parseFloat(this.editForm.get('price')?.value.replace(",", "."))
+        };
+        console.log(editProduct);
+        this.productsService.editProduct(this.id, editProduct).subscribe({
+          next: (response) => {
+            this.toastService.show({title: "Produsul editat!", message: "Produsul " + editProduct.title + " a fost editat cu succes!", classname: "text-success"});
+            this.initializeProduct();
+            console.log(response);
+          },
+          error: (response) => {
+            console.log(response);
+          }
+        })
+      }
+    } else {
+        this.errorMessages.push("Trebuie sa ai minim 3 specificatii pentru acest obiect!");
+    }
+  }
 }

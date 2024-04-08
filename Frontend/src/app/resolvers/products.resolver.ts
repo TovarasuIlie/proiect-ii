@@ -11,6 +11,6 @@ import { ProductsInterface } from '../components/dashboard/models/products.model
 export class ProductsResolverService implements Resolve<ProductsInterface[]> {
   constructor(private productService: ProductsService) {}
   resolve(): Observable<ProductsInterface[]> {
-    return this.productService.getProducts().pipe();
+    return this.productService.getProductsByCategoryName("Anvelope").pipe();
   }
 }
