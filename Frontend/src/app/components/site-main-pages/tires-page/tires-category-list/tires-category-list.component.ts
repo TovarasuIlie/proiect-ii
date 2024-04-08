@@ -33,10 +33,7 @@ export class TiresCategoryListComponent implements OnInit {
     this.initializeList();
     this.shareData.getData().subscribe((value) => {
         console.log(value.find((c: CategoryInterface) =>  c.name == 'Anvelope'));
-    })
-    // this.activatedRoute.data.subscribe((response: any) => {
-    //   console.log(response);
-    // })
+    });
   }
 
   initializeList() {
