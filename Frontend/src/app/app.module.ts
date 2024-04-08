@@ -3,7 +3,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { IndexPageComponent } from './components/site-main-pages/index-page/index-page.component';
-import { TiresPageComponent } from './components/site-main-pages/tires-page/tires-page.component';
 import { ToolsPageComponent } from './components/site-main-pages/tools-page/tools-page.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
@@ -21,7 +20,6 @@ import { AccesoriesPageComponent } from './components/site-main-pages/accesories
   declarations: [
     AppComponent,
     IndexPageComponent,
-    TiresPageComponent,
     ToolsPageComponent,
     CarPartsComponent,
     NotFoundPageComponent,

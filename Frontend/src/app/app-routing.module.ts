@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { IndexPageComponent } from './components/site-main-pages/index-page/index-page.component';
-import { TiresPageComponent } from './components/site-main-pages/tires-page/tires-page.component';
 import { ToolsPageComponent } from './components/site-main-pages/tools-page/tools-page.component';
 import { CarPartsComponent } from './components/site-main-pages/car-parts-page/car-parts/car-parts.component';
 import { NotFoundPageComponent } from './components/site-main-pages/not-found-page/not-found-page.component';
@@ -19,8 +18,8 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   {
-    path: 'anvelope',
-    component: TiresPageComponent
+    path: 'anvelope', 
+    loadChildren: () => import('./components/site-main-pages/tires-page/tires-page.module').then(module => module.TiresPageModule)
   },
   {
     path: 'scule',
@@ -48,9 +47,13 @@ const routes: Routes = [
   },
   {
     path: '**',
+    redirectTo: "eroarea-404",
     pathMatch: "full",
-    component: NotFoundPageComponent
   },
+  {
+    path: 'eroarea-404',
+    component: NotFoundPageComponent
+  }
 ];
 
 @NgModule({

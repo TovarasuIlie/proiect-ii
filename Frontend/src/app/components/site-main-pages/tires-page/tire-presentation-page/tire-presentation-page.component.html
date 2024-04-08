@@ -1,0 +1,57 @@
+<div class="container mt-5">
+    <h4>{{ tire.title }}</h4>
+    <h6 class="text-muted">Numar Produs: {{ tire.id }}</h6>
+    <div class="row">
+        <div class="col-lg">
+            <div id="carouselExampleDark" class="carousel carousel-dark slide carousel-fade" data-bs-ride="carousel">
+                <div class="carousel-indicators">
+                    <button type="button"  *ngFor="let photo of photoLinks; let index = index" data-bs-target="#carouselExampleDark" [attr.data-bs-slide-to]="index" 
+                    [class.active]="index === 0" [attr.aria-label]="'Slide' + index" aria-current="true"></button>
+                </div>
+                <div class="carousel-inner">
+                    <div *ngFor="let photo of photoLinks; let index = index" class="carousel-item p-5" [class.active]="index === 0">
+                        <img src="..\..\..\assets\tires-page-imgs\test.jpg" class="img-fluid">
+                    </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark"
+                    data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark"
+                    data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </div>
+        <div class="col-lg px-5">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th colspan="2">Detalii tehnice</th>
+                    </tr>
+                </thead>
+                <tbody style="font-size: small;">
+                    <tr *ngFor="let spec of tire.technicalDetailsJson">
+                        <td>{{ spec.specificationTitle }}:</td>
+                        <td class="fw-bold">{{ spec.specificationValue }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-lg p-5">
+            <div class="container">
+                <h6 *ngIf="tire.quantity" class="text-success mb-5" style="font-size: small;"><i class="fa-solid fa-face-smile-beam"></i> In stoc</h6>
+                <h6 *ngIf="tire.quantity === 0" class="text-danger mb-5" style="font-size: small;"><i class="fa-solid fa-face-frown"></i> Stoc Epuizat</h6>
+                <h4>Pret: <b>{{ tire.price }}</b> Lei</h4>
+                <button class="btn btn-danger w-100"><i class="fa-solid fa-cart-arrow-down"></i> Cumpara!</button>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <h4>Descriere Produs</h4>
+    <div class="container">
+        <p>{{ tire.description }}</p>
+    </div>
+</div>

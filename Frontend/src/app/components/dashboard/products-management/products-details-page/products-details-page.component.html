@@ -83,6 +83,84 @@
         </div>
         <div id="layoutSidenav_content">
             <main>
+                <div class="modal fade" id="delete-modal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header bg-danger">
+                                <h1 class="modal-title fs-5" id="exampleModalLabel">Stergere Produs!</h1>
+                                <button type="button" #closeModalDelete class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <p>Esti pe care sa stergi produsul <b>{{ product.title }}</b>. Esti sigur ca doresti sa
+                                    faci acest lucru?</p>
+                                Odata apasat butonul <span class="badge bg-danger fs-6">Sterge cont!</span> contul nu
+                                mai poate fi recuperat, actiunea fiind <b>ireversibila</b>!
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary"
+                                    data-bs-dismiss="modal">Anuleaza</button>
+                                <button type="button" class="btn btn-danger" (click)="deteleProduct()">Sterge
+                                    cont!</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal fade" id="edit-modal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="exampleModalLabel">Editeaza produs</h1>
+                                <button type="button" #closeModalEdit class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <form [formGroup]="editForm" (ngSubmit)="editProduct()">
+                                <div class="modal-body">
+                                    <div class="form-floating mb-3">
+                                        <input formControlName="title" type="text" class="form-control" id="title"
+                                            placeholder="name@example.com">
+                                        <label for="title">Nume Produs</label>
+                                    </div>
+                                    <div class="form-floating mb-3">
+                                        <textarea formControlName="description" type="text" class="form-control" id="description"
+                                            placeholder="name@example.com" style="height: 100px"></textarea>
+                                        <label for="description">Descriere Produs</label>
+                                    </div>
+                                    <div class="form-floating mb-3">
+                                        <select formControlName="category" class="form-select" id="floatingSelectGrid">
+                                            <option *ngFor="let category of categories" [value]="category.id" [selected]="category.id === product.category?.id">{{ category.name }}</option>
+                                        </select>
+                                        <label for="floatingSelectGrid">Works with selects</label>
+                                    </div>
+                                    <div class="form-floating mb-3">
+                                        <input formControlName="quantity" type="text" class="form-control" id="quantity"
+                                            placeholder="name@example.com">
+                                        <label for="quantity">Cantitate Produs</label>
+                                    </div>
+                                    <div class="form-floating mb-3">
+                                        <input formControlName="price" type="text" class="form-control" id="price"
+                                            placeholder="name@example.com">
+                                        <label for="price">Pret Produs</label>
+                                    </div>
+                                    <div *ngIf="errorMessages.length > 0" class="alert alert-danger">
+                                        <ul>
+                                            <li *ngFor="let error of errorMessages">
+                                                {{error}}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Anuleaza</button>
+                                    <button type="submit" class="btn btn-success">Salveaza</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
                 <div class="container-fluid px-4">
                     <h1 class="mt-4">Vizualizare Produs</h1>
                     <div class="container mt-5">
@@ -110,13 +188,13 @@
                                                 <tr>
                                                     <td><b>Specificati Produs</b></td>
                                                     <td>
-                                                        <table class="table table-borderless w-25"
+                                                        <table class="table"
                                                             style="background-color:rgba(0, 0, 0, 0);">
                                                             <tbody>
                                                                 <tr
                                                                     *ngFor="let specification of product.technicalDetailsJson">
                                                                     <td>{{ specification.specificationTitle }}</td>
-                                                                    <td>{{ specification.specificationValue }}</td>
+                                                                    <td class="fw-semibold">{{ specification.specificationValue }}</td>
                                                                 </tr>
                                                             </tbody>
                                                         </table>
@@ -146,9 +224,11 @@
                                         <h4>Admin Area</h4>
                                     </div>
                                     <div class="card-body p-5 d-grid gap-3">
-                                        <button class="btn btn-primary w-100">Mergi spre Site</button>
-                                        <button class="btn btn-warning w-100">Editeaza Produs</button>
-                                        <button class="btn btn-danger w-100">Serge Produs</button>
+                                        <a [routerLink]="['/anvelope', product.title?.replaceAll(' ', '-'), product.id]" target="_blank" class="btn btn-primary w-100">Mergi spre Site</a>
+                                        <button class="btn btn-warning w-100" data-bs-toggle="modal"
+                                        data-bs-target="#edit-modal">Editeaza Produs</button>
+                                        <button class="btn w-100 btn-danger" data-bs-toggle="modal"
+                                            data-bs-target="#delete-modal">Sterge Cont</button>
                                     </div>
                                 </div>
                             </div>
