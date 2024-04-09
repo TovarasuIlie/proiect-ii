@@ -128,7 +128,7 @@ export class ProductsDetailsPageComponent implements OnInit {
         const categoryId = parseInt(this.editForm.get('category')?.value, 10);
         const selectedCategory: CategoryInterface = this.categories.find(c => c.id === categoryId) || { 
           id: 0, 
-          name: 'Categoria nu exista'
+          name: 'Categoria nu exista',
         };
         const editProduct: ProductsInterface = {
           id: this.id,

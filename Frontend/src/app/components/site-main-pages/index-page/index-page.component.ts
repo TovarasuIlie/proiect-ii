@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { Title } from '@angular/platform-browser';
+import { CategoriesService } from '../../dashboard/services/categories.service';
+import { CategoryInterface } from '../../dashboard/models/category-interface';
 
 @Component({
   selector: 'app-index-page',
@@ -7,7 +9,20 @@ import { Title } from '@angular/platform-browser';
   styleUrl: './index-page.component.css'
 })
 export class IndexPageComponent {
-  constructor(private titleService: Title) {
+  categoryList!: CategoryInterface[];
+  constructor(private titleService: Title, private categoryService: CategoriesService) {
     this.titleService.setTitle("La Vericu' SRL");
+  }
+
+  ngOnInit(): void {
+    this.initializeCategories();
+  }
+
+  initializeCategories() {
+    this.categoryService.getCategories().subscribe({
+      next: (value) => {
+        this.categoryList = value;
+      },
+    })
   }
 }

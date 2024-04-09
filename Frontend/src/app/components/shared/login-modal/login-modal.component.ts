@@ -44,8 +44,13 @@ export class LoginModalComponent implements OnInit {
         },
         error: (response) => {
           console.log(response);
-          this.errorMessages.pop();
-          this.errorMessages.push(response.error);
+          if(response.error instanceof String || typeof response.error === "string") {
+            this.errorMessages.pop();
+            this.errorMessages.push(response.error);
+          } else {
+            this.errorMessages.pop();
+            this.errorMessages.push("Ne pare rau, momenat aplicatia nu functioneaza :(. Te rugam sa reincerci mai tarziu!");
+          }
         } 
       });
     } else {

@@ -33,7 +33,10 @@
             "assets": [
               "src/favicon.ico",
               "src/assets",
-              "src/web.config"
+              "src/web.config",
+              {
+                "glob": "**/*", "input": "../Backend/category-icons/", "output": "/category-icons/"
+              }
             ],
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
@@ -98,7 +101,11 @@
             "tsConfig": "tsconfig.spec.json",
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              "src/assets/category-icons",
+              {
+                "glob": "**/*", "input": "../../Backend/category-icons/", "output": "/category-icons/"
+              }
             ],
             "styles": [
               "src/styles.css"

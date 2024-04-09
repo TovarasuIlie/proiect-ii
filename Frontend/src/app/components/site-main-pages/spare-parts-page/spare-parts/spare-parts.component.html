@@ -1,0 +1,18 @@
+<div class="container mt-5">
+    <div class="container-fluid mb-5" id="parts-catalog">
+        <h4 class="mb-3 text-center">CATALOG PIESE AUTO DE LA AUTODOC</h4>
+        <div class="row row-cols-3 row-cols-md-6 g-2 mb-3">
+            <div *ngFor="let category of categoryList" class="col mb-3">
+                <a href="/piese-de-schimb/{{category.name.replaceAll(' / ', '-').replaceAll(' ', '-').toLowerCase()}}" class="text-decoration-none">
+                    <div class="card p-4">
+                        <img [attr.src]="getLogo(category.imageFilename || '')" class="card-img-top" alt="...">
+                        <div class="card-body p-0">
+                            <hr>
+                            <p class="card-text fw-semibold text-center">{{ category.name }}</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -94,9 +94,13 @@
                             <form [formGroup]="categoryForm" (ngSubmit)="addCategory()">
                                 <div class="modal-body">
                                     <div class="form-floating mb-3">
-                                        <input formControlName="name" type="text" class="form-control" id="category-name" placeholder="name@example.com">
+                                        <input formControlName="name" type="text" class="form-control" id="category-name" placeholder="Nume Categorie" [class.is-invalid]="(formSubmited || categoryForm.get('name')?.touched) && categoryForm.get('name')?.errors">
                                         <label for="category-name">Nume Categorie</label>
                                     </div>
+                                    <div class="mb-3">
+                                        <label for="formFile" class="form-label">Imagina Categorie</label>
+                                        <input formControlName="imageFilename" (change)="onChange($event)" class="form-control" type="file" id="formFile" [class.is-invalid]="(formSubmited || categoryForm.get('imageFilename')?.touched) && categoryForm.get('imageFilename')?.errors">
+                                      </div>
                                     <div *ngIf="errorMessages.length > 0" class="alert alert-danger">
                                         <ul>
                                             <li *ngFor="let error of errorMessages">

@@ -11,7 +11,11 @@ export class CategoriesService {
   constructor(private http: HttpClient) { }
 
   addCategory(category: CategoryInterface) {
-    return this.http.post(environment.apiUrl + "/api/Category/add-category", category);
+    let categoryForm = new FormData();
+    categoryForm.append("name", category.name);
+    categoryForm.append("image", category.image || "");
+    categoryForm.append("imageFilename", category.imageFilename || "");
+    return this.http.post(environment.apiUrl + "/api/Category/add-category", categoryForm);
   }
 
   getCategories() {

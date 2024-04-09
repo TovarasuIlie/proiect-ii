@@ -82,7 +82,7 @@ export class AddProductsPageComponent implements OnInit {
         const categoryId = parseInt(this.addProductForm.get('category')?.value, 10);
         const selectedCategory: CategoryInterface = this.categories.find(c => c.id === categoryId) || { 
           id: 0, 
-          name: 'Categoria nu exista'
+          name: 'Categoria nu exista',
         };
         const addProduct: ProductAddInterface = {
           title: this.addProductForm.get('title')?.value,

@@ -11,6 +11,7 @@ namespace Backend.Controllers
     public class CategoryController : ControllerBase
     {
         private readonly ApiDbContext _context;
+        private string imageUploadForFrontend = "../Frontend/src/assets/";
         public CategoryController(ApiDbContext context)
         {
             _context = context;
@@ -28,12 +29,12 @@ namespace Backend.Controllers
             }
             if (image != null)
             {
-                string uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(),"uploads");
+                string uploadsFolder = Path.Combine(imageUploadForFrontend, "category-icons");
                 if (!Directory.Exists(uploadsFolder))
                 {
                     Directory.CreateDirectory(uploadsFolder);
                 }
-                string fileName = category.Name.Replace(" ", "-") + ".png";
+                string fileName = category.Name.ToLower().Replace("/ ", "").Replace(",", "").Replace(" ", "-") + ".png";
                 string filePath = Path.Combine(uploadsFolder, fileName);
 
                 using (var fileStream = new FileStream(filePath, FileMode.Create))
@@ -86,7 +87,7 @@ namespace Backend.Controllers
             if (image != null)
             {
                 
-                string uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "uploads");
+                string uploadsFolder = Path.Combine(imageUploadForFrontend, "category-icons");
 
               
                 if (!string.IsNullOrEmpty(categoryToUpdate.ImageFilename))
@@ -99,7 +100,7 @@ namespace Backend.Controllers
                 }
 
                 
-                string newFilename = category.Name.Replace(" ", "-") + ".png";
+                string newFilename = category.Name.ToLower().Replace("/ ", "").Replace(",", "").Replace(" ", "-") + ".png";
                 string filePath = Path.Combine(uploadsFolder, newFilename);
                 using (var fileStream = new FileStream(filePath, FileMode.Create))
                 {
@@ -136,6 +137,13 @@ namespace Backend.Controllers
             if (category == null)
             {
                 return NotFound();
+            }
+
+            // Delete category image
+            string uploadsFolder = Path.Combine(imageUploadForFrontend, "category-icons");
+            if (System.IO.File.Exists(Path.Combine(uploadsFolder, category.ImageFilename)))
+            {
+                System.IO.File.Delete(Path.Combine(uploadsFolder, category.ImageFilename));
             }
 
             _context.Categories.Remove(category);

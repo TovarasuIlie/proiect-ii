@@ -15,10 +15,12 @@ import { ToastService } from '../../../shared/services/toast.service';
 export class AllCategoriesComponent implements OnInit {
 
   categories: CategoryInterface[] = [];
+  categoryImage!: File;
   categoryForm: FormGroup = new FormGroup({});
   errorMessages: string[] = [];
   @ViewChild('closeModal') closeModal: any;
   categoryID: number = 0;
+  formSubmited!: boolean;
 
   constructor(private titleService: Title, private _renderer2: Renderer2, @Inject(DOCUMENT) private _document: Document, public userService: UserService, private categoryService: CategoriesService, 
               private formBuilder: FormBuilder, private toastService: ToastService) {
@@ -46,12 +48,22 @@ export class AllCategoriesComponent implements OnInit {
 
   initializeForm() {
     this.categoryForm = this.formBuilder.group({
-      name: ['', [Validators.required]]
+      name: ['', [Validators.required]],
+      imageFilename: ['', [Validators.required]],
+      image: []
     })
   }
 
+  onChange($event: any) {
+    this.categoryForm.patchValue({
+      image: $event.target.files[0]
+    });
+  }
+
   addCategory() {
+    this.formSubmited = true;
     if(this.categoryForm.valid) {
+      console.log(this.categoryForm.value);
       this.categoryService.addCategory(this.categoryForm.value).subscribe({
         next: (response) => {
           console.log(response);
@@ -62,10 +74,14 @@ export class AllCategoriesComponent implements OnInit {
           this.categoryForm.clearValidators()
         },
         error: (response) => {
+          console.log(response);
           this.errorMessages.pop();
-          this.errorMessages.push(response.error.errors);
+          this.errorMessages.push(response.error);
         }
       })
+    } else {
+      this.errorMessages.pop();
+      this.errorMessages.push("Ambele campuri trebuie obligatoriu completate!");
     }
   }
 
@@ -86,7 +102,7 @@ export class AllCategoriesComponent implements OnInit {
       console.log(this.categoryForm.value);
       const editCategory: CategoryInterface = {
         id: this.categoryID,
-        name: this.categoryForm.get('name')?.value
+        name: this.categoryForm.get('name')?.value,
       }
       this.categoryService.updateCategory(editCategory).subscribe({
         next: (response) => {
@@ -102,6 +118,8 @@ export class AllCategoriesComponent implements OnInit {
           this.errorMessages.push(response.error.errors);
         }
       })
+    } else {
+      
     }
   }
 

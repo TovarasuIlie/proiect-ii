@@ -14,7 +14,7 @@ export class TiresCategoryListComponent implements OnInit {
   tires: ProductsInterface[] = [];
   currentCategory: CategoryInterface = {
     id: 0,
-    name: ''
+    name: '',
   }
 
   constructor(private title: Title, private activatedRoute: ActivatedRoute, private router: Router, private shareData: ShareDataService) {
