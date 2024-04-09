@@ -18,8 +18,32 @@ namespace Backend.Controllers
 
         [HttpPost("add-category")]
         [Authorize(Roles = "Admin")]
-        public async Task<ActionResult<Category>> AddCategory(Category category)
+        public async Task<ActionResult<Category>> AddCategory([FromForm] Category category, IFormFile image)
         {
+            var existingCategory = await _context.Categories.FirstOrDefaultAsync(c => c.Name == category.Name);
+
+            if (existingCategory != null)
+            {
+                return Conflict("Exista o categorie cu acest nume");
+            }
+            if (image != null)
+            {
+                string uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(),"uploads");
+                if (!Directory.Exists(uploadsFolder))
+                {
+                    Directory.CreateDirectory(uploadsFolder);
+                }
+                string fileName = category.Name.Replace(" ", "-") + ".png";
+                string filePath = Path.Combine(uploadsFolder, fileName);
+
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await image.CopyToAsync(fileStream);
+                }
+
+                category.ImageFilename = fileName;
+            }
+
             _context.Categories.Add(category);
             await _context.SaveChangesAsync();
 
@@ -46,7 +70,7 @@ namespace Backend.Controllers
         }
         [HttpPut("update-category")]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> UpdateCategory(Category category)
+        public async Task<IActionResult> UpdateCategory([FromForm] Category category, IFormFile image)
         {
             var categoryToUpdate = await _context.Categories.FindAsync(category.Id);
 
@@ -58,8 +82,32 @@ namespace Backend.Controllers
             _context.Entry(categoryToUpdate).State = EntityState.Detached;
 
 
-            categoryToUpdate.Name = category.Name; 
+            categoryToUpdate.Name = category.Name;
+            if (image != null)
+            {
+                
+                string uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "uploads");
 
+              
+                if (!string.IsNullOrEmpty(categoryToUpdate.ImageFilename))
+                {
+                    string oldFilePath = Path.Combine(uploadsFolder, categoryToUpdate.ImageFilename);
+                    if (System.IO.File.Exists(oldFilePath))
+                    {
+                        System.IO.File.Delete(oldFilePath);
+                    }
+                }
+
+                
+                string newFilename = category.Name.Replace(" ", "-") + ".png";
+                string filePath = Path.Combine(uploadsFolder, newFilename);
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await image.CopyToAsync(fileStream);
+                }
+
+                categoryToUpdate.ImageFilename = newFilename;
+            }
             _context.Entry(categoryToUpdate).State = EntityState.Modified;
 
             try

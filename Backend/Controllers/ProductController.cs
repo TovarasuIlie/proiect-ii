@@ -19,7 +19,7 @@ namespace Backend.Controllers
         public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
         {
             return await _context.Products
-                         .Include(p => p.Category) // Eagerly load category
+                         .Include(p => p.Category) 
                          .ToListAsync();
         }
 
