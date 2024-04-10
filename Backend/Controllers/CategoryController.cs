@@ -11,7 +11,7 @@ namespace Backend.Controllers
     public class CategoryController : ControllerBase
     {
         private readonly ApiDbContext _context;
-        private string imageUploadForFrontend = "../Frontend/src/assets/";
+        private string imageUploadForFrontend = "SiteUploads";
         public CategoryController(ApiDbContext context)
         {
             _context = context;

@@ -5,7 +5,7 @@
             <div *ngFor="let category of categoryList" class="col mb-3">
                 <a href="/piese-de-schimb/{{category.name.replaceAll(' / ', '-').replaceAll(' ', '-').toLowerCase()}}" class="text-decoration-none">
                     <div class="card p-4">
-                        <img [attr.src]="getLogo(category.imageFilename || '')" class="card-img-top" alt="...">
+                        <img [attr.src]="getImage(category.imageFilename || '')" class="card-img-top" alt="...">
                         <div class="card-body p-0">
                             <hr>
                             <p class="card-text fw-semibold text-center">{{ category.name }}</p>

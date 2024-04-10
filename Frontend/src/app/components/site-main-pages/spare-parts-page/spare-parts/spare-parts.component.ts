@@ -24,8 +24,8 @@ export class SparePartsComponent implements OnInit {
     })
   }
 
-  getLogo(logoName: string) {
-    return '/assets/category-icons/' + logoName;
+  getImage(imageName: string) {
+    return 'http://localhost:5020/SiteUploads/category-icons/' + imageName;
   }
 
 }

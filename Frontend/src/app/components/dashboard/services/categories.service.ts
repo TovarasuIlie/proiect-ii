@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../../environments/environment.development';
 import { CategoryInterface } from '../models/category-interface';
@@ -15,7 +15,8 @@ export class CategoriesService {
     categoryForm.append("name", category.name);
     categoryForm.append("image", category.image || "");
     categoryForm.append("imageFilename", category.imageFilename || "");
-    return this.http.post(environment.apiUrl + "/api/Category/add-category", categoryForm);
+    const headers = new HttpHeaders().append("Content-Disposition", 'multipart/form-data')
+    return this.http.post(environment.apiUrl + "/api/Category/add-category", categoryForm, { headers });
   }
 
   getCategories() {
