@@ -122,11 +122,11 @@ namespace Backend.Controllers
             try
             {
                 var products = _context.Products
-                                       .Where(p => p.Category.Name == categoryName);
+                                       .Where(p => p.Category.CategoryNameSearch == categoryName);
 
                 if (!products.Any())
                 {
-                    return NotFound("Categoria nu a fost gasita");
+                    return NotFound("Nu au fost gasite produse din categoria aleasa!");
                 }
 
                 return Ok(products);

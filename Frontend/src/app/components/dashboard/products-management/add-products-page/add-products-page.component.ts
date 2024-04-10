@@ -83,6 +83,8 @@ export class AddProductsPageComponent implements OnInit {
         const selectedCategory: CategoryInterface = this.categories.find(c => c.id === categoryId) || { 
           id: 0, 
           name: 'Categoria nu exista',
+          imageFilename: 'categoria-nu-exista.png',
+          categoryNameSearch: 'categoria-nu-exista'
         };
         const addProduct: ProductAddInterface = {
           title: this.addProductForm.get('title')?.value,

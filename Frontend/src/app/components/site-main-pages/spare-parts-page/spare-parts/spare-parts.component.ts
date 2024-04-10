@@ -28,4 +28,7 @@ export class SparePartsComponent implements OnInit {
     return 'http://localhost:5020/SiteUploads/category-icons/' + imageName;
   }
 
+  getLink(categoryName: string) {
+    return categoryName.includes('anvelope') ? '/anvelope' : '/piese-de-schimb/' + categoryName
+  }
 }

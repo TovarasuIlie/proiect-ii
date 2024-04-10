@@ -34,7 +34,8 @@ namespace Backend.Controllers
                 {
                     Directory.CreateDirectory(uploadsFolder);
                 }
-                string fileName = category.Name.ToLower().Replace("/ ", "").Replace(",", "").Replace(" ", "-") + ".png";
+                string categoryName = category.Name.ToLower().Replace("/ ", "").Replace(",", "").Replace(" ", "-");
+                string fileName = categoryName + ".png";
                 string filePath = Path.Combine(uploadsFolder, fileName);
 
                 using (var fileStream = new FileStream(filePath, FileMode.Create))
@@ -43,6 +44,7 @@ namespace Backend.Controllers
                 }
 
                 category.ImageFilename = fileName;
+                category.CategoryNameSearch = categoryName;
             }
 
             _context.Categories.Add(category);
@@ -99,8 +101,8 @@ namespace Backend.Controllers
                     }
                 }
 
-                
-                string newFilename = category.Name.ToLower().Replace("/ ", "").Replace(",", "").Replace(" ", "-") + ".png";
+                string newCategoryName = category.Name.ToLower().Replace("/ ", "").Replace(",", "").Replace(" ", "-");
+                string newFilename = newCategoryName + ".png";
                 string filePath = Path.Combine(uploadsFolder, newFilename);
                 using (var fileStream = new FileStream(filePath, FileMode.Create))
                 {
@@ -108,6 +110,7 @@ namespace Backend.Controllers
                 }
 
                 categoryToUpdate.ImageFilename = newFilename;
+                category.CategoryNameSearch = newCategoryName;
             }
             _context.Entry(categoryToUpdate).State = EntityState.Modified;
 

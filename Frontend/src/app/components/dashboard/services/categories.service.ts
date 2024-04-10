@@ -15,6 +15,7 @@ export class CategoriesService {
     categoryForm.append("name", category.name);
     categoryForm.append("image", category.image || "");
     categoryForm.append("imageFilename", category.imageFilename || "");
+    categoryForm.append("categoryNameSearch", category.name);
     const headers = new HttpHeaders().append("Content-Disposition", 'multipart/form-data')
     return this.http.post(environment.apiUrl + "/api/Category/add-category", categoryForm, { headers });
   }

@@ -103,6 +103,8 @@ export class AllCategoriesComponent implements OnInit {
       const editCategory: CategoryInterface = {
         id: this.categoryID,
         name: this.categoryForm.get('name')?.value,
+        imageFilename: this.categoryForm.get('name')?.value.replaceAll("/ ", '').replaceAll(",", '').replaceAll(" ", "-") + '.png',
+        categoryNameSearch: this.categoryForm.get('name')?.value.replaceAll("/ ", '').replaceAll(",", '').replaceAll(" ", "-")
       }
       this.categoryService.updateCategory(editCategory).subscribe({
         next: (response) => {

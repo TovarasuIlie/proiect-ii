@@ -12,7 +12,7 @@ public getData(): Observable<any[]> {
   return this.data$.asObservable();
  } 
   
-public setData(data: any): void { 
+public setData(data: any[]): void { 
   this.data$.next(data);
 }
 

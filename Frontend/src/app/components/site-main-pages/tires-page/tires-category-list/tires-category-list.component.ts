@@ -12,10 +12,7 @@ import { ShareDataService } from '../../../../services/share-data.service';
 })
 export class TiresCategoryListComponent implements OnInit {
   tires: ProductsInterface[] = [];
-  currentCategory: CategoryInterface = {
-    id: 0,
-    name: '',
-  }
+  currentCategory!: CategoryInterface
 
   constructor(private title: Title, private activatedRoute: ActivatedRoute, private router: Router, private shareData: ShareDataService) {
     this.activatedRoute.paramMap.subscribe({

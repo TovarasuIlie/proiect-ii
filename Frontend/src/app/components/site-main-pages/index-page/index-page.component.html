@@ -74,139 +74,18 @@
   <div class="container-fluid mb-5" id="parts-catalog">
     <h4 class="mb-3 text-center">CATALOG PIESE AUTO DE LA AUTODOC</h4>
     <div class="row row-cols-3 row-cols-md-6 g-2 mb-3">
-      <div class="col mb-3">
-        <a href="/anvelope" class="text-decoration-none">
-          <div class="card p-4">
-            <img src="..\..\..\assets\spare-parts-page-imgs\parts-icon\anvelope.png" class="card-img-top" alt="...">
-            <div class="card-body p-0">
-              <hr>
-              <p class="card-text fw-semibold text-center">Anvelope</p>
-            </div>
-          </div>
+      <div *ngFor="let category of categoryList" class="col mb-3">
+          <a [attr.href]="getLink(category.categoryNameSearch)" class="text-decoration-none">
+              <div class="card p-4">
+                  <img [attr.src]="getImage(category.imageFilename)" class="card-img-top" alt="...">
+                  <div class="card-body p-0">
+                      <hr>
+                      <p class="card-text fw-semibold text-center">{{ category.name }}</p>
+                  </div>
+              </div>
           </a>
       </div>
-      <div class="col mb-3">
-        <a href="/piese-de-schimb/sistem-de-franare" class="text-decoration-none">
-          <div class="card p-4">
-            <img src="..\..\..\assets\spare-parts-page-imgs\parts-icon\sistem-de-franare.png" class="card-img-top" alt="...">
-            <div class="card-body p-0">
-              <hr>
-              <p class="card-text fw-semibold text-center">Sistem de franare</p>
-            </div>
-          </div>
-        </a>
-      </div>
-      <div class="col mb-3">
-        <a href="/piese-de-schimb/amortizoare" class="text-decoration-none">
-          <div class="card p-4">
-            <img src="..\..\..\assets\spare-parts-page-imgs\parts-icon\amortizoare.png" class="card-img-top" alt="...">
-            <div class="card-body p-0">
-              <hr>
-              <p class="card-text fw-semibold text-center">Amortizoare</p>
-            </div>
-          </div>
-        </a>
-      </div>
-      <div class="col mb-3">
-        <a href="/piese-de-schimb/filtre" class="text-decoration-none">
-          <div class="card p-4">
-            <img src="..\..\..\assets\spare-parts-page-imgs\parts-icon\filtre.png" class="card-img-top" alt="...">
-            <div class="card-body p-0">
-              <hr>
-              <p class="card-text fw-semibold text-center">Filtre</p>
-            </div>
-          </div>
-        </a>
-      </div>
-      <div class="col mb-3">
-        <a href="/piese-de-schimb/uleiuri-si-lichide" class="text-decoration-none">
-          <div class="card p-4">
-            <img src="..\..\..\assets\spare-parts-page-imgs\parts-icon\uleiuri-si-lichide.png" class="card-img-top" alt="...">
-            <div class="card-body p-0">
-              <hr>
-              <p class="card-text fw-semibold text-center">Uleiuri si Lichide</p>
-            </div>
-          </div>
-        </a>
-      </div>
-      <div class="col mb-3">
-        <a href="/piese-de-schimb/Suspensie-tije" class="text-decoration-none">
-          <div class="card p-4">
-            <img src="..\..\..\assets\spare-parts-page-imgs\parts-icon\suspensie-tije.png" class="card-img-top" alt="...">
-            <div class="card-body p-0">
-              <hr>
-              <p class="card-text fw-semibold text-center">Suspensie, tije</p>
-            </div>
-          </div>
-        </a>
-      </div>
-      <div class="col mb-3">
-        <a href="/piese-de-schimb/caroserie" class="text-decoration-none">
-          <div class="card p-4">
-            <img src="..\..\..\assets\spare-parts-page-imgs\parts-icon\caroserie.png" class="card-img-top" alt="...">
-            <div class="card-body p-0">
-              <hr>
-              <p class="card-text fw-semibold text-center">Caroserie</p>
-            </div>
-          </div>
-        </a>
-      </div>
-      <div class="col mb-3">
-        <a href="/piese-de-schimb/motor" class="text-decoration-none">
-          <div class="card p-4">
-            <img src="..\..\..\assets\spare-parts-page-imgs\parts-icon\motor.png" class="card-img-top" alt="...">
-            <div class="card-body p-0">
-              <hr>
-              <p class="card-text fw-semibold text-center">Motor</p>
-            </div>
-          </div>
-        </a>
-      </div>
-      <div class="col mb-3">
-        <a href="/piese-de-schimb/curele-lanturi-role" class="text-decoration-none">
-          <div class="card p-4">
-            <img src="..\..\..\assets\spare-parts-page-imgs\parts-icon\curele-lanturi-role.png" class="card-img-top" alt="...">
-            <div class="card-body p-0">
-              <hr>
-              <p class="card-text fw-semibold text-center">Curele, lanturi, role</p>
-            </div>
-          </div>
-        </a>
-      </div>
-      <div class="col mb-3">
-        <a href="/piese-de-schimb/ambreaj-piese" class="text-decoration-none">
-          <div class="card p-4">
-            <img src="..\..\..\assets\spare-parts-page-imgs\parts-icon\ambreaj-piese.png" class="card-img-top" alt="...">
-            <div class="card-body p-0">
-              <hr>
-              <p class="card-text fw-semibold text-center">Ambreaj / piese</p>
-            </div>
-          </div>
-        </a>
-      </div>
-      <div class="col mb-3">
-        <a href="/piese-de-schimb/sistem-de-esapament" class="text-decoration-none">
-          <div class="card p-4">
-            <img src="..\..\..\assets\spare-parts-page-imgs\parts-icon\sistem-de-esapament.png" class="card-img-top" alt="...">
-            <div class="card-body p-0">
-              <hr>
-              <p class="card-text fw-semibold text-center">Sistem de esapament</p>
-            </div>
-          </div>
-        </a>
-      </div>
-      <div class="col mb-3">
-        <a href="/piese-de-schimb/electrice" class="text-decoration-none">
-          <div class="card p-4">
-            <img src="..\..\..\assets\spare-parts-page-imgs\parts-icon\electrice.png" class="card-img-top" alt="...">
-            <div class="card-body p-0">
-              <hr>
-              <p class="card-text fw-semibold text-center">Electrice</p>
-            </div>
-          </div>
-        </a>
-      </div>
-    </div>
+  </div>
     <div class="text-center">
       <a class="btn btn btn-outline-secondary fw-semibold" [routerLink]="['piese-de-schimb']">Mai multe piese auto <i class="fa-solid fa-arrow-right"></i></a>
     </div>
