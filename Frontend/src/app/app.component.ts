@@ -15,7 +15,7 @@ export class AppComponent implements OnInit {
   constructor(private userService: UserService, private router: Router) {
     this.router.events.subscribe(ev => {
       if (ev instanceof NavigationStart) {
-        if(ev.url.includes('/dashboard') || ev.url.includes('/eroarea-404')) {
+        if(ev.url.includes('/dashboard') || ev.url.includes('/eroarea-404') || ev.url.includes('/cosul-meu')) {
           this.showHeaderAndFooter = false;
         } else {
           this.showHeaderAndFooter = true;

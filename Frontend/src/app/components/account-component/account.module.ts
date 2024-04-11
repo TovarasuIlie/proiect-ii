@@ -12,7 +12,7 @@ import { SharedModule } from '../shared/shared.module';
   declarations: [
     OrdersPageComponent,
     ProfilePageComponent,
-    WishlistPageComponent,
+    WishlistPageComponent
   ],
   imports: [
     CommonModule,

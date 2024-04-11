@@ -41,6 +41,10 @@ const routes: Routes = [
     loadChildren: () => import('./components/account-component/account.module').then(module => module.AccountModule)
   },
   {
+    path: 'cosul-meu', 
+    loadChildren: () => import('./components/site-main-pages/shopping-cart-page/shopping-cart.module').then(module => module.ShoppingCartModule)
+  },
+  {
     path: "dashboard",
     loadChildren: () => import('./components/dashboard/admin.module').then(module => module.AdminModule)
   },

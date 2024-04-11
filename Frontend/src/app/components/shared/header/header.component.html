@@ -64,9 +64,20 @@
                             <i class="fa-solid fa-cart-shopping"></i> Cosul meu
                         </a>
                         <ul class="dropdown-menu">
-                            <li>
-                                <a class="dropdown-item" href="#">Autentificate</a>
-                            </li>
+                            <div *ngIf="(userService.user$ | async) === null">
+                                <li>
+                                    <a class="dropdown-item">Cosul este gol!</a>
+                                </li>
+                            </div>
+                            <div *ngIf="(userService.user$ | async) !== null">
+                                <li>
+                                    <a class="dropdown-item">Momentat cosul este gol</a>
+                                </li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li>
+                                    <a class="dropdown-item" href="/cosul-meu">Cosul Meu</a>
+                                </li>
+                            </div>
                         </ul>
                     </li>
                 </ul>

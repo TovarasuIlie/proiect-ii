@@ -14,7 +14,6 @@ import { NotFoundPageComponent } from './components/site-main-pages/not-found-pa
 import { MotorOilPageComponent } from './components/site-main-pages/motor-oil-page/motor-oil-page.component';
 import { JwtInterceptor } from './interceptions/jwt.interceptor';
 import { AccesoriesPageComponent } from './components/site-main-pages/accesories-page/accesories-page.component';
-import { SparePartsListComponent } from './components/site-main-pages/spare-parts-page/spare-parts-list/spare-parts-list.component';
 
 @NgModule({
   declarations: [
