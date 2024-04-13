@@ -10,6 +10,9 @@ import { ToastComponent } from './toast/toast.component';
 import { NgbToastModule } from '@ng-bootstrap/ng-bootstrap';
 import { UserHasRoleDirective } from '../directives/user-has-role.directive';
 import { OffcanvasCategoriesComponent } from './offcanvas-categories/offcanvas-categories.component';
+import { ShoppingCartHeaderComponent } from './shopping-cart-header/header.component';
+import { ShoppingCartFooterComponent } from './shopping-cart-footer/footer.component';
+import { PaginationComponent } from './pagination/pagination.component';
 
 
 @NgModule({
@@ -20,7 +23,10 @@ import { OffcanvasCategoriesComponent } from './offcanvas-categories/offcanvas-c
     RegisterModalComponent,
     ToastComponent,
     UserHasRoleDirective,
-    OffcanvasCategoriesComponent
+    OffcanvasCategoriesComponent,
+    ShoppingCartHeaderComponent,
+    ShoppingCartFooterComponent,
+    PaginationComponent
   ],
   imports: [
     CommonModule,
@@ -31,7 +37,10 @@ import { OffcanvasCategoriesComponent } from './offcanvas-categories/offcanvas-c
   exports: [
     HeaderComponent,
     FooterComponent,
-    ToastComponent
+    ToastComponent,
+    ShoppingCartHeaderComponent,
+    ShoppingCartFooterComponent,
+    PaginationComponent
   ]
 })
 export class SharedModule { }

@@ -1,0 +1,12 @@
+.card {
+    border-color: white;
+}
+
+.card:hover {
+    transition: 0.5s ease;
+    border-color: red;
+}
+
+input[type=radio]:checked .card {
+    border-color: red;
+}

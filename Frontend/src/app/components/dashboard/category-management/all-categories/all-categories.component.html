@@ -157,7 +157,14 @@
                                     data-bs-target="#add-category-modal">Adauga Categorie</button>
                             </div>
                             <div class="col">
-
+                                <form [formGroup]="resultPerPage" class="form-floating">
+                                    <select formControlName="itemsPerPage" class="form-select" id="floatingSelect" aria-label="Floating label select example" (change)="test()">
+                                        <option value="1" [selected]="itemsPerPage == 1">10 rezultate</option>
+                                        <option value="2" [selected]="itemsPerPage == 2">15 rezultate</option>
+                                        <option value="3" [selected]="itemsPerPage == 3">20 rezultate</option>
+                                    </select>
+                                    <label for="floatingSelect">Rezultate pe pagina:</label>
+                                </form>
                             </div>
                         </div>
                         <table class="table text-center table-striped">
@@ -179,6 +186,7 @@
                                 </tr>
                             </tbody>
                         </table>
+                        <app-pagination [totalPages]="totalPages" [itemsPerPage]="itemsPerPage" [totalItems]="totalItems" [currentPage]="currentPage" (onClick)="changePage($event)" class="float-end"></app-pagination>
                     </div>
                 </div>
                 <app-toast></app-toast>

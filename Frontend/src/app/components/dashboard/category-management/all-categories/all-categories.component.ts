@@ -17,10 +17,17 @@ export class AllCategoriesComponent implements OnInit {
   categories: CategoryInterface[] = [];
   categoryImage!: File;
   categoryForm: FormGroup = new FormGroup({});
+  resultPerPage: FormGroup = new FormGroup({});
   errorMessages: string[] = [];
   @ViewChild('closeModal') closeModal: any;
   categoryID: number = 0;
   formSubmited!: boolean;
+  @ViewChild('paginate') paginate: any;
+
+  totalItems!: number;
+  currentPage!: number;
+  itemsPerPage!: number;
+  totalPages!: number;
 
   constructor(private titleService: Title, private _renderer2: Renderer2, @Inject(DOCUMENT) private _document: Document, public userService: UserService, private categoryService: CategoriesService, 
               private formBuilder: FormBuilder, private toastService: ToastService) {
@@ -30,6 +37,7 @@ export class AllCategoriesComponent implements OnInit {
   ngOnInit(): void {
     this.initializeGategory();
     this.initializeForm();
+    this.initializePagination();
   }
 
   ngAfterViewInit() {
@@ -39,11 +47,31 @@ export class AllCategoriesComponent implements OnInit {
   }
 
   initializeGategory() {
-    this.categoryService.getCategories().subscribe({
+    this.categoryService.getCategoriesPagination(parseInt(sessionStorage.getItem('currentPage') || '1'), parseInt(sessionStorage.getItem('itemsPerPage') || '10')).subscribe({
       next: (categories) => {
-        this.categories = categories;      
-      },
-    })
+        this.categories = categories;
+      }
+    });
+  }
+
+  initializePagination() {
+    if(sessionStorage.getItem("totalItems") && sessionStorage.getItem("itemsPerPage") && sessionStorage.getItem("currentPage")) {
+      this.totalItems = parseInt(sessionStorage.getItem('totalItems') || '10');
+      this.itemsPerPage = parseInt(sessionStorage.getItem('itemsPerPage') || '10');
+      this.currentPage = parseInt(sessionStorage.getItem('currentPage') || '1');
+    } else {
+      this.categoryService.getCategoryCount().subscribe({
+        next: (value) => {
+          sessionStorage.setItem("totalItems", value.toString());
+          this.totalItems = value;
+        }
+      });
+      sessionStorage.setItem('itemsPerPage', '10');
+      sessionStorage.setItem('currentPage', '1');
+      this.itemsPerPage = 2;
+      this.currentPage = 1;
+    }
+    this.totalPages = Math.ceil(this.totalItems / this.itemsPerPage);
   }
 
   initializeForm() {
@@ -51,6 +79,9 @@ export class AllCategoriesComponent implements OnInit {
       name: ['', [Validators.required]],
       imageFilename: ['', [Validators.required]],
       image: []
+    });
+    this.resultPerPage = this.formBuilder.group({
+      itemsPerPage: [this.itemsPerPage]
     })
   }
 
@@ -127,5 +158,20 @@ export class AllCategoriesComponent implements OnInit {
 
   setCategoryID(id: number) {
     this.categoryID = id;
+    this.initializeGategory();
+  }
+
+  changePage(page: number) {
+    sessionStorage.setItem('currentPage', page.toString());
+    this.initializeGategory();
+  }
+
+  test() {
+    this.itemsPerPage = this.resultPerPage.get('itemsPerPage')?.value;
+    sessionStorage.setItem('itemsPerPage', this.itemsPerPage.toString());
+    this.initializeGategory();
+    this.itemsPerPage = parseInt(sessionStorage.getItem('itemsPerPage') || '10');
+    this.totalPages = Math.ceil(this.totalItems / this.itemsPerPage);
+    console.log(this.totalPages);
   }
 }

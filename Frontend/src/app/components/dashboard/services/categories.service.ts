@@ -24,6 +24,14 @@ export class CategoriesService {
     return this.http.get<CategoryInterface[]>(environment.apiUrl + "/api/Category/get-categories");
   }
 
+  getCategoriesPagination(currentPage: number, pageSize: number) {
+    return this.http.get<CategoryInterface[]>(environment.apiUrl + "/api/Category/get-categories-pagination?page=" + currentPage + "&pageSize=" + pageSize);
+  }
+    
+  getCategoryCount() {
+    return this.http.get<number>(environment.apiUrl + "/api/Category/get-categories-count");
+  }
+
   getCategory(id: number) {
     return this.http.get<CategoryInterface>(environment.apiUrl + "/api/Category/get-category/" + id);
   }

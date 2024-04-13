@@ -1,13 +1,15 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ShareDataService } from '../../../../services/share-data.service';
 import { ShippingCartInterface } from '../../../../models/shipping-cart.model';
 import { ToastService } from '../../../shared/services/toast.service';
+import { computeStyles } from '@popperjs/core';
 
 @Component({
-  selector: 'app-shopping-cart-index',
-  templateUrl: './shopping-cart-index.component.html',
-  styleUrl: './shopping-cart-index.component.css'
+  selector: 'app-shopping-cart-checkout',
+  templateUrl: './shopping-cart-checkout.component.html',
+  styleUrl: './shopping-cart-checkout.component.css'
 })
-export class ShoppingCartIndexComponent {
+export class ShoppingCartCheckoutComponent implements OnInit {
   shoppingList: ShippingCartInterface[] = [
     {
       id: 1,
@@ -70,9 +72,15 @@ export class ShoppingCartIndexComponent {
   totalBasketPriceWithoutDelivery: number = 0;
   totalBasketPriceWithDelivery: number = 0;
   deliveryPrice: number = 25;
+  currentPage: number = 1;
+  itemsPerPage: number = 1;
 
-  constructor(private toastService: ToastService) {
+  constructor(private shareData: ShareDataService, private toastService: ToastService) {
     this.calculateTotalPrice();
+  }
+
+  ngOnInit(): void {
+    console.log(sessionStorage.getItem('paymentMethod'));
   }
 
   calculateTotalPrice() {
@@ -117,4 +125,15 @@ export class ShoppingCartIndexComponent {
     this.calculateTotalPrice();
   }
 
+  changePage(page: number) {
+    this.currentPage = page;
+  }
+
+  get paginateData() {
+    const start = (this.currentPage - 1) * this.itemsPerPage;
+    const end = start + this.itemsPerPage;
+
+    return this.shoppingList.slice(start, end);
+  }
+  
 }

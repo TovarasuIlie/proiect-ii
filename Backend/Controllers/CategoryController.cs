@@ -52,10 +52,23 @@ namespace Backend.Controllers
 
             return CreatedAtAction("GetCategory", new { id = category.Id }, category);
         }
+
+        [HttpGet("get-categories-pagination")]
+        public async Task<ActionResult<IEnumerable<Category>>> GetCategories(int page = 1, int pageSize = 10)
+        {
+            return await _context.Categories.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
+        }
+
         [HttpGet("get-categories")]
         public async Task<ActionResult<IEnumerable<Category>>> GetCategories()
         {
             return await _context.Categories.ToListAsync();
+        }
+
+        [HttpGet("get-categories-count")]
+        public async Task<int?> GetCategoriesCount()
+        {
+            return await _context.Categories.CountAsync();
         }
 
         [HttpGet("get-category/{id}")]
