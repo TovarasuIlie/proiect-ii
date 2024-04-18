@@ -66,7 +66,7 @@ namespace Backend.Controllers
         }
 
         [HttpGet("get-categories-count")]
-        public async Task<int?> GetCategoriesCount()
+        public async Task<ActionResult<int>> GetCategoriesCount()
         {
             return await _context.Categories.CountAsync();
         }

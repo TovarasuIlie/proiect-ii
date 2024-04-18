@@ -15,6 +15,14 @@ export class ProductsService {
     return this.http.get<ProductsInterface[]>(environment.apiUrl + "/api/Product/all-products");
   }
 
+  getProductsPagination(currentPage: number, itemsPerPage: number) {
+    return this.http.get<ProductsInterface[]>(environment.apiUrl + "/api/Product/all-products-pagination?page=" + currentPage + "&pageSize=" + itemsPerPage);
+  }
+
+  getProductsCount() {
+    return this.http.get<number>(environment.apiUrl + "/api/Product/all-products-count");
+  }
+
   getProduct(id: string) {
     return this.http.get<ProductsInterface>(environment.apiUrl + "/api/Product/get-product-by-id/" + id);
   }
@@ -24,7 +32,7 @@ export class ProductsService {
   }
 
   getProductsByCategoryName(categoryName: string) {
-    return this.http.get<ProductsInterface[]>(environment.apiUrl + '/api/Product/products-by-category-name/' + categoryName);
+    return this.http.get<ProductsInterface[]>(environment.apiUrl + '/api/Product/products-by-category-name/' + categoryName).pipe(delay(3000));
   }
 
   editProduct(product: ProductsInterface) {

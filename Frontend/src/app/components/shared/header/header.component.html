@@ -2,20 +2,17 @@
     <div class="container">
         <div class="row d-flex align-items-center gap-3">
             <div class="col-lg-2 text-center">
-                <!-- <a class="navbar-brand" routerLink="/">
-                    <p class="text-center my-auto">La Vericu SRL</p>
-                </a> -->
                 <a class="navbar-brand" [routerLink]="['/']">
                     <img src="../../assets/icons/index-logo.png" alt="Logo" width="130" height="55" class="d-inline-block align-text-center">
-                    <!-- <b>La Vericu' SRL</b> -->
                 </a>
             </div>
-            <div class="col-lg-6">
-                <div class="input-group input-group-sm">
-                    <input type="text" class="form-control" placeholder="Cauta dupa cod sau denumire piesa"
-                        aria-label="Recipient's username" aria-describedby="button-addon2">
-                    <button class="btn btn-light" type="button" id="button-addon2"><i
-                            class="fa-solid fa-magnifying-glass"></i></button>
+            <div class="col-lg-7">
+                <div class="input-group">
+                    <div class="form-floating">
+                        <input type="text" class="form-control" id="search-input" aria-describedby="button-addon" placeholder="Username">
+                        <label for="search-input">Cauta dupa denumirea piesei...</label>
+                    </div>
+                    <button type="button" class="btn btn-outline-danger" id="button-addon"><i class="fa-solid fa-magnifying-glass"></i></button>
                 </div>
             </div>
             <div class="col-lg">
@@ -58,24 +55,48 @@
                             </div>
                         </ul>
                     </li>
-                    <li class="nav-item dropdown mx-2">
+                    <li class="nav-item dropdown-center mx-2">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                             aria-expanded="false">
                             <i class="fa-solid fa-cart-shopping"></i> Cosul meu
                         </a>
-                        <ul class="dropdown-menu">
+                        <ul class="dropdown-menu" style="min-width: 250px;">
                             <div *ngIf="(userService.user$ | async) === null">
-                                <li>
-                                    <a class="dropdown-item">Cosul este gol!</a>
-                                </li>
+                                <div class="p-2 px-4">
+                                    Cosul este gol!
+                                </div>
                             </div>
                             <div *ngIf="(userService.user$ | async) !== null">
-                                <li>
-                                    <a class="dropdown-item">Momentat cosul este gol</a>
-                                </li>
+                                <div class="p-2 px-4" *ngIf="shoppingList.length === 0">
+                                    Momentat cosul este gol!
+                                </div>
+                                <div class="px-2" *ngIf="shoppingList.length > 0">
+                                    <div class="row mb-2" *ngFor="let product of shoppingList"  style="min-width: 400px;">
+                                        <div class="col-3 pe-0">
+                                            <img src="http://localhost:5020/SiteUploads/category-icons/anvelope.png" class="img-fluid">
+                                        </div>
+                                        <div class="col pe-0">
+                                            <p>{{ product.product.title }}</p>
+                                            <p class="text-muted fw-semibold" style="font-size: small; line-height: 0;">Cantitate: x{{ product.quantity }} buc</p>
+                                        </div>
+                                        <div class="col-3 d-flex flex-column align-items-center justify-content-end ps-0">
+                                            <p class="fw-semibold">{{ product.totalPrice }} lei</p>
+                                            <button class="btn text-muted">Sterge</button>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-8">
+                                            <p class="fs-5">Suma totala a comenzii:</p>
+                                        </div>
+                                        <div class="col">
+                                            <p class="fs-5 float-end">12343,99 lei</p>
+                                        </div>
+                                    </div>
+                                </div>
                                 <li><hr class="dropdown-divider"></li>
-                                <li>
-                                    <a class="dropdown-item" href="/cosul-meu">Cosul Meu</a>
+                                <li class="px-1">
+                                    <a class="btn btn-primary w-100" [routerLink]="['/cosul-meu']"><i class="fa-solid fa-cart-shopping"></i> Spre Cos</a>
                                 </li>
                             </div>
                         </ul>

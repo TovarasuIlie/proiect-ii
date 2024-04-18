@@ -15,6 +15,10 @@ export class AdminService {
     return this.http.get<MemberViewInterface[]>(environment.apiUrl + "/api/Admin/get-members");
   }
 
+  getMembersCount() {
+    
+  }
+
   getMember(id: string) {
     return this.http.get<MemberViewInterface>(environment.apiUrl + "/api/Admin/get-member/" + id);
   }

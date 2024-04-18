@@ -1,0 +1,8 @@
+.list-group-item {
+    cursor: pointer;
+}
+
+.list-group-item-action:hover {
+    background-color: #d8d8d8;
+    transition: .4s ease
+}

@@ -1,4 +1,12 @@
-input {
+input[type='text'] {
+    border-top: 0;
+    border-right: 0;
+    border-left: 0;
+    border-radius: 0;
+    border-bottom: 2px solid black;
+}
+
+input[type='password'] {
     border-top: 0;
     border-right: 0;
     border-left: 0;

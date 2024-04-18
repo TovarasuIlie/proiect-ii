@@ -158,10 +158,11 @@
                             </div>
                             <div class="col">
                                 <form [formGroup]="resultPerPage" class="form-floating">
-                                    <select formControlName="itemsPerPage" class="form-select" id="floatingSelect" aria-label="Floating label select example" (change)="test()">
-                                        <option value="1" [selected]="itemsPerPage == 1">10 rezultate</option>
-                                        <option value="2" [selected]="itemsPerPage == 2">15 rezultate</option>
-                                        <option value="3" [selected]="itemsPerPage == 3">20 rezultate</option>
+                                    <select formControlName="itemsPerPage" class="form-select" id="floatingSelect" aria-label="Floating label select example" (change)="resultPerPageChange()">
+                                        <option value="5" [selected]="paginatorConfig.itemsPerPage == 5">5 rezultate</option>v
+                                        <option value="10" [selected]="paginatorConfig.itemsPerPage == 10">10 rezultate</option>
+                                        <option value="15" [selected]="paginatorConfig.itemsPerPage == 15">15 rezultate</option>
+                                        <option value="20" [selected]="paginatorConfig.itemsPerPage == 20">20 rezultate</option>
                                     </select>
                                     <label for="floatingSelect">Rezultate pe pagina:</label>
                                 </form>
@@ -186,7 +187,7 @@
                                 </tr>
                             </tbody>
                         </table>
-                        <app-pagination [totalPages]="totalPages" [itemsPerPage]="itemsPerPage" [totalItems]="totalItems" [currentPage]="currentPage" (onClick)="changePage($event)" class="float-end"></app-pagination>
+                        <app-pagination [itemsPerPage]="paginatorConfig.itemsPerPage" [totalItems]="paginatorConfig.totalItems" [currentPage]="paginatorConfig.currentPage" (onClick)="changePage($event)" class="float-end"></app-pagination>
                     </div>
                 </div>
                 <app-toast></app-toast>

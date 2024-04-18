@@ -10,7 +10,7 @@ export class PaginationComponent implements OnInit, OnChanges {
   @Input() currentPage: any;
   @Input() itemsPerPage: any;
   @Output() onClick: EventEmitter<number> = new EventEmitter();
-  @Input() totalPages: any = 0;
+  totalPages: number = 0;
   pageNumbers: number[] = [];
 
   constructor() {}
@@ -25,12 +25,9 @@ export class PaginationComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.totalPages = changes['totalPages'].currentValue;
-    if(this.totalItems) {
-      this.totalPages = Math.ceil(this.totalItems / this.itemsPerPage);
+    if(changes['itemsPerPage']) {
+      this.totalPages = Math.ceil(this.totalItems / changes['itemsPerPage'].currentValue);
       this.pageNumbers = Array.from({length: this.totalPages}, (_, i) => i + 1);
-    } else {
-      this.pageNumbers = [1]
     }
   }
 

@@ -15,12 +15,7 @@ export class AppComponent implements OnInit {
   constructor(private userService: UserService, private router: Router) {
     this.router.events.subscribe(ev => {
       if (ev instanceof NavigationStart) {
-        if(ev.url.includes('/dashboard') || ev.url.includes('/eroarea-404') || ev.url.includes('/cosul-meu')) {
-          this.showHeaderAndFooter = false;
-        } else {
-          this.showHeaderAndFooter = true;
-        }
-        if(ev.url.includes('/anvelope/')) {
+        if(ev.url.includes('/anvelope/') || ev.url.includes('/piese-de-schimb/')) {
           this.loading = true;
         }
       }

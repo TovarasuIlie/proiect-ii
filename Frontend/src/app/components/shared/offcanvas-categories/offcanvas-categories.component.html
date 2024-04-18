@@ -1,10 +1,10 @@
 <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvas-categories" aria-labelledby="offcanvasCategories">
     <div class="offcanvas-header bg-dark text-white">
         <h4 class="offcanvas-title" id="offcanvasCategories">Categorii</h4>
-        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        <button type="button" class="btn-close btn-dark" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body p-0">
-        <ul class="list-group list-group-flush">
+        <ul class="list-group list-group-flush text-center">
             <li *ngFor="let category of categories" class="list-group-item list-group-item-action pe-auto fs-5" [routerLink]="['/']"> {{ category.name }}</li>
         </ul>
     </div>

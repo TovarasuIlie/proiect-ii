@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRoute, ActivatedRouteSnapshot, ActivationEnd, Params, Resolve, Router, RouterStateSnapshot } from '@angular/router';
-import { Observable, catchError, of, tap } from 'rxjs';
+import { Observable, catchError, delay, of, tap } from 'rxjs';
 import { ProductsService } from '../components/dashboard/services/products.service';
 import { ProductsInterface } from '../components/dashboard/models/products.model';
  

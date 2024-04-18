@@ -23,6 +23,20 @@ namespace Backend.Controllers
                          .ToListAsync();
         }
 
+        [HttpGet("all-products-count")]
+        public async Task<ActionResult<int>> GetProductsCount()
+        {
+            return await _context.Products
+                         .Include(p => p.Category)
+                         .CountAsync();
+        }
+    
+        [HttpGet("all-products-pagination")]
+        public async Task<ActionResult<IEnumerable<Product>>> GetProductsPagination(int page = 1, int pageSize = 10)
+        {
+            return await _context.Products.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
+        }
+
         [HttpGet("get-product-by-id/{id}")]
         public async Task<ActionResult<Product>> GetProduct(int id)
         {

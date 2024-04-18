@@ -85,6 +85,32 @@
                 <div class="container-fluid px-4">
                     <h1 class="mt-4">Vizualizare Produse</h1>
                     <div class="container">
+                        <form [formGroup]="filterForm" class="row mb-3">
+                            <div class="col">
+                                <div class="form-floating">
+                                    <select formControlName="itemsPerPage" class="form-select" id="floatingSelect" aria-label="Floating label select example" (change)="resultPerPageChange()">
+                                        <option value="5" [selected]="paginatorConfig.itemsPerPage == 5">5 rezultate</option>v
+                                        <option value="10" [selected]="paginatorConfig.itemsPerPage == 10">10 rezultate</option>
+                                        <option value="15" [selected]="paginatorConfig.itemsPerPage == 15">15 rezultate</option>
+                                        <option value="20" [selected]="paginatorConfig.itemsPerPage == 20">20 rezultate</option>
+                                    </select>
+                                    <label for="floatingSelect">Rezultate pe pagina:</label>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-floating">
+                                    <select formControlName="orderListType" class="form-select" id="floatingSelect" aria-label="Floating label select example" (change)="resultPerPageChange()">
+                                        <option value="ASC" [selected]="true">Ascendent</option>v
+                                        <option value="10">Descendent</option>
+                                        <option value="15">Ascendent dupa cantitate</option>
+                                        <option value="20">Descendent dupa cantitate</option>
+                                        <option value="15">Ascendent dupa pret</option>
+                                        <option value="20">Descendent dupa pret</option>
+                                    </select>
+                                    <label for="floatingSelect">Ordonare:</label>
+                                </div>
+                            </div>
+                        </form>
                         <table class="table">
                             <thead class="table-dark">
                                 <tr>
@@ -107,6 +133,7 @@
                                 </tr>
                             </tbody>
                         </table>
+                        <app-pagination class="float-end" [totalItems]="paginatorConfig.totalItems" [itemsPerPage]="paginatorConfig.itemsPerPage" [currentPage]="paginatorConfig.currentPage" (onClick)="changePage($event)"></app-pagination>
                     </div>
                 </div>
                 <app-toast></app-toast>

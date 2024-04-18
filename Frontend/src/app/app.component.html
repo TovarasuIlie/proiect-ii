@@ -1,123 +1,122 @@
-
-<app-header *ngIf="showHeaderAndFooter" />
-    @if(!loading) {
-        @defer () {
-            <router-outlet />
-        }
-    } @else {
-        <div *ngIf="loading && showHeaderAndFooter" class="loading-container">
-            <div class="d-flex align-items-center justify-content-center vh-100">
-                <div class="container text-white text-center">
-                    <div class="spinner-border ms-auto" style="width: 5rem; height: 5rem;" role="status" aria-hidden="true"></div>
-                </div>
+@if(!loading) {
+<router-outlet />
+}
+@else {
+<app-header />
+<div class="loading-container">
+    <div class="d-flex align-items-center justify-content-center vh-100">
+        <div class="container text-white text-center">
+            <div class="spinner-border ms-auto" style="width: 5rem; height: 5rem;" role="status" aria-hidden="true">
             </div>
         </div>
-        <div class="container mt-5">
-            <div class="row">
-                <div class="col-3">
-                    <p class="placeholder-glow">
-                        <span class="placeholder col-1 mx-1"></span>
-                        <span class="placeholder col-2 mx-1"></span>
-                        <span class="placeholder col-4 mx-1"></span>
-                        <span class="placeholder col-6 mx-1"></span>
-                        <span class="placeholder col-4 mx-1"></span>
-                        <span class="placeholder col-5 mx-1"></span>
-                        <span class="placeholder col-1 mx-1"></span>
-                        <span class="placeholder col-3 mx-1"></span>
-                        <span class="placeholder col-10 mx-1"></span>
-                        <span class="placeholder col-2 mx-1"></span>
-                        <span class="placeholder col-8 mx-1"></span>
-                        <span class="placeholder col-1 mx-1"></span>
-                        <span class="placeholder col-2 mx-1"></span>
-                        <span class="placeholder col-4 mx-1"></span>
-                        <span class="placeholder col-6 mx-1"></span>
-                        <span class="placeholder col-4 mx-1"></span>
-                        <span class="placeholder col-5 mx-1"></span>
-                        <span class="placeholder col-1 mx-1"></span>
-                        <span class="placeholder col-3 mx-1"></span>
-                        <span class="placeholder col-10 mx-1"></span>
-                        <span class="placeholder col-2 mx-1"></span>
-                        <span class="placeholder col-8 mx-1"></span>
-                    </p>
-                    <br>
-                    <p class="placeholder-glow">
-                        <span class="placeholder col-1 mx-1"></span>
-                        <span class="placeholder col-2 mx-1"></span>
-                        <span class="placeholder col-4 mx-1"></span>
-                        <span class="placeholder col-6 mx-1"></span>
-                        <span class="placeholder col-4 mx-1"></span>
-                        <span class="placeholder col-5 mx-1"></span>
-                        <span class="placeholder col-1 mx-1"></span>
-                        <span class="placeholder col-3 mx-1"></span>
-                        <span class="placeholder col-10 mx-1"></span>
-                        <span class="placeholder col-2 mx-1"></span>
-                        <span class="placeholder col-8 mx-1"></span>
-                        <span class="placeholder col-1 mx-1"></span>
-                        <span class="placeholder col-2 mx-1"></span>
-                        <span class="placeholder col-4 mx-1"></span>
-                        <span class="placeholder col-6 mx-1"></span>
-                        <span class="placeholder col-4 mx-1"></span>
-                        <span class="placeholder col-5 mx-1"></span>
-                        <span class="placeholder col-1 mx-1"></span>
-                        <span class="placeholder col-3 mx-1"></span>
-                        <span class="placeholder col-10 mx-1"></span>
-                        <span class="placeholder col-2 mx-1"></span>
-                        <span class="placeholder col-8 mx-1"></span>
-                </div>
-                <div class="col">
-                    <p class="placeholder-glow">
-                        <span class="placeholder col-1 mx-1"></span>
-                        <span class="placeholder col-7 mx-1"></span>
-                        <span class="placeholder col-12 mx-1"></span>
-                        <span class="placeholder col-2 mx-1"></span>
-                        <span class="placeholder col-4 mx-1"></span>
-                        <span class="placeholder col-8 mx-1"></span>
-                        <span class="placeholder col-10 mx-1"></span>
-                        <span class="placeholder col-5s mx-1"></span>
-                        <span class="placeholder col-12 mx-1"></span>
-                        <span class="placeholder col-4 mx-1"></span>
-                        <span class="placeholder col-2 mx-1"></span>
-                        <span class="placeholder col-1 mx-1"></span>
-                        <span class="placeholder col-8 mx-1"></span>
-                        <span class="placeholder col-10 mx-1"></span>
-                        <span class="placeholder col-5s mx-1"></span>
-                        <span class="placeholder col-12 mx-1"></span>
-                        <span class="placeholder col-4 mx-1"></span>
-                        <span class="placeholder col-2 mx-1"></span>
-                      </p>
-                      <br>
-                      <p class="placeholder-glow">
-                        <span class="placeholder col-1 mx-1"></span>
-                        <span class="placeholder col-7 mx-1"></span>
-                        <span class="placeholder col-12 mx-1"></span>
-                        <span class="placeholder col-2 mx-1"></span>
-                        <span class="placeholder col-4 mx-1"></span>
-                        <span class="placeholder col-8 mx-1"></span>
-                        <span class="placeholder col-10 mx-1"></span>
-                        <span class="placeholder col-5s mx-1"></span>
-                        <span class="placeholder col-12 mx-1"></span>
-                        <span class="placeholder col-4 mx-1"></span>
-                        <span class="placeholder col-2 mx-1"></span>
-                        <span class="placeholder col-1 mx-1"></span>
-                        <span class="placeholder col-1 mx-1"></span>
-                        <span class="placeholder col-7 mx-1"></span>
-                        <span class="placeholder col-12 mx-1"></span>
-                        <span class="placeholder col-2 mx-1"></span>
-                        <span class="placeholder col-4 mx-1"></span>
-                        <span class="placeholder col-8 mx-1"></span>
-                      </p>
-                      <br>
-                      <p class="placeholder-glow">
-                        <span class="placeholder col-1 mx-1"></span>
-                        <span class="placeholder col-7 mx-1"></span>
-                        <span class="placeholder col-12 mx-1"></span>
-                        <span class="placeholder col-12 mx-1"></span>
-                        <span class="placeholder col-2 mx-1"></span>
-                        <span class="placeholder col-4 mx-1"></span>
-                        <span class="placeholder col-8 mx-1"></span>
-                      </p>
-                </div>
-            </div>
+    </div>
+</div>
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-3">
+            <p class="placeholder-glow">
+                <span class="placeholder col-1 mx-1"></span>
+                <span class="placeholder col-2 mx-1"></span>
+                <span class="placeholder col-4 mx-1"></span>
+                <span class="placeholder col-6 mx-1"></span>
+                <span class="placeholder col-4 mx-1"></span>
+                <span class="placeholder col-5 mx-1"></span>
+                <span class="placeholder col-1 mx-1"></span>
+                <span class="placeholder col-3 mx-1"></span>
+                <span class="placeholder col-10 mx-1"></span>
+                <span class="placeholder col-2 mx-1"></span>
+                <span class="placeholder col-8 mx-1"></span>
+                <span class="placeholder col-1 mx-1"></span>
+                <span class="placeholder col-2 mx-1"></span>
+                <span class="placeholder col-4 mx-1"></span>
+                <span class="placeholder col-6 mx-1"></span>
+                <span class="placeholder col-4 mx-1"></span>
+                <span class="placeholder col-5 mx-1"></span>
+                <span class="placeholder col-1 mx-1"></span>
+                <span class="placeholder col-3 mx-1"></span>
+                <span class="placeholder col-10 mx-1"></span>
+                <span class="placeholder col-2 mx-1"></span>
+                <span class="placeholder col-8 mx-1"></span>
+            </p>
+            <br>
+            <p class="placeholder-glow">
+                <span class="placeholder col-1 mx-1"></span>
+                <span class="placeholder col-2 mx-1"></span>
+                <span class="placeholder col-4 mx-1"></span>
+                <span class="placeholder col-6 mx-1"></span>
+                <span class="placeholder col-4 mx-1"></span>
+                <span class="placeholder col-5 mx-1"></span>
+                <span class="placeholder col-1 mx-1"></span>
+                <span class="placeholder col-3 mx-1"></span>
+                <span class="placeholder col-10 mx-1"></span>
+                <span class="placeholder col-2 mx-1"></span>
+                <span class="placeholder col-8 mx-1"></span>
+                <span class="placeholder col-1 mx-1"></span>
+                <span class="placeholder col-2 mx-1"></span>
+                <span class="placeholder col-4 mx-1"></span>
+                <span class="placeholder col-6 mx-1"></span>
+                <span class="placeholder col-4 mx-1"></span>
+                <span class="placeholder col-5 mx-1"></span>
+                <span class="placeholder col-1 mx-1"></span>
+                <span class="placeholder col-3 mx-1"></span>
+                <span class="placeholder col-10 mx-1"></span>
+                <span class="placeholder col-2 mx-1"></span>
+                <span class="placeholder col-8 mx-1"></span>
         </div>
-    }
-    <app-footer *ngIf="showHeaderAndFooter" />
+        <div class="col">
+            <p class="placeholder-glow">
+                <span class="placeholder col-1 mx-1"></span>
+                <span class="placeholder col-7 mx-1"></span>
+                <span class="placeholder col-12 mx-1"></span>
+                <span class="placeholder col-2 mx-1"></span>
+                <span class="placeholder col-4 mx-1"></span>
+                <span class="placeholder col-8 mx-1"></span>
+                <span class="placeholder col-10 mx-1"></span>
+                <span class="placeholder col-5s mx-1"></span>
+                <span class="placeholder col-12 mx-1"></span>
+                <span class="placeholder col-4 mx-1"></span>
+                <span class="placeholder col-2 mx-1"></span>
+                <span class="placeholder col-1 mx-1"></span>
+                <span class="placeholder col-8 mx-1"></span>
+                <span class="placeholder col-10 mx-1"></span>
+                <span class="placeholder col-5s mx-1"></span>
+                <span class="placeholder col-12 mx-1"></span>
+                <span class="placeholder col-4 mx-1"></span>
+                <span class="placeholder col-2 mx-1"></span>
+            </p>
+            <br>
+            <p class="placeholder-glow">
+                <span class="placeholder col-1 mx-1"></span>
+                <span class="placeholder col-7 mx-1"></span>
+                <span class="placeholder col-12 mx-1"></span>
+                <span class="placeholder col-2 mx-1"></span>
+                <span class="placeholder col-4 mx-1"></span>
+                <span class="placeholder col-8 mx-1"></span>
+                <span class="placeholder col-10 mx-1"></span>
+                <span class="placeholder col-5s mx-1"></span>
+                <span class="placeholder col-12 mx-1"></span>
+                <span class="placeholder col-4 mx-1"></span>
+                <span class="placeholder col-2 mx-1"></span>
+                <span class="placeholder col-1 mx-1"></span>
+                <span class="placeholder col-1 mx-1"></span>
+                <span class="placeholder col-7 mx-1"></span>
+                <span class="placeholder col-12 mx-1"></span>
+                <span class="placeholder col-2 mx-1"></span>
+                <span class="placeholder col-4 mx-1"></span>
+                <span class="placeholder col-8 mx-1"></span>
+            </p>
+            <br>
+            <p class="placeholder-glow">
+                <span class="placeholder col-1 mx-1"></span>
+                <span class="placeholder col-7 mx-1"></span>
+                <span class="placeholder col-12 mx-1"></span>
+                <span class="placeholder col-12 mx-1"></span>
+                <span class="placeholder col-2 mx-1"></span>
+                <span class="placeholder col-4 mx-1"></span>
+                <span class="placeholder col-8 mx-1"></span>
+            </p>
+        </div>
+    </div>
+</div>
+<app-footer />
+}
