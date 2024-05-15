@@ -16,7 +16,7 @@ export class AdminService {
   }
 
   getMembersCount() {
-    
+    return this.http.get(environment.apiUrl + "/api/Admin/get-members-count");
   }
 
   getMember(id: string) {

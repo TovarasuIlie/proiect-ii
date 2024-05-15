@@ -14,6 +14,8 @@ import { NotFoundPageComponent } from './components/site-main-pages/not-found-pa
 import { MotorOilPageComponent } from './components/site-main-pages/motor-oil-page/motor-oil-page.component';
 import { JwtInterceptor } from './interceptions/jwt.interceptor';
 import { AccesoriesPageComponent } from './components/site-main-pages/accesories-page/accesories-page.component';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { SearchPageComponent } from './components/site-main-pages/search-page/search-page.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +26,8 @@ import { AccesoriesPageComponent } from './components/site-main-pages/accesories
     ForgotPasswordPageComponent,
     ResetPasswordPageComponent,
     MotorOilPageComponent,
-    AccesoriesPageComponent
+    AccesoriesPageComponent,
+    SearchPageComponent
   ],
   imports: [
     BrowserModule,
@@ -36,7 +39,8 @@ import { AccesoriesPageComponent } from './components/site-main-pages/accesories
     NgbModule,
   ],
   providers: [
-    {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true}
+    {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
+    provideAnimationsAsync()
   ],
   bootstrap: [AppComponent]
 })

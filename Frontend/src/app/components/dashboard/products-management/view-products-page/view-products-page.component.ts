@@ -7,6 +7,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { ProductsService } from '../../services/products.service';
 import { ProductsInterface } from '../../models/products.model';
 import { PaginateConfig } from '../../../../models/paginate.model';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-view-products-page',
@@ -18,6 +19,7 @@ export class ViewProductsPageComponent implements OnInit {
 
   filterForm: FormGroup = new FormGroup({});
   paginatorConfig: PaginateConfig = {
+    currentPageName: 'produse',
     totalItems: 10,
     itemsPerPage: 10,
     currentPage: 1
@@ -25,7 +27,7 @@ export class ViewProductsPageComponent implements OnInit {
 
 
   constructor(private titleService: Title, private _renderer2: Renderer2, @Inject(DOCUMENT) private _document: Document, 
-              public userService: UserService, private productsService: ProductsService, private formBuilder: FormBuilder) {
+              public userService: UserService, private productsService: ProductsService, private formBuilder: FormBuilder, private router: ActivatedRoute) {
     this.titleService.setTitle("Dashboard - La Verucu' SRL");
   }
   ngOnInit(): void {
@@ -58,7 +60,7 @@ export class ViewProductsPageComponent implements OnInit {
 
   initializePagination() {
     const paginatorConfig = sessionStorage.getItem("paginatorConfig");
-    if(paginatorConfig) {
+    if(paginatorConfig && paginatorConfig.includes(this.router.snapshot.url[0].path)) {
         this.paginatorConfig = JSON.parse(paginatorConfig);
     } else {
       this.productsService.getProductsCount().subscribe({

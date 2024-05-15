@@ -14,3 +14,13 @@
 .modal-header {
     border-radius: 0;
 }
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.mat-mdc-text-field-wrapper {
+    border-radius: 0 !important;
+}
+
+.mat-mdc-form-field-subscript-wrapper {
+    height: 0 !important;
+}

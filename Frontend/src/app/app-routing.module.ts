@@ -5,6 +5,7 @@ import { ToolsPageComponent } from './components/site-main-pages/tools-page/tool
 import { NotFoundPageComponent } from './components/site-main-pages/not-found-page/not-found-page.component';
 import { MotorOilPageComponent } from './components/site-main-pages/motor-oil-page/motor-oil-page.component';
 import { AccesoriesPageComponent } from './components/site-main-pages/accesories-page/accesories-page.component';
+import { SearchPageComponent } from './components/site-main-pages/search-page/search-page.component';
 
 const routes: Routes = [
   {
@@ -35,6 +36,10 @@ const routes: Routes = [
   {
     path: 'piese-de-schimb',
     loadChildren: () => import('./components/site-main-pages/spare-parts-page/spare-parts.module').then(module => module.SparePartsModule)
+  },
+  {
+    path: 'cauta',
+    component: SearchPageComponent
   },
   {
     path: 'cont', 

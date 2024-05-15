@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, NavigationEnd, Event } from '@angular/router';
+import { Router } from '@angular/router';
 import { UserService } from '../../../services/user.service';
 import { ToastService } from '../services/toast.service';
 import { CategoryInterface } from '../../dashboard/models/category-interface';
 import { ShippingCartInterface } from '../../../models/shipping-cart.model';
+
 
 @Component({
   selector: 'app-header',
@@ -83,5 +84,9 @@ export class HeaderComponent implements OnInit {
   logoutUser() {
     this.userService.logOut();
     this.toastService.show({title: "Delogare cu succes", message: "V-ati delogat cu succes!", classname: "text-success"});
+  }
+
+  removeFromList(index: number) {
+    this.shoppingList.splice(this.shoppingList.findIndex(p => p.id === index) , 1)
   }
 }

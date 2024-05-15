@@ -9,6 +9,7 @@ import { ToastService } from '../../../shared/services/toast.service';
 import { ProductsService } from '../../services/products.service';
 import { ProductAddInterface } from '../../models/products.model';
 import { VirtualAction } from 'rxjs';
+import { EmojiValidator } from '../../../../validators/emoji-input.validator';
 
 @Component({
   selector: 'app-add-products-page',
@@ -17,10 +18,12 @@ import { VirtualAction } from 'rxjs';
 })
 export class AddProductsPageComponent implements OnInit {
   categories: CategoryInterface[] = [];
-  // selectedCategory: CategoryInterface = {
-  //   id: '',
-  //   name: '',
-  // };
+  pondOptions = {
+    class: 'my-filepond',
+    multiple: true,
+    labelIdle: '<u>Drag & Drop</u> or <u>Browse</u> images here!',
+    acceptedFileTypes: 'image/jpeg, image/png, image/jpg',
+  }
   addProductForm: FormGroup = new FormGroup({});
   formSubmited: boolean = false;
   errorMessages: string[] = [];
@@ -50,11 +53,11 @@ export class AddProductsPageComponent implements OnInit {
 
   initializeForm() {
     this.addProductForm = this.formBuilder.group({
-      title: [, [Validators.required, Validators.minLength(8)]],
-      description: [, [Validators.required, Validators.minLength(10)]],
-      category: [0, [Validators.required, Validators.min(1)]],
-      quantity: [, [Validators.required, Validators.min(1)]],
-      price: [, [Validators.required, Validators.pattern('[0-9]+.[0-9][0-9]')]],
+      title: [, [Validators.required, Validators.minLength(8), EmojiValidator.hasEmoji]],
+      description: [, [Validators.required, Validators.minLength(10), EmojiValidator.hasEmoji]],
+      category: [0, [Validators.required, Validators.min(1), EmojiValidator.hasEmoji]],
+      quantity: [, [Validators.required, Validators.min(1), EmojiValidator.hasEmoji]],
+      price: [, [Validators.required, Validators.pattern('[0-9]+.[0-9][0-9]'), EmojiValidator.hasEmoji]],
       technicalDetailsJson: this.formBuilder.array([])
     })
   }
@@ -69,8 +72,8 @@ export class AddProductsPageComponent implements OnInit {
 
   addItem() {
     this.technicalDetailsJson.push(this.formBuilder.group({
-      specificationTitle: [,[Validators.required, Validators.minLength(3)]],
-      specificationValue: [,[Validators.required]]
+      specificationTitle: [,[Validators.required, Validators.minLength(3), EmojiValidator.hasEmoji]],
+      specificationValue: [,[Validators.required, EmojiValidator.hasEmoji]]
     }));
   }
   
@@ -110,5 +113,10 @@ export class AddProductsPageComponent implements OnInit {
     } else {
       this.errorMessages.push("Toate campurile sunt obligatorii!");
     }
+  }
+  onChange($event: any) {
+    this.addProductForm.patchValue({
+      image: $event.file.file
+    });
   }
 }

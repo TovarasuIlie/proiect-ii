@@ -50,8 +50,7 @@
                             Vizualizeaza Categorii
                         </a>
                         <div class="sb-sidenav-menu-heading">Produse</div>
-                        <a class="nav-link" [routerLinkActive]="['active']"
-                            [routerLink]="['/dashboard', 'produse', 'adauga-produs']">
+                        <a class="nav-link" [routerLinkActive]="['active']" [routerLink]="['/dashboard', 'produse', 'adauga-produs']">
                             <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
                             Adaugare Produse
                         </a>
@@ -60,16 +59,16 @@
                             Stock Produse
                         </a>
                         <div class="sb-sidenav-menu-heading">Comenzi</div>
-                        <a class="nav-link" href="tables.html">
+                        <a class="nav-link" [routerLink]="['/dashboard', 'comenzi-active']">
                             <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
                             Comezi Active
                         </a>
-                        <a class="nav-link" href="tables.html">
+                        <a class="nav-link" [routerLink]="['/dashboard', 'retur-comenzi']">
                             <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
                             Retur Comenzi
                         </a>
                         <div class="sb-sidenav-menu-heading">Setari</div>
-                        <a class="nav-link" href="tables.html">
+                        <a class="nav-link" [routerLink]="['/dashboard', 'setari-magazin']">
                             <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
                             Setari Magazin Online
                         </a>
@@ -97,6 +96,7 @@
                                         <label for="title">Titlu Produs</label>
                                         <div class="invalid-feedback" *ngIf="(formSubmited || addProductForm.get('title')?.touched) && !addProductForm.get('title')?.valid">
                                             <div *ngIf="addProductForm.get('title')?.errors?.['required']"><i class="fa-solid fa-triangle-exclamation"></i> Campul <b>Titlu Produs</b> trebuie completat!</div>
+                                            <div *ngIf="addProductForm.get('title')?.errors?.['hasEmoji']"><i class="fa-solid fa-triangle-exclamation"></i> Nu poti adauga emoji-uri in text!</div>
                                             <div *ngIf="addProductForm.get('title')?.errors?.['minlength']"><i class="fa-solid fa-triangle-exclamation"></i> Campul <b>Titlu Produs</b> trebuie sa fie mai lung de 8 caractere!</div>
                                         </div>
                                     </div>
@@ -109,6 +109,7 @@
                                         <div class="invalid-feedback" *ngIf="(formSubmited || addProductForm.get('description')?.touched) && !addProductForm.get('description')?.valid">
                                             <div *ngIf="addProductForm.get('description')?.errors?.['required']"><i class="fa-solid fa-triangle-exclamation"></i> Campul <b>Descriere Produs</b> trebuie completat!</div>
                                             <div *ngIf="addProductForm.get('description')?.errors?.['minlength']"><i class="fa-solid fa-triangle-exclamation"></i> Campul <b>Descriere Produs</b> trebuie sa fie mai lung de 50 caractere!</div>
+                                            <div *ngIf="addProductForm.get('description')?.errors?.['hasEmoji']"><i class="fa-solid fa-triangle-exclamation"></i> Nu poti adauga emoji-uri in text!</div>
                                         </div>
                                     </div>
                                     <div formArrayName="technicalDetailsJson">
@@ -137,6 +138,7 @@
                                                         <div class="invalid-feedback" *ngIf="(formSubmited || specification.get('specificationTitle')?.touched) && !specification.get('specificationTitle')?.valid">
                                                             <div *ngIf="specification.get('specificationTitle')?.errors?.['required']"><i class="fa-solid fa-triangle-exclamation"></i> Campul <b>Titlu Specificatie</b> trebuie completat!</div>
                                                             <div *ngIf="specification.get('specificationTitle')?.errors?.['minlength']"><i class="fa-solid fa-triangle-exclamation"></i> Campul <b>Titlu Specificatie</b> trebuie sa contina minim 3 caractere!</div>
+                                                            <div *ngIf="specification.get('specificationTitle')?.errors?.['hasEmoji']"><i class="fa-solid fa-triangle-exclamation"></i> Nu poti adauga emoji-uri in text!</div>
                                                         </div>
                                                     </div>
                                                     <div class="form-floating mb-3">
@@ -147,6 +149,7 @@
                                                         <label for="specificationTitle">Valoare Specificatie</label>
                                                         <div class="invalid-feedback" *ngIf="(formSubmited || specification.get('specificationValue')?.touched) && !specification.get('specificationValue')?.valid">
                                                             <div *ngIf="specification.get('specificationValue')?.errors?.['required']"><i class="fa-solid fa-triangle-exclamation"></i> Selecteaza <b>Valoare Specificatie</b> din care face parte produsul!</div>
+                                                            <div *ngIf="specification.get('specificationValue')?.errors?.['hasEmoji']"><i class="fa-solid fa-triangle-exclamation"></i> Nu poti adauga emoji-uri in text!</div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -179,6 +182,7 @@
                                                 <div class="invalid-feedback" *ngIf="(formSubmited || addProductForm.get('category')?.touched) && !addProductForm.get('category')?.valid">
                                                     <div *ngIf="addProductForm.get('quantity')?.errors?.['required']"><i class="fa-solid fa-triangle-exclamation"></i> Campul <b>Cantitate</b> trebuie completat!</div>
                                                     <div *ngIf="addProductForm.get('quantity')?.errors?.['min']"><i class="fa-solid fa-triangle-exclamation"></i> Este necesar sa introduci minim o bucata din acest produs!</div>
+                                                    <div *ngIf="addProductForm.get('quantity')?.errors?.['hasEmoji']"><i class="fa-solid fa-triangle-exclamation"></i> Nu poti adauga emoji-uri in text!</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -194,9 +198,13 @@
                                                 <div class="invalid-feedback" *ngIf="(formSubmited || addProductForm.get('price')?.touched) && !addProductForm.get('price')?.valid">
                                                     <div *ngIf="addProductForm.get('price')?.errors?.['required']"><i class="fa-solid fa-triangle-exclamation"></i> Campul <b>Pret</b> trebuie completat!</div>
                                                     <div *ngIf="addProductForm.get('price')?.errors?.['pattern']"><i class="fa-solid fa-triangle-exclamation"></i> Pretul nu este valid. Acesta trebuie sa fie de forma <b>1000,99</b></div>
+                                                    <div *ngIf="addProductForm.get('price')?.errors?.['hasEmoji']"><i class="fa-solid fa-triangle-exclamation"></i> Nu poti adauga emoji-uri in text!</div>
                                                 </div>
                                             </div>
                                         </div>
+                                    </div>
+                                    <div class="mb-5">
+                                        <file-pond #categoryImage [options]="pondOptions" (onaddfile)="onChange($event)"></file-pond>
                                     </div>
                                     <div *ngIf="errorMessages.length > 0" class="alert alert-danger mb-3">
                                         <ul>
@@ -223,12 +231,7 @@
             <footer class="py-4 bg-light mt-auto">
                 <div class="container-fluid px-4">
                     <div class="d-flex align-items-center justify-content-between small">
-                        <div class="text-muted">Copyright &copy; Your Website 2023</div>
-                        <div>
-                            <a href="#">Privacy Policy</a>
-                            &middot;
-                            <a href="#">Terms &amp; Conditions</a>
-                        </div>
+                        <div class="text-muted">© 2023-2024 Copyright. All Rights Reseved | by <b>Dresorii de Lei si de Fraieri</b> ©</div>
                     </div>
                 </div>
             </footer>
@@ -236,10 +239,4 @@
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
         crossorigin="anonymous"></script>
-    <!-- <script src="js/scripts.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
-    <script src="assets/demo/chart-area-demo.js"></script>
-    <script src="assets/demo/chart-bar-demo.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
-    <script src="js/datatables-simple-demo.js"></script> -->
 </div>

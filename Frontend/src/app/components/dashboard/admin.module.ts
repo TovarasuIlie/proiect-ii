@@ -11,8 +11,15 @@ import { AllCategoriesComponent } from './category-management/all-categories/all
 import { ViewProductsPageComponent } from './products-management/view-products-page/view-products-page.component';
 import { AddProductsPageComponent } from './products-management/add-products-page/add-products-page.component';
 import { ProductsDetailsPageComponent } from './products-management/products-details-page/products-details-page.component';
+import { FilePondModule, registerPlugin } from 'ngx-filepond';
 
+import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
+import { ActiveOrdersComponent } from './orders-management/active-orders/active-orders.component';
+import { ReturnedOrdersComponent } from './orders-management/returned-orders/returned-orders.component';
+import { ViewOrderComponent } from './orders-management/view-order/view-order.component';
+import { SettingsPageComponent } from './settings-page/settings-page.component';
 
+registerPlugin(FilePondPluginImagePreview);
 
 @NgModule({
   declarations: [
@@ -23,6 +30,10 @@ import { ProductsDetailsPageComponent } from './products-management/products-det
     ViewProductsPageComponent,
     AddProductsPageComponent,
     ProductsDetailsPageComponent,
+    ActiveOrdersComponent,
+    ReturnedOrdersComponent,
+    ViewOrderComponent,
+    SettingsPageComponent,
   ],
   imports: [
     CommonModule,
@@ -30,7 +41,8 @@ import { ProductsDetailsPageComponent } from './products-management/products-det
     RouterModule,
     SharedModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    FilePondModule
   ]
 })
 export class AdminModule { }

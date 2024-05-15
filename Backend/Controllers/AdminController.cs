@@ -54,6 +54,12 @@ namespace Backend.Controllers
             return Ok(members);
         }
 
+        [HttpGet("get-members-count")]
+        public async Task<ActionResult<int>> GetCategoriesCount()
+        {
+            return await _userManager.Users.CountAsync() - 1;
+        }
+
         [HttpGet("get-member/{id}")]
         public async Task<ActionResult<MemberViewDto>> GetMember(string id)
         {

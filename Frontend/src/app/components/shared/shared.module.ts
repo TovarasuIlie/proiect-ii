@@ -13,6 +13,11 @@ import { OffcanvasCategoriesComponent } from './offcanvas-categories/offcanvas-c
 import { ShoppingCartHeaderComponent } from './shopping-cart-header/header.component';
 import { ShoppingCartFooterComponent } from './shopping-cart-footer/footer.component';
 import { PaginationComponent } from './pagination/pagination.component';
+import { SearchBarHeaderComponent } from './search-bar-header/search-bar-header.component';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 
 @NgModule({
@@ -26,13 +31,18 @@ import { PaginationComponent } from './pagination/pagination.component';
     OffcanvasCategoriesComponent,
     ShoppingCartHeaderComponent,
     ShoppingCartFooterComponent,
-    PaginationComponent
+    PaginationComponent,
+    SearchBarHeaderComponent
   ],
   imports: [
     CommonModule,
     RouterModule,
     ReactiveFormsModule,
-    NgbToastModule
+    NgbToastModule,
+    MatAutocompleteModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatProgressSpinnerModule
   ],
   exports: [
     HeaderComponent,

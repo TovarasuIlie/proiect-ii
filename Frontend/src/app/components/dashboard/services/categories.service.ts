@@ -14,7 +14,7 @@ export class CategoriesService {
     let categoryForm = new FormData();
     categoryForm.append("name", category.name);
     categoryForm.append("image", category.image || "");
-    categoryForm.append("imageFilename", category.imageFilename || "");
+    categoryForm.append("imageFilename", category.name || "");
     categoryForm.append("categoryNameSearch", category.name);
     const headers = new HttpHeaders().append("Content-Disposition", 'multipart/form-data')
     return this.http.post(environment.apiUrl + "/api/Category/add-category", categoryForm, { headers });
@@ -41,6 +41,13 @@ export class CategoriesService {
   }
 
   updateCategory(category: CategoryInterface) {
-    return this.http.put(environment.apiUrl + "/api/Category/update-category/", category);
+    let categoryForm = new FormData();
+    categoryForm.append("id", (category.id).toString());
+    categoryForm.append("name", category.name);
+    categoryForm.append("image", category.image || "");
+    categoryForm.append("imageFilename", category.name || "");
+    categoryForm.append("categoryNameSearch", category.name);
+    const headers = new HttpHeaders().append("Content-Disposition", 'multipart/form-data')
+    return this.http.put(environment.apiUrl + "/api/Category/update-category/", categoryForm);
   }
 }

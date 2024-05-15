@@ -8,6 +8,10 @@ import { AllCategoriesComponent } from './category-management/all-categories/all
 import { ViewProductsPageComponent } from './products-management/view-products-page/view-products-page.component';
 import { AddProductsPageComponent } from './products-management/add-products-page/add-products-page.component';
 import { ProductsDetailsPageComponent } from './products-management/products-details-page/products-details-page.component';
+import { ActiveOrdersComponent } from './orders-management/active-orders/active-orders.component';
+import { ReturnedOrdersComponent } from './orders-management/returned-orders/returned-orders.component';
+import { ViewOrderComponent } from './orders-management/view-order/view-order.component';
+import { SettingsPageComponent } from './settings-page/settings-page.component';
 
 const routes: Routes = [
   {
@@ -22,7 +26,8 @@ const routes: Routes = [
       },
       {
         path: 'utilizatori',
-        component: AllUsersPageComponent
+        component: AllUsersPageComponent,
+        data : {clearLocal : true}
       },
       {
         path: 'utilizatori/detalii-utilizator/:idUser',
@@ -43,6 +48,22 @@ const routes: Routes = [
       {
         path: 'produse/detalii-produs/:id',
         component: ProductsDetailsPageComponent
+      },
+      {
+        path: 'comenzi-active',
+        component: ActiveOrdersComponent
+      },
+      {
+        path: 'retur-comenzi',
+        component: ReturnedOrdersComponent
+      },
+      {
+        path: 'comenzi/vezi-comanda/:id',
+        component: ViewOrderComponent
+      },
+      {
+        path: 'setari-magazin',
+        component: SettingsPageComponent
       }
     ]
   }

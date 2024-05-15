@@ -1,0 +1,20 @@
+<form class="row justify-content-center">
+    <div class="col-10 p-0">
+        <mat-form-field class="w-100">
+            <mat-label>Cauta dupa denumirea produsului...</mat-label>
+            <input type="text" placeholder="Tasteaza..." aria-label="Number" matInput [formControl]="searchFieldControl"
+                [matAutocomplete]="auto" (keypress)="filtering($event)">
+            <mat-autocomplete #auto="matAutocomplete">
+                <mat-option *ngIf="isLoading">
+                    <mat-spinner diameter="30" class="d-flex align-items-center justify-content-center"></mat-spinner>
+                </mat-option>
+                <mat-option *ngFor="let option of filteredOptions" [value]="option">
+                    {{option}}
+                  </mat-option>
+            </mat-autocomplete>
+        </mat-form-field>
+    </div>
+    <div class="col-1 p-0">
+        <button class="btn btn-outline-danger h-100" type="button" (click)="searchProductsByName(searchFieldControl.value || '')"><i class="fa-solid fa-magnifying-glass"></i></button>
+    </div>
+</form>

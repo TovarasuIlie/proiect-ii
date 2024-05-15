@@ -1,17 +1,17 @@
 import { DOCUMENT } from '@angular/common';
-import { Component, Inject, Renderer2} from '@angular/core';
+import { Component, Inject, Renderer2 } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { UserService } from '../../../services/user.service';
 
 @Component({
-  selector: 'app-index-page',
-  templateUrl: './index-page.component.html',
-  styleUrl: './index-page.component.css'
+  selector: 'app-settings-page',
+  templateUrl: './settings-page.component.html',
+  styleUrl: './settings-page.component.css'
 })
-export class IndexPageComponent {
-
+export class SettingsPageComponent {
+  
   constructor(private titleService: Title, private _renderer2: Renderer2, @Inject(DOCUMENT) private _document: Document, public userService: UserService) {
-    this.titleService.setTitle("Dashboard - La Verucu' SRL");
+    this.titleService.setTitle("Setari Magazin - La Verucu' SRL");
   }
 
   ngOnInit(): void {

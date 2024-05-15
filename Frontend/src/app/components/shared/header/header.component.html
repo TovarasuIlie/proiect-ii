@@ -6,14 +6,32 @@
                     <img src="../../assets/icons/index-logo.png" alt="Logo" width="130" height="55" class="d-inline-block align-text-center">
                 </a>
             </div>
-            <div class="col-lg-7">
-                <div class="input-group">
+            <div class="col-lg-6 float-end">
+                <!-- <div class="input-group">
                     <div class="form-floating">
-                        <input type="text" class="form-control" id="search-input" aria-describedby="button-addon" placeholder="Username">
+                        <input type="text" class="form-control" list="datalistOptions" role="combobox" id="search-input" aria-describedby="button-addon" placeholder="Username">
                         <label for="search-input">Cauta dupa denumirea piesei...</label>
                     </div>
+                    <datalist id="datalistOptions" role="listbox">
+                        <option value="San Francisco">
+                        <option value="New York">
+                        <option value="Seattle">
+                        <option value="Los Angeles">
+                        <option value="Chicago">
+                            <option value="San Francisco">
+                                <option value="New York">
+                                <option value="Seattle">
+                                <option value="Los Angeles">
+                                <option value="Chicago">
+                      </datalist>
                     <button type="button" class="btn btn-outline-danger" id="button-addon"><i class="fa-solid fa-magnifying-glass"></i></button>
-                </div>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">Action</a></li>
+                        <li><a class="dropdown-item" href="#">Another action</a></li>
+                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                      </ul>
+                </div> -->
+                <app-search-bar-header></app-search-bar-header>
             </div>
             <div class="col-lg">
                 <ul class="navbar-nav d-flex flex-row">
@@ -56,9 +74,12 @@
                         </ul>
                     </li>
                     <li class="nav-item dropdown-center mx-2">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                            aria-expanded="false">
+                        <a class="nav-link dropdown-toggle position-relative" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
                             <i class="fa-solid fa-cart-shopping"></i> Cosul meu
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                {{ shoppingList.length }}
+                                <span class="visually-hidden">produse in cos</span>
+                            </span>
                         </a>
                         <ul class="dropdown-menu" style="min-width: 250px;">
                             <div *ngIf="(userService.user$ | async) === null">
@@ -81,7 +102,7 @@
                                         </div>
                                         <div class="col-3 d-flex flex-column align-items-center justify-content-end ps-0">
                                             <p class="fw-semibold">{{ product.totalPrice }} lei</p>
-                                            <button class="btn text-muted">Sterge</button>
+                                            <button class="btn text-muted" (click)="removeFromList(product.id)">Sterge</button>
                                         </div>
                                     </div>
                                     <hr>

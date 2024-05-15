@@ -1,5 +1,5 @@
 import { DOCUMENT } from '@angular/common';
-import { Component, Inject, OnInit, Renderer2 } from '@angular/core';
+import { Component, Inject, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { UserService } from '../../../../services/user.service';
 import { CategoriesService } from '../../services/categories.service';
@@ -30,6 +30,8 @@ export class ProductsDetailsPageComponent implements OnInit {
   editForm: FormGroup = new FormGroup([]);
   formSubmited: boolean = false;
   errorMessages: string[] = [];
+
+  @ViewChild('closeModalDelete') closeDeleteModal: any;
 
   constructor(private titleService: Title, private _renderer2: Renderer2, @Inject(DOCUMENT) private _document: Document, public userService: UserService, 
               private categoryService: CategoriesService, private formBuilder: FormBuilder, private productsService: ProductsService, private activedroute: ActivatedRoute,
@@ -97,6 +99,7 @@ export class ProductsDetailsPageComponent implements OnInit {
     this.productsService.deleteProduct(this.id).subscribe({
       next: (response) => {
         this.toastService.show({title: "Produse sters cu succes!", message: "Produsul a fost sters cu succes!", classname: "text-success"});
+        this.closeDeleteModal.nativeElement.click();
         this.router.navigateByUrl('/dashboard/produse');
       },
       error: (err) => {

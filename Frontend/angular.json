@@ -33,14 +33,14 @@
             "assets": [
               "src/favicon.ico",
               "src/assets",
-              "src/web.config",
-              {
-                "glob": "**/*", "input": "../Backend/category-icons/", "output": "/category-icons/"
-              }
+              "src/web.config"
             ],
             "styles": [
+              "src/custom-theme.scss",
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
-              "src/styles.css"
+              "src/styles.css",
+              "node_modules/filepond/dist/filepond.min.css",
+              "node_modules/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css"
             ]
           },
           "configurations": {
@@ -101,14 +101,13 @@
             "tsConfig": "tsconfig.spec.json",
             "assets": [
               "src/favicon.ico",
-              "src/assets",
-              "src/assets/category-icons",
-              {
-                "glob": "**/*", "input": "../../Backend/category-icons/", "output": "/category-icons/"
-              }
+              "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.css",
+              "src/custom-theme.scss",
+              "node_modules/filepond/dist/filepond.min.css",
+              "node_modules/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css"
             ],
             "scripts": [
               "src/assets/js/index-page.js"
