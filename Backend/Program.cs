@@ -107,7 +107,7 @@ app.UseAuthorization();
 
 app.MapControllers();
 #region ContextSeed
-/*using var scope = app.Services.CreateScope();
+using var scope = app.Services.CreateScope();
 try
 {
     var contextSeedService = scope.ServiceProvider.GetService<ContextSeedService>();
@@ -117,6 +117,6 @@ catch (Exception ex)
 {
     var logger = scope.ServiceProvider.GetService<ILogger<Program>>();
     logger.LogError(ex.Message, "Failed to initialize and seed the database");
-}*/
+}
 #endregion
 app.Run();

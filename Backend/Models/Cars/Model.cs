@@ -4,6 +4,6 @@
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public Mark MarkId { get; set; }=new Mark();
+        public Mark Mark { get; set; } = new Mark();
     }
 }

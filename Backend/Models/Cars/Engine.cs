@@ -4,6 +4,6 @@
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public Model ModelId { get; set; }= new Model();
+        public Model Model { get; set; }= new Model();
     }
 }
