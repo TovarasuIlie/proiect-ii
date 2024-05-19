@@ -72,7 +72,7 @@ namespace Backend.Controllers
             var user = await _userManager.FindByNameAsync(model.UserName);
             if (user == null) return Unauthorized("Nume de utilizator sau parola invalide");
 
-            if (user.EmailConfirmed == false) return Unauthorized("Confirmati adresa de email.");
+            if (user.EmailConfirmed == false) return Unauthorized("Confirmati adresa de email. Pentru a retrimite email-ul apasati pe butonul de mai jos!");
 
             var result = await _signInManager.CheckPasswordSignInAsync(user, model.Password, false);
 

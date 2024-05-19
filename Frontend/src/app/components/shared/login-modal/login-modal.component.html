@@ -47,7 +47,7 @@
                     <div *ngIf="errorMessages.length > 0" class="alert alert-danger">
                         <ul>
                             <li *ngFor="let error of errorMessages">
-                                {{error}}
+                                <div [innerHTML]="error"></div>
                             </li>
                         </ul>
                     </div>
@@ -57,6 +57,7 @@
                 </form>
                 <div class="text-center">
                     <p>Daca nu ai un cont <a class="text-decoration-none" role="button" data-bs-toggle="modal" data-bs-target="#register-form-modal">Inscrie-te acum</a>!</p>
+                    <p>Daca nu ai contul confirmat <a class="text-decoration-none" role="button" data-bs-toggle="modal" data-bs-target="#confirm-email-form-modal">Apasa Aici</a>!</p>
                 </div>
             </div>
         </div>
