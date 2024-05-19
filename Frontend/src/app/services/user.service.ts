@@ -54,6 +54,10 @@ export class UserService {
     return this.http.post(environment.apiUrl + "/api/Account/forgot-username-or-password/" + email, {})
   }
 
+  resendEmailLink(email: string) {
+    return this.http.post(environment.apiUrl + "/api/Account/resend-email-confirmation-link/" + email, {})
+  }
+
   resetPassword(resetPassword: ResetPassword) {
     return this.http.put(environment.apiUrl + "/api/Account/reset-password", resetPassword);
   }

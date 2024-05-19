@@ -18,6 +18,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { ConfirmEmailModalComponent } from './confirm-email-modal/confirm-email-modal.component';
 
 
 @NgModule({
@@ -32,7 +33,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     ShoppingCartHeaderComponent,
     ShoppingCartFooterComponent,
     PaginationComponent,
-    SearchBarHeaderComponent
+    SearchBarHeaderComponent,
+    ConfirmEmailModalComponent
   ],
   imports: [
     CommonModule,
@@ -50,7 +52,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     ToastComponent,
     ShoppingCartHeaderComponent,
     ShoppingCartFooterComponent,
-    PaginationComponent
+    PaginationComponent,
   ]
 })
 export class SharedModule { }

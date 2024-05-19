@@ -50,7 +50,8 @@ namespace Backend.Data.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Products_CategoryId",
                 table: "Products",
-                column: "CategoryId");
+                column: "CategoryId"
+            );
         }
 
         /// <inheritdoc />
