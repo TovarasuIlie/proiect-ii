@@ -28,7 +28,7 @@ namespace Backend.Controllers
             _config = config;
         }
         [HttpPost("create-order")]
-        public async Task<ActionResult<Order>> CreateOrder(Order order)
+        public async Task<ActionResult<Order>> CreateOrder([FromForm]Order order)
         {
             
             _context.Orders.Add(order);
