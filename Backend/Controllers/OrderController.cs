@@ -9,6 +9,7 @@ using Backend.DTOs.Account;
 using Backend.Services;
 using Microsoft.AspNetCore.WebUtilities;
 using System.Text;
+using System.Security.Claims;
 
 namespace Backend.Controllers
 {
@@ -35,6 +36,33 @@ namespace Backend.Controllers
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetOrder", new { id = order.Id }, order);
+        }
+        [HttpGet("get-orders")]
+        [Authorize] 
+        public async Task<ActionResult<IEnumerable<Order>>> GetMyOrders()
+        {
+            var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+
+            if (userId == null)
+            {
+                return BadRequest("User ID not found in claims.");
+            }
+
+            var orders = await _context.Orders
+                .Where(o => o.UserId == userId) 
+                .ToListAsync();
+
+            return Ok(orders);
+        }
+        [HttpGet("all-orders")]
+        [Authorize(Roles = "Admin")] 
+        public async Task<ActionResult<IEnumerable<Order>>> GetOrders()
+        {
+            var orders = await _context.Orders
+                .OrderByDescending(o => o.IsConfirmed) 
+                .ToListAsync();
+
+            return Ok(orders); 
         }
 
         [HttpPut("confirm-order/{id}")]
