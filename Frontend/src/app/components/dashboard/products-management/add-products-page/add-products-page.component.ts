@@ -8,7 +8,6 @@ import { CategoryInterface } from '../../models/category-interface';
 import { ToastService } from '../../../shared/services/toast.service';
 import { ProductsService } from '../../services/products.service';
 import { ProductAddInterface } from '../../models/products.model';
-import { VirtualAction } from 'rxjs';
 import { EmojiValidator } from '../../../../validators/emoji-input.validator';
 
 @Component({
@@ -27,6 +26,7 @@ export class AddProductsPageComponent implements OnInit {
   addProductForm: FormGroup = new FormGroup({});
   formSubmited: boolean = false;
   errorMessages: string[] = [];
+  imageArray: File[] = [];
 
   constructor(private titleService: Title, private _renderer2: Renderer2, @Inject(DOCUMENT) private _document: Document, public userService: UserService, 
               private categoryService: CategoriesService, private formBuilder: FormBuilder, private toastService: ToastService, private productsService: ProductsService) {
@@ -55,10 +55,11 @@ export class AddProductsPageComponent implements OnInit {
     this.addProductForm = this.formBuilder.group({
       title: [, [Validators.required, Validators.minLength(8), EmojiValidator.hasEmoji]],
       description: [, [Validators.required, Validators.minLength(10), EmojiValidator.hasEmoji]],
-      category: [0, [Validators.required, Validators.min(1), EmojiValidator.hasEmoji]],
-      quantity: [, [Validators.required, Validators.min(1), EmojiValidator.hasEmoji]],
-      price: [, [Validators.required, Validators.pattern('[0-9]+.[0-9][0-9]'), EmojiValidator.hasEmoji]],
-      technicalDetailsJson: this.formBuilder.array([])
+      category: [0, [Validators.required, Validators.min(1)]],
+      quantity: [, [Validators.required, Validators.min(1)]],
+      price: [, [Validators.required, Validators.pattern('[0-9]+.[0-9][0-9]')]],
+      technicalDetailsJson: this.formBuilder.array([]),
+      image: [[]]
     })
   }
 
@@ -95,7 +96,8 @@ export class AddProductsPageComponent implements OnInit {
           technicalDetailsJson: (JSON.stringify(this.addProductForm.get('technicalDetailsJson')?.value)).replace('/', ''),
           category: selectedCategory,
           quantity: this.addProductForm.get('quantity')?.value,
-          price: parseFloat(this.addProductForm.get('price')?.value.replace(",", "."))
+          price: parseFloat(this.addProductForm.get('price')?.value.replace(",", ".")),
+          image: this.addProductForm.get('image')?.value
         };
         console.log(addProduct);
         this.productsService.addNewProduct(addProduct).subscribe({
@@ -115,8 +117,17 @@ export class AddProductsPageComponent implements OnInit {
     }
   }
   onChange($event: any) {
+    this.imageArray.push($event.file.file)
     this.addProductForm.patchValue({
-      image: $event.file.file
+      image: this.imageArray
+    });
+  }
+
+  onDelete($event: any) {
+    const index = this.imageArray.findIndex(i => i.lastModified === $event.file.file.lastModified && i.name === $event.file.file.name);
+    this.imageArray.splice(index, 1);
+    this.addProductForm.patchValue({
+      image: this.imageArray
     });
   }
 }

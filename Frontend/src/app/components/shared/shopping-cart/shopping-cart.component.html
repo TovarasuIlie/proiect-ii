@@ -1,0 +1,47 @@
+<a class="nav-link dropdown-toggle position-relative" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
+    <i class="fa-solid fa-cart-shopping"></i> Cosul meu
+    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+        {{ totalItems }}
+        <span class="visually-hidden">produse in cos</span>
+    </span>
+</a>
+<ul class="dropdown-menu" style="min-width: 250px;">
+    <div *ngIf="(userService.user$ | async) === null">
+        <div class="p-2 px-4">
+            Cosul este gol!
+        </div>
+    </div>
+    <div *ngIf="(userService.user$ | async) !== null">
+        <div class="p-2 px-4" *ngIf="shoppingList.length === 0">
+            Momentat cosul este gol!
+        </div>
+        <div class="px-2" *ngIf="shoppingList.length > 0">
+            <div class="row mb-2" *ngFor="let product of shoppingList"  style="min-width: 400px;">
+                <div class="col-3 pe-0">
+                    <img src="http://localhost:5020/SiteUploads/category-icons/anvelope.png" class="img-fluid">
+                </div>
+                <div class="col pe-0">
+                    <p>{{ product.product.title }}</p>
+                    <p class="text-muted fw-semibold" style="font-size: small; line-height: 0;">Cantitate: x{{ product.quantity }} buc</p>
+                </div>
+                <div class="col-3 d-flex flex-column align-items-center justify-content-end ps-0">
+                    <p class="fw-semibold">{{ product.totalPrice | number: '1.2-2' }} lei</p>
+                    <button class="btn text-muted" (click)="removeFromList(product.id)">Sterge</button>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-8">
+                    <p class="fs-5">Suma totala a comenzii:</p>
+                </div>
+                <div class="col">
+                    <p class="fs-5 float-end">{{ totalCartPrice | number: '1.2-2' }} lei</p>
+                </div>
+            </div>
+        </div>
+        <li><hr class="dropdown-divider"></li>
+        <li class="px-1">
+            <a class="btn btn-primary w-100" [routerLink]="['/cosul-meu']"><i class="fa-solid fa-cart-shopping"></i> Spre Cos</a>
+        </li>
+    </div>
+</ul>

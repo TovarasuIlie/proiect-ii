@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { SparePartsListComponent } from './spare-parts-list/spare-parts-list.component';
 import { SparePartsComponent } from './spare-parts/spare-parts.component';
 import { ProductsResolverService } from '../../../resolvers/products.resolver';
+import { SparePartPresentationComponent } from './spare-part-presentation/spare-part-presentation.component';
 
 const routes: Routes = [
   {
@@ -15,7 +16,11 @@ const routes: Routes = [
     resolve: {
       productsList: ProductsResolverService
     }
-  }
+  },
+  {
+    path: 'vizualizare-produs/:id',
+    component: SparePartPresentationComponent
+  },
 ]
 
 @NgModule({

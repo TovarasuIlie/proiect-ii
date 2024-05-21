@@ -17,13 +17,15 @@ import { CategoryInterface } from '../../models/category-interface';
 })
 export class ProductsDetailsPageComponent implements OnInit {
   product: ProductsInterface = {
-    id: null,
+    id: -1,
     title: null,
     description: null,
     category: null,
     technicalDetailsJson: [],
-    quantity: null,
-    price: null
+    quantity: 0,
+    price: null,
+    folderName: "",
+    photoNumber: 0
   };
   categories: CategoryInterface[] = [];
   id: number = 0;
@@ -60,7 +62,7 @@ export class ProductsDetailsPageComponent implements OnInit {
   }
 
   initializeProduct() {
-    this.productsService.getProduct(this.id.toString()).subscribe({
+    this.productsService.getProduct(this.id).subscribe({
       next: (value) => {
         this.product = value;
         this.product.technicalDetailsJson = JSON.parse(value.technicalDetailsJson);
@@ -142,7 +144,9 @@ export class ProductsDetailsPageComponent implements OnInit {
           technicalDetailsJson: (JSON.stringify(this.editForm.get('technicalDetailsJson')?.value)).replace('/', ''),
           category: selectedCategory,
           quantity: this.editForm.get('quantity')?.value,
-          price: parseFloat(this.editForm.get('price')?.value.replace(",", "."))
+          price: parseFloat(this.editForm.get('price')?.value.replace(",", ".")),
+          folderName: "",
+          photoNumber: 0
         };
         console.log(editProduct);
         this.productsService.editProduct(editProduct).subscribe({

@@ -1,13 +1,15 @@
 import { CategoryInterface } from "./category-interface";
 
 export interface ProductsInterface {
-    id: number | null;
+    id: number;
     title: string | null;
     description: string | null;
     category: CategoryInterface | null;
     technicalDetailsJson: any | null;
-    quantity: number | null;
+    quantity: number;
     price: number | null;
+    folderName: string;
+    photoNumber: number;
 }
 
 export interface ProductAddInterface {
@@ -17,4 +19,5 @@ export interface ProductAddInterface {
     technicalDetailsJson: string;
     quantity: number;
     price: number;
+    image: File[]; 
 }

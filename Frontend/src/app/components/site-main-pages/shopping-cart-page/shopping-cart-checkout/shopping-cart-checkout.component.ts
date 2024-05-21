@@ -10,77 +10,25 @@ import { computeStyles } from '@popperjs/core';
   styleUrl: './shopping-cart-checkout.component.css'
 })
 export class ShoppingCartCheckoutComponent implements OnInit {
-  shoppingList: ShippingCartInterface[] = [
-    {
-      id: 1,
-      product: {
-        id: 1,
-        title: "test 1",
-        description: "adsada",
-        category: {
-          id: 1,
-          name: "categorie Test",
-          imageFilename: "niet",
-          categoryNameSearch: "test"
-        },
-        technicalDetailsJson: "adada",
-        quantity: 5,
-        price: 5635.99
-      },
-      quantity: 1,
-      totalPrice: 5635.99
-    },
-    {
-      id: 2,
-      product: {
-        id: 14,
-        title: "test 2",
-        description: "adsada",
-        category: {
-          id: 1,
-          name: "categorie Test",
-          imageFilename: "niet",
-          categoryNameSearch: "test"
-        },
-        technicalDetailsJson: "adada",
-        quantity: 5,
-        price: 2
-      },
-      quantity: 1,
-      totalPrice: 2
-    },
-    {
-      id: 3,
-      product: {
-        id: 4,
-        title: "test 3",
-        description: "adsada",
-        category: {
-          id: 1,
-          name: "categorie Test",
-          imageFilename: "niet",
-          categoryNameSearch: "test"
-        },
-        technicalDetailsJson: "adada",
-        quantity: 5,
-        price: 2.99
-      },
-      quantity: 1,
-      totalPrice: 2.99
-    }
-  ];
+  shoppingList: ShippingCartInterface[] = [];
   totalBasketPriceWithoutDelivery: number = 0;
   totalBasketPriceWithDelivery: number = 0;
   deliveryPrice: number = 25;
   currentPage: number = 1;
-  itemsPerPage: number = 1;
+  itemsPerPage: number = 10;
 
   constructor(private shareData: ShareDataService, private toastService: ToastService) {
-    this.calculateTotalPrice();
+    
   }
 
   ngOnInit(): void {
-    console.log(sessionStorage.getItem('paymentMethod'));
+    const itemsFromCart = localStorage.getItem('shoppingCart');
+    if(itemsFromCart == undefined) {
+      localStorage.setItem("shoppingCart", JSON.stringify(this.shoppingList));
+    } else {
+      this.shoppingList = JSON.parse(itemsFromCart);
+    }
+    this.calculateTotalPrice();
   }
 
   calculateTotalPrice() {

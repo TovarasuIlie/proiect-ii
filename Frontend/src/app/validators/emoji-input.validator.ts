@@ -7,9 +7,10 @@ export class EmojiValidator {
         const text: string = control.value;
     
         if(!text) return;
-    
+        
+        const hasNumber = /[0-9]/.test(text);
         const hasEmoji = /\p{Emoji}/u.test(text);
     
-        return !hasEmoji ? null : {hasEmoji: true};
+        return !hasEmoji || hasNumber ? null : {hasEmoji: true};
     }
 }

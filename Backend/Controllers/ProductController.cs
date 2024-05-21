@@ -11,6 +11,7 @@ namespace Backend.Controllers
     public class ProductController : ControllerBase
     {
         private readonly ApiDbContext _context;
+        private string imageUploadForFrontend = "SiteUploads/ShopImages";
         public ProductController(ApiDbContext context)
         {
             _context = context;
@@ -52,22 +53,49 @@ namespace Backend.Controllers
             return product;
         }
 
+        [HttpGet("get-product-by-name/{name}")]
+        public async Task<ActionResult<IEnumerable<Product>>> GetProductsLikeName(string name)
+        {
+            return await _context.Products.Where(x => x.Title.Contains(name)).ToListAsync();
+        }
+
         [HttpPost("add-product")]
         [Authorize(Roles = "Admin")]
-        public async Task<ActionResult<Product>> CreateProduct(Product product)
+        public async Task<ActionResult<Product>> CreateProduct([FromForm]  Product product, [FromForm(Name = "image")] IFormFile[] image)
         {
             var existingCategory = await _context.Categories.FindAsync(product.Category.Id);
             if (existingCategory != null)
             {
-                // Associate the category
-                product.Category = existingCategory;
+                if(image.Length >= 3)
+                {
+                    // Associate the category
+                    product.Category = existingCategory;
+                    product.FolderName = Guid.NewGuid().ToString();
+                    product.PhotoNumber = image.Length;
 
-                // Add the new product 
-                _context.Products.Add(product);
-                await _context.SaveChangesAsync();
+                    string uploadsFolder = Path.Combine(imageUploadForFrontend, product.FolderName);
+                    Directory.CreateDirectory(uploadsFolder);
+                    for(int i = 0; i < image.Length; i++)
+                    {
+                        string fileName = product.FolderName + "_" + i + ".png";
+                        string filePath = Path.Combine(uploadsFolder, fileName);
 
-                return CreatedAtAction("GetProduct", new { id = product.Id }, product);
+                        using (var fileStream = new FileStream(filePath, FileMode.Create))
+                        {
+                            await image[i].CopyToAsync(fileStream);
+                        }
+                    }
 
+                    // Add the new product 
+                    _context.Products.Add(product);
+                    await _context.SaveChangesAsync();
+
+                    return CreatedAtAction("GetProduct", new { id = product.Id }, product);
+                } 
+                else
+                {
+                    return BadRequest("Trebuie sa incarci minim 3 poze pentru acest produs!");
+                }
             }
             else
             {
@@ -75,9 +103,8 @@ namespace Backend.Controllers
                 ModelState.AddModelError("CategoryId", "Invalid category selected.");
                 return BadRequest(); // Return to the form
             }
-          
-
         }
+
         [HttpPut("update-product")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateProduct(Product product)

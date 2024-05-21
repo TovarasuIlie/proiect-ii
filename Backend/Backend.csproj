@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="SiteUploads\" />
+    <Folder Include="SiteUploads\ShopImages\" />
   </ItemGroup>
 
 </Project>

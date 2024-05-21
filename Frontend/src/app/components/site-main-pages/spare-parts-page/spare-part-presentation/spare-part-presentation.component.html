@@ -1,17 +1,17 @@
 <app-header />
 <div class="container mt-5">
-    <h4>{{ tire.title }}</h4>
-    <h6 class="text-muted">Numar Produs: {{ tire.id }}</h6>
+    <h4>{{ product.title }}</h4>
+    <h6 class="text-muted">Numar Produs: {{ product.id }}</h6>
     <div class="row">
         <div class="col-lg">
             <div id="carouselExampleDark" class="carousel carousel-dark slide carousel-fade" data-bs-ride="carousel">
                 <div class="carousel-indicators">
-                    <button type="button"  *ngFor="let photo of photoLinks; let index = index" data-bs-target="#carouselExampleDark" [attr.data-bs-slide-to]="index" 
+                    <button type="button"  *ngFor="let photo of [].constructor(product.photoNumber); let index = index" data-bs-target="#carouselExampleDark" [attr.data-bs-slide-to]="index" 
                     [class.active]="index === 0" [attr.aria-label]="'Slide' + index" aria-current="true"></button>
                 </div>
                 <div class="carousel-inner">
-                    <div *ngFor="let photo of photoLinks; let index = index" class="carousel-item p-5" [class.active]="index === 0">
-                        <img src="..\..\..\assets\tires-page-imgs\test.jpg" class="img-fluid">
+                    <div *ngFor="let photo of [].constructor(product.photoNumber); let index = index" class="carousel-item p-5" [class.active]="index === 0">
+                        <img [attr.src]="  getImage(product.folderName , index.toString()) "  class="img-fluid">
                     </div>
                 </div>
                 <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark"
@@ -34,7 +34,7 @@
                     </tr>
                 </thead>
                 <tbody style="font-size: small;">
-                    <tr *ngFor="let spec of tire.technicalDetailsJson">
+                    <tr *ngFor="let spec of product.technicalDetailsJson">
                         <td>{{ spec.specificationTitle }}:</td>
                         <td class="fw-bold">{{ spec.specificationValue }}</td>
                     </tr>
@@ -43,17 +43,17 @@
         </div>
         <div class="col-lg p-5">
             <div class="container">
-                <h6 *ngIf="tire.quantity" class="text-success mb-5" style="font-size: small;"><i class="fa-solid fa-face-smile-beam"></i> In stoc</h6>
-                <h6 *ngIf="tire.quantity === 0" class="text-danger mb-5" style="font-size: small;"><i class="fa-solid fa-face-frown"></i> Stoc Epuizat</h6>
-                <h4>Pret: <b>{{ tire.price }}</b> Lei</h4>
-                <button class="btn btn-danger w-100"><i class="fa-solid fa-cart-arrow-down"></i> Cumpara!</button>
+                <h6 *ngIf="product.quantity" class="text-success mb-5" style="font-size: small;"><i class="fa-solid fa-face-smile-beam"></i> In stoc</h6>
+                <h6 *ngIf="product.quantity === 0" class="text-danger mb-5" style="font-size: small;"><i class="fa-solid fa-face-frown"></i> Stoc Epuizat</h6>
+                <h4>Pret: <b>{{ product.price }}</b> Lei</h4>
+                <button class="btn btn-danger w-100" (click)="addProductToCart(product.id)"><i class="fa-solid fa-cart-arrow-down"></i> Cumpara!</button>
             </div>
         </div>
     </div>
     <hr>
     <h4>Descriere Produs</h4>
     <div class="container">
-        <p>{{ tire.description }}</p>
+        <p>{{ product.description }}</p>
     </div>
 </div>
-<app-header />
+<app-footer />

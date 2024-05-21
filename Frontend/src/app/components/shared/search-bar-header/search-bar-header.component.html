@@ -2,15 +2,22 @@
     <div class="col-10 p-0">
         <mat-form-field class="w-100">
             <mat-label>Cauta dupa denumirea produsului...</mat-label>
-            <input type="text" placeholder="Tasteaza..." aria-label="Number" matInput [formControl]="searchFieldControl"
-                [matAutocomplete]="auto" (keypress)="filtering($event)">
+            <input #searchBar type="text" placeholder="Tasteaza..." aria-label="Number" matInput [formControl]="searchFieldControl"
+                [matAutocomplete]="auto" (focus)="focus(searchFieldControl.value || '')" (keydown)="filtering($event, searchFieldControl.value || '')">
             <mat-autocomplete #auto="matAutocomplete">
                 <mat-option *ngIf="isLoading">
                     <mat-spinner diameter="30" class="d-flex align-items-center justify-content-center"></mat-spinner>
                 </mat-option>
-                <mat-option *ngFor="let option of filteredOptions" [value]="option">
-                    {{option}}
-                  </mat-option>
+                <div *ngIf="filteredOptions.length > 0">
+                    <mat-option *ngFor="let option of filteredOptions" [value]="option">
+                        {{option}}
+                      </mat-option>
+                </div>
+                <div *ngIf="filteredOptions.length === 0 && searchFieldControl.value !== '' && !isLoading">
+                    <mat-option class="disabled">
+                        Nu a fost gasit nici un produs cu numele "{{ searchFieldControl.value }}".
+                      </mat-option>
+                </div>
             </mat-autocomplete>
         </mat-form-field>
     </div>

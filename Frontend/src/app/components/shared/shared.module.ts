@@ -19,6 +19,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ConfirmEmailModalComponent } from './confirm-email-modal/confirm-email-modal.component';
+import { ShoppingCartComponent } from './shopping-cart/shopping-cart.component';
 
 
 @NgModule({
@@ -34,7 +35,8 @@ import { ConfirmEmailModalComponent } from './confirm-email-modal/confirm-email-
     ShoppingCartFooterComponent,
     PaginationComponent,
     SearchBarHeaderComponent,
-    ConfirmEmailModalComponent
+    ConfirmEmailModalComponent,
+    ShoppingCartComponent
   ],
   imports: [
     CommonModule,
