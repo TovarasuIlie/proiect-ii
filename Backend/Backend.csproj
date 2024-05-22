@@ -20,6 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="SiteUploads\category-icons\" />
     <Folder Include="SiteUploads\ShopImages\" />
   </ItemGroup>
 
