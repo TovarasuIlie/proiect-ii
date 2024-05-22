@@ -34,8 +34,8 @@ namespace Backend.Controllers
             
             _context.Orders.Add(order);
             await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetOrder", new { id = order.Id }, order);
+            return Ok(order);
+            
         }
         [HttpGet("get-orders")]
         [Authorize] 
