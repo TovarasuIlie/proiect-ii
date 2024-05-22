@@ -5,8 +5,9 @@ import { UserService } from '../../../../services/user.service';
 import { MemberViewInterface } from '../../models/admin.model';
 import { DOCUMENT } from '@angular/common';
 import { PaginateConfig } from '../../../../models/paginate.model';
-import { FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { UserInteface } from '../../../../models/user.model';
 
 @Component({
   selector: 'app-all-users-page',
@@ -23,19 +24,32 @@ export class AllUsersPageComponent implements OnInit {
   }
   filterForm: FormGroup = new FormGroup({});
 
-  constructor(public userService: UserService, private titleService: Title, private adminService: AdminService, private _renderer2: Renderer2, @Inject(DOCUMENT) private _document: Document, private router: ActivatedRoute) {
+  constructor(public userService: UserService, private titleService: Title, private adminService: AdminService, private _renderer2: Renderer2, @Inject(DOCUMENT) private _document: Document, private router: ActivatedRoute, private formBuilder: FormBuilder) {
     this.titleService.setTitle("Roluri Utilizatori - La Verucu' SRL");
   }
 
   ngOnInit(): void {
     this.initializePagination();
+    this.initializeMembers();
+    this.initializeForm();
   }
 
   initializeMembers() {
-    this.adminService.getMembers().subscribe({
+    const paginatorConfig = sessionStorage.getItem("paginatorConfig");
+    if(paginatorConfig) {
+        this.paginatorConfig = JSON.parse(paginatorConfig);
+    }
+    this.adminService.getMembersPagination(this.paginatorConfig.currentPage, this.paginatorConfig.itemsPerPage).subscribe({
       next: (members) => {
         this.members = members;
       }
+    });
+  }
+
+  initializeForm() {
+    this.filterForm = this.formBuilder.group({
+      itemsPerPage: [this.paginatorConfig.itemsPerPage],
+      orderListType: ['ASC']
     })
   }
 
@@ -52,8 +66,7 @@ export class AllUsersPageComponent implements OnInit {
     } else {
       this.adminService.getMembersCount().subscribe({
         next: (value) => {
-          console.log(value);
-          // this.paginatorConfig.totalItems = value;
+          this.paginatorConfig.totalItems = value;
         }
       });
     }
@@ -61,6 +74,7 @@ export class AllUsersPageComponent implements OnInit {
     if(this.paginatorConfig.currentPage > totalPages) {
       this.paginatorConfig.currentPage = totalPages
     }
+    console.log(this.paginatorConfig);
     sessionStorage.setItem('paginatorConfig', JSON.stringify(this.paginatorConfig));
   }
 

@@ -7,6 +7,7 @@ namespace Backend.Models.Shop
         public int Id { get; set; }
         public string UserId { get; set; }
         public bool IsConfirmed { get; set; }
-        public ICollection<OrderDetails> OrderDetails { get; set; }
+        public ICollection<OrderDetails> OrderDetails { get; set; } = new List<OrderDetails>();
+        public double OrderPrice { get; set; }
     }
 }

@@ -30,4 +30,8 @@ export class OffcanvasCategoriesComponent implements OnInit {
     })
   }
 
+  getImage(imageName: string) {
+    return 'http://localhost:5020/SiteUploads/category-icons/' + imageName;
+  }
+
 }

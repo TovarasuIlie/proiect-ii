@@ -6,13 +6,15 @@ import { ProfilePageComponent } from './profile-page/profile-page/profile-page.c
 import { WishlistPageComponent } from './profile-page/wishlist-page/wishlist-page.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
+import { ViewOrderComponent } from './view-order/view-order.component';
 
 
 @NgModule({
   declarations: [
     OrdersPageComponent,
     ProfilePageComponent,
-    WishlistPageComponent
+    WishlistPageComponent,
+    ViewOrderComponent
   ],
   imports: [
     CommonModule,

@@ -18,7 +18,7 @@
         <div class="px-2" *ngIf="shoppingList.length > 0">
             <div class="row mb-2" *ngFor="let product of shoppingList"  style="min-width: 400px;">
                 <div class="col-3 pe-0">
-                    <img src="http://localhost:5020/SiteUploads/category-icons/anvelope.png" class="img-fluid">
+                    <img [attr.src]="getImage(product.product.folderName, '0')" class="img-fluid">
                 </div>
                 <div class="col pe-0">
                     <p>{{ product.product.title }}</p>

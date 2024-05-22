@@ -3,6 +3,7 @@ import { UserService } from '../../../services/user.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmEmail, UserInteface } from '../../../models/user.model';
 import { take } from 'rxjs';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-confirm-email',
@@ -10,16 +11,13 @@ import { take } from 'rxjs';
   styleUrl: './confirm-email.component.css'
 })
 export class ConfirmEmailComponent implements OnInit {
-  toaster: any = {
-    title: 'Test',
-    message: 'test'
-  };
-  // registerSuccess: boolean = true;
   emailConfirmed: boolean = false;
 
   progressBarValue: number = 0;
 
-  constructor(private userService: UserService, private router: Router, private activatedRoute: ActivatedRoute) {}
+  constructor(private userService: UserService, private router: Router, private activatedRoute: ActivatedRoute, private title: Title) {
+    this.title.setTitle("Confirmare Email - La Vericu' SRL");
+  }
 
   ngOnInit(): void {
     this.userService.user$.pipe(take(1)).subscribe({
@@ -47,8 +45,6 @@ export class ConfirmEmailComponent implements OnInit {
                 },
                 error: response => {
                   this.emailConfirmed = true;
-                  this.toaster.title = "Eroare la validare";
-                  this.toaster.message = response.error;
                   this.router.navigateByUrl("/");
                 }
               });

@@ -16,7 +16,11 @@ export class AdminService {
   }
 
   getMembersCount() {
-    return this.http.get(environment.apiUrl + "/api/Admin/get-members-count");
+    return this.http.get<number>(environment.apiUrl + "/api/Admin/get-members-count");
+  }
+
+  getMembersPagination(currentPage: number, pageSize: number) {
+    return this.http.get<MemberViewInterface[]>(environment.apiUrl + "/api/Admin/all-members-pagination?page=" + currentPage + "&pageSize=" + pageSize);
   }
 
   getMember(id: string) {

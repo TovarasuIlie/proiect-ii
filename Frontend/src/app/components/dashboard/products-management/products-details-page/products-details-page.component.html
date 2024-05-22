@@ -63,15 +63,6 @@
                             <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
                             Comezi Active
                         </a>
-                        <a class="nav-link" [routerLink]="['/dashboard', 'retur-comenzi']">
-                            <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                            Retur Comenzi
-                        </a>
-                        <div class="sb-sidenav-menu-heading">Setari</div>
-                        <a class="nav-link" [routerLink]="['/dashboard', 'setari-magazin']">
-                            <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                            Setari Magazin Online
-                        </a>
                     </div>
                 </div>
                 <div class="sb-sidenav-footer">
@@ -250,7 +241,7 @@
                                     <div class="card-header">
                                         <h4>Detalii Produs</h4>
                                     </div>
-                                    <div class="card-body p-5">
+                                    <div class="card-body p-4">
                                         <table class="table table-striped">
                                             <tbody>
                                                 <tr>
@@ -309,6 +300,18 @@
                                         data-bs-target="#edit-modal">Editeaza Produs</button>
                                         <button class="btn w-100 btn-danger" data-bs-toggle="modal"
                                             data-bs-target="#delete-modal">Sterge Cont</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card border-0 shadow-lg mb-5 bg-body rounded">
+                            <div class="card-header">
+                                <h4>Poze Produs</h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="row row-cols-2 row-cols-lg-5 g-2 g-lg-3">
+                                    <div class="col" *ngFor="let photo of [].constructor(product.photoNumber); let i = index">
+                                        <img [attr.src]="getImage(product.folderName, i.toString())" class="img-fluid">
                                     </div>
                                 </div>
                             </div>

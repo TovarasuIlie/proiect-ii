@@ -4,6 +4,7 @@ import { Observable, ReplaySubject, map, of } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../environments/environment.development';
 import { Router } from '@angular/router';
+import { jwtDecode } from 'jwt-decode';
 
 @Injectable({
   providedIn: 'root'
@@ -83,4 +84,26 @@ export class UserService {
     localStorage.setItem(environment.userKey, JSON.stringify(user));
     this.userSource.next(user);
   }
+
+  getID() {
+    const key = localStorage.getItem(environment.userKey);
+    if(key) {
+      const user: UserInteface = JSON.parse(key);
+      const decodedToken: any = jwtDecode(user.jwt);
+      return decodedToken.nameid;
+    } else {
+      return null;
+    }
+  }
+
+    getEmail() {
+      const key = localStorage.getItem(environment.userKey);
+      if(key) {
+        const user: UserInteface = JSON.parse(key);
+        const decodedToken: any = jwtDecode(user.jwt);
+        return decodedToken.email;
+      } else {
+        return null;
+      }
+    } 
 }

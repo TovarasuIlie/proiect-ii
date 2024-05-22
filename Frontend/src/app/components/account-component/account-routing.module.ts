@@ -8,6 +8,8 @@ import { ResetPasswordPageComponent } from './reset-password-page/reset-password
 import { ForgotPasswordPageComponent } from './forgot-password-page/forgot-password-page.component';
 import { ConfirmEmailComponent } from './confirm-email/confirm-email.component';
 import { AuthorizationGuard } from '../../route-guards/authorization.guard';
+import { ViewOrderComponent } from './view-order/view-order.component';
+import { OrderResolverService } from '../../resolvers/orders.resolver';
 
 const routes: Routes = [
   {
@@ -19,6 +21,14 @@ const routes: Routes = [
     path: 'comenzile-mele',
     component: OrdersPageComponent,
     canActivate: [AuthorizationGuard]
+  },
+  {
+    path: 'comenzile-mele/vezi-comanda/:id',
+    component: ViewOrderComponent,
+    canActivate: [AuthorizationGuard],
+    resolve: {
+      order: OrderResolverService 
+    }
   },
   {
     path: 'wishlist',

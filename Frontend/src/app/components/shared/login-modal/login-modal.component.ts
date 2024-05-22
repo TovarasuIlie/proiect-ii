@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService } from '../../../services/user.service';
 import { Router } from '@angular/router';
@@ -17,6 +17,7 @@ export class LoginModalComponent implements OnInit {
   @ViewChild('closeModal') closeModal: any;
   loginSuccess: boolean = false;
   toaster: any;
+  @Output() loginEvent = new EventEmitter();
 
   constructor(private formBuilder: FormBuilder, private userService: UserService, private router: Router, private toastService: ToastService) {}
 
@@ -37,7 +38,7 @@ export class LoginModalComponent implements OnInit {
     if(this.loginForm.valid) {
       this.userService.loginUser(this.loginForm.value).subscribe({
         next: (response: any) => {
-          console.log(response);
+          this.loginEvent.emit(null);
           this.router.navigateByUrl('/');
           this.closeModal.nativeElement.click();
           this.toastService.show({title: "Autentificare cu succes!", message: "Sunteti autentificat in contul dumnevoastra!", classname: "text-success"});

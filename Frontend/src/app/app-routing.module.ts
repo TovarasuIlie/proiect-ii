@@ -6,6 +6,8 @@ import { NotFoundPageComponent } from './components/site-main-pages/not-found-pa
 import { MotorOilPageComponent } from './components/site-main-pages/motor-oil-page/motor-oil-page.component';
 import { AccesoriesPageComponent } from './components/site-main-pages/accesories-page/accesories-page.component';
 import { SearchPageComponent } from './components/site-main-pages/search-page/search-page.component';
+import { AdminGuard } from './route-guards/admin.guard';
+import { AuthorizationGuard } from './route-guards/authorization.guard';
 
 const routes: Routes = [
   {
@@ -43,7 +45,8 @@ const routes: Routes = [
   },
   {
     path: 'cont', 
-    loadChildren: () => import('./components/account-component/account.module').then(module => module.AccountModule)
+    loadChildren: () => import('./components/account-component/account.module').then(module => module.AccountModule),
+    canActivate: [AuthorizationGuard]
   },
   {
     path: 'cosul-meu', 
@@ -51,7 +54,8 @@ const routes: Routes = [
   },
   {
     path: "dashboard",
-    loadChildren: () => import('./components/dashboard/admin.module').then(module => module.AdminModule)
+    loadChildren: () => import('./components/dashboard/admin.module').then(module => module.AdminModule),
+    canActivate: [AuthorizationGuard, AdminGuard]
   },
   {
     path: '**',

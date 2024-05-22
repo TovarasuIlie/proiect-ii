@@ -2,43 +2,35 @@
 <div class="container" style="margin-bottom: 100px;" *ngIf="shoppingList.length > 0">
     <div class="row">
         <div class="col-lg border-end">
-            <div *ngFor="let product of shoppingList" class="card card-body p-3 mb-3 shadow bg-body rounded border-0">
+            <div *ngFor="let product of shoppingList; let i = index" class="card card-body p-3 mb-3 shadow bg-body rounded border-0 mb-5">
                 <div class="container-fluid text-end">
                     <button type="button" class="btn-close" aria-label="Close" (click)="removeProduct(product.id)"></button>
                 </div>
                 <div class="row">
-                    <div class="col">
+                    <div class="col-md">
                         <div class="row">
-                            <div class="col">
-                                <img src="http://localhost:5020/SiteUploads/category-icons/anvelope.png"
+                            <div class="col-md">
+                                <img [attr.src]="getImage(product.product.folderName, '0')"
                                     class="img-fluid img-thumbnail">
                             </div>
-                            <div class="col p-1">
+                            <div class="col-md p-1">
                                 <h5>{{ product.product.title }}</h5>
                                 <h6 class="text-muted">{{ product.product.category?.name }}</h6>
                                 <h6 class="text-muted mb-4">Numar Produs: {{ product.product.id }}</h6>
-                                <a class="text-muted text-decoration-none" data-bs-toggle="collapse"
+                                <a class="text-muted text-decoration-none mb-3" data-bs-toggle="collapse"
                                     href="#collapseExample" role="button" aria-expanded="false"
                                     aria-controls="collapseExample">
                                     Mai multe
                                 </a>
                             </div>
                         </div>
-                        <div class="collapse" id="collapseExample">
+                        <div class="collapse mb-3" id="collapseExample">
                             <div class="card card-body border-0">
                                 <table class="table">
                                     <tbody>
-                                        <tr>
-                                            <td>Specificatia:</td>
-                                            <td>Da</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Specificatia:</td>
-                                            <td>Da</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Specificatia:</td>
-                                            <td>Da</td>
+                                        <tr *ngFor="let spec of jsonSpecs(i)">
+                                            <td>{{ spec.specificationTitle }}</td>
+                                            <td>{{ spec.specificationValue }}</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -64,8 +56,9 @@
                     </div>
                 </div>
             </div>
+            <app-pagination [itemsPerPage]="paginatorConfig.itemsPerPage" [currentPage]="paginatorConfig.currentPage" [totalItems]="paginatorConfig.totalItems" (onClick)="changePage($event)"></app-pagination>
         </div>
-        <div class="col-lg-4">
+        <div class="col-lg-4" style="margin-bottom: 100px;">
             <h4 class="text-muted" style="font-weight: 200;">Comanda dumneavoastra</h4>
             <hr>
             <h6 class="text-muted mb-3" style="font-weight: 300;">Suma totala a cosului de cumparaturi: <b
@@ -78,7 +71,7 @@
             <h5 class="mb-5" style="font-weight: 300;">Suma totala a comenzii: 
                 <b class="float-end">{{ totalBasketPriceWithDelivery | number: '1.2-2' }} lei</b>
             </h5>
-            <a [routerLink]="['adresa-de-livrare']" class="btn btn-danger w-100">Finalizeaza comanda!</a>
+            <a [routerLink]="['plata']" class="btn btn-danger w-100">Finalizeaza comanda!</a>
         </div>
     </div>
     <app-toast></app-toast>

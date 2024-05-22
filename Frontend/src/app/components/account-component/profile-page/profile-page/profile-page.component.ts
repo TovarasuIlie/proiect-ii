@@ -4,6 +4,7 @@ import { UserService } from '../../../../services/user.service';
 import { environment } from '../../../../../environments/environment.development';
 import { UserValidator } from '../../../../validators/register-form.validator';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-profile-page',
@@ -17,7 +18,8 @@ export class ProfilePageComponent implements OnInit {
   errorMessages: string[] = [];
   editAccountFormSubmited: boolean = false;
 
-  constructor(private formBuilder: FormBuilder, private router: Router, public userService: UserService) {
+  constructor(private formBuilder: FormBuilder, private router: Router, public userService: UserService, private title: Title) {
+    this.title.setTitle("Contul meu - La Vericu' SRL");
 
   }
 

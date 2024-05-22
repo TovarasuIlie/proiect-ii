@@ -54,12 +54,22 @@ namespace Backend.Controllers
 
             return Ok(orders);
         }
+
+        [HttpGet("get-order-by-id/{id}")]
+        [Authorize]
+        public async Task<ActionResult<Order>> GetOrderById(int id)
+        {
+            var order = await _context.Orders.FindAsync(id);
+            order.OrderDetails = await _context.OrderDetails.Where(o => o.OrderId == id).ToListAsync();
+            return order;
+        }
+
         [HttpGet("all-orders")]
         [Authorize(Roles = "Admin")] 
         public async Task<ActionResult<IEnumerable<Order>>> GetOrders()
         {
             var orders = await _context.Orders
-                .OrderByDescending(o => o.IsConfirmed) 
+                .OrderBy(o => o.IsConfirmed) 
                 .ToListAsync();
 
             return Ok(orders); 

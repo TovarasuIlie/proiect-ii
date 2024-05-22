@@ -57,15 +57,6 @@
                             <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
                             Comezi Active
                         </a>
-                        <a class="nav-link" [routerLink]="['/dashboard', 'retur-comenzi']">
-                            <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                            Retur Comenzi
-                        </a>
-                        <div class="sb-sidenav-menu-heading">Setari</div>
-                        <a class="nav-link" [routerLink]="['/dashboard', 'setari-magazin']">
-                            <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                            Setari Magazin Online
-                        </a>
                     </div>
                 </div>
                 <div class="sb-sidenav-footer">
@@ -76,7 +67,95 @@
         </div>
         <div id="layoutSidenav_content">
             <main>
-                
+                <div class="container-fluid">
+                    <h1 class="mt-4">Vizualizare Comanda</h1>
+                    <div class="container mt-5">
+                        <div class="row">
+                            <div class="col-md-9">
+                                <div class="card border-0 shadow mb-5 rounded">
+                                    <div class="card-header">
+                                        <h4>Detalii comanda</h4>
+                                    </div>
+                                    <div class="card-body">
+                                        <table class="table">
+                                            <tbody>
+                                                <tr>
+                                                    <td>ID Comanda</td>
+                                                    <td><b>{{ order.id }}</b></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Nume</td>
+                                                    <td><b>{{ user?.fullName }}</b></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Status comanda</td>
+                                                    <td>
+                                                        <span *ngIf="!order?.isConfirmed" class="badge bg-danger">Coamnda Noua</span>
+                                                        <span *ngIf="order?.isConfirmed" class="badge bg-success">Coamnda Finalizata</span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Adresa de livrare</td>
+                                                    <td><b>{{ user?.address }}</b></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Numer de telefon</td>
+                                                    <td><b>{{ user?.phone }}</b></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Total comanda</td>
+                                                    <td><b>{{ order.orderPrice | number:'1.2-2'  }} lei</b></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="card border-0 shadow mb-5 rounded">
+                                    <div class="card-header">
+                                        <h4>Admin Area</h4>
+                                    </div>
+                                    <div class="card-body">
+                                        <button class="btn btn-success w-100" (click)="markAsConfirm()">Finalizeaza Comanda!</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card border-0 shadow mb-5 rounded">
+                            <div class="card-header">
+                                <h4>Produse comanda</h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table text-center align-middle">
+                                        <thead class="table-dark">
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Nume Produs</th>
+                                                <th>Cantitate</th>
+                                                <th>Pret/buc</th>
+                                                <th>Pret total</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let product of products; let i = index">
+                                                <td>
+                                                    <img [attr.src]="getImage(product.folderName, '0')" class="img-fluid" style="max-width: 100px;">
+                                                </td>
+                                                <td><b>{{ product.title }}</b></td>
+                                                <td><b>{{ order.orderDetails[i].quantity }}</b> buc</td>
+                                                <td><b>{{ product.price | number:'1.2-2' }}</b> lei/buc</td>
+                                                <td><b>{{ calculatePrice(order.orderDetails[i].quantity, product.price || 0) | number: '1.2-2' }}</b> lei</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <h5 class="text-muted text-center">Total Comanda <b>{{ order.orderPrice | number:'1.2-2'  }}</b> lei</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </main>
             <footer class="py-4 bg-light mt-auto">
                 <div class="container-fluid px-4">

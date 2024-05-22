@@ -49,12 +49,11 @@ export class ProductsService {
     product.image.forEach(element => {
       productData.append("image", element);
     });
-    console.log(productData);
     return this.http.post(environment.apiUrl + "/api/Product/add-product", productData, {headers});
   }
 
   getProductsByCategoryName(categoryName: string) {
-    return this.http.get<ProductsInterface[]>(environment.apiUrl + '/api/Product/products-by-category-name/' + categoryName).pipe(delay(3000));
+    return this.http.get<ProductsInterface[]>(environment.apiUrl + '/api/Product/products-by-category-name/' + categoryName);
   }
 
   editProduct(product: ProductsInterface) {

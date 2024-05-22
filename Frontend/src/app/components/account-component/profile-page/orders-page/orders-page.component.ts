@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { NavigationEnd, Router, Event } from '@angular/router';
+import { NavigationEnd, Router, Event, ActivatedRoute } from '@angular/router';
 import { UserService } from '../../../../services/user.service';
+import { OrderInterface } from '../../../../models/order.model';
+import { OrderService } from '../../../../services/order.service';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-orders-page',
@@ -9,16 +12,21 @@ import { UserService } from '../../../../services/user.service';
 })
 export class OrdersPageComponent implements OnInit {
   currentPath: string = '';
+  orders: OrderInterface[] = [];
 
-  constructor(private router: Router, public userService: UserService) {
-
+  constructor(public userService: UserService, private orderService: OrderService, private title: Title) {
+    this.title.setTitle("Contul meu - La Vericu' SRL");
   }
 
   ngOnInit(): void {
-    this.router.events.subscribe((event: Event) => {
-      if(event instanceof NavigationEnd) {
-        this.currentPath = event.url;
+    this.initializeOrders();
+  }
+
+  initializeOrders() {
+    this.orderService.getOrders().subscribe({
+      next: (value) => {
+        this.orders = value;
       }
-    });
+    })
   }
 }

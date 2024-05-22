@@ -1,5 +1,6 @@
 ﻿using Backend.DTOs.Admin;
 using Backend.Models;
+using Backend.Models.Shop;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -58,6 +59,12 @@ namespace Backend.Controllers
         public async Task<ActionResult<int>> GetCategoriesCount()
         {
             return await _userManager.Users.CountAsync() - 1;
+        }
+
+        [HttpGet("all-members-pagination")]
+        public async Task<ActionResult<IEnumerable<User>>> GetProductsPagination(int page = 1, int pageSize = 10)
+        {
+            return await _userManager.Users.Where(x => x.UserName != SD.AdminUserName).Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
         }
 
         [HttpGet("get-member/{id}")]

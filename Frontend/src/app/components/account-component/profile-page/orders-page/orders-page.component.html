@@ -1,14 +1,12 @@
 <app-header />
-<div class="container">
+<div class="container mt-5" style="min-height: 35vh;">
     <div class="row">
         <div class="col-md-3">
-            <div class="card shadow mb-2 mt-1 bg-body rounded profile-card">
+            <div class="card shadow mb-3 mt-1 bg-body rounded profile-card">
                 <div class="list-group list-group-flush">
                     <button type="button" class="list-group-item list-group-item-action active" [routerLink]="['/cont', 'comenzile-mele']"><i class="fa-solid fa-layer-group"></i> Comenzile Mele</button>
                     <button type="button" class="list-group-item list-group-item-action" [routerLink]="['/cont', 'contul-meu']"><i class="fa-solid fa-user"></i> Contul Meu</button>
                     <button type="button" class="list-group-item list-group-item-action" [routerLink]="['/cont', 'wishlist']"><i class="fa-solid fa-heart"></i> WishList</button>
-                    <button type="button" class="list-group-item list-group-item-action">A fourth button item</button>
-                    <button type="button" class="list-group-item list-group-item-action" disabled>A disabled button item</button>
                 </div>
             </div>
         </div>
@@ -17,9 +15,32 @@
                 <div class="card shadow mb-2 mt-1 bg-body rounded profile-card">
                     <div class="card-body">
                         <h3>Comenzile Mele</h3>
-                        <ul class="list-group list-group-flush">
+                        <ul *ngIf="orders.length === 0" class="list-group list-group-flush">
                             <li class="list-group-item">Momentan nu este nici o comanda plasata!</li>
                         </ul>
+                        <div class="table-responsive">
+                            <table *ngIf="orders.length > 0" class="table mt-5">
+                                <thead>
+                                    <tr>
+                                        <th>ID Comanda</th>
+                                        <th>Status Comanda</th>
+                                        <th>Pret Comanda</th>
+                                        <th>Actiuni</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let order of orders">
+                                        <td>#{{ order.id }}</td>
+                                        <td>
+                                            <span *ngIf="!order.isConfirmed" class="badge bg-danger">Comanda Noua</span>
+                                            <span *ngIf="order.isConfirmed" class="badge bg-success">Comanda Finalizata</span>
+                                        </td>
+                                        <td><b>{{ order.orderPrice | number: '1.2-2' }}</b> lei</td>
+                                        <td><button class="btn btn-sm btn-info" [routerLink]="['vezi-comanda', order.id]">Vezi</button></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -3,20 +3,17 @@
         <div class="row p-4">
             <div class="col-lg-3 text-center">
                 <img src="../../assets/icons/index-logo.png" alt="Logo" width="170" height="70"
-                    class="d-inline-block align-text-center">
+                    class="d-inline-block align-text-center" [routerLink]="['/']">
             </div>
             <div class="col-lg-7 mt-3">
-                <ul id="progressbar-1" class="align-items-center">
+                <ul id="progressbar-1" class="align-items-center justify-content-center">
                     <li class="step0 text-center" [class.active]="stage == 1" [class.completed]="stage > 1" [routerLink]="['/cosul-meu']" id="step1">
                         <span>Cosul meu</span>
                     </li>
-                    <li class="step0 text-center" [class.active]="stage == 2" [class.completed]="stage > 2" [routerLink]="['/cosul-meu', 'adresa-de-livrare']" id="step2">
-                        <span>Adresa de livrare</span>
-                    </li>
-                    <li class="step0 text-center" [class.active]="stage == 3" [class.completed]="stage > 3" [routerLink]="['/cosul-meu', 'plata']" id="step3">
+                    <li class="step0 text-center" [class.active]="stage == 2" [class.completed]="stage > 2" [routerLink]="['/cosul-meu', 'plata']" id="step2">
                         <span>Achitare</span>
                     </li>
-                    <li class="step0 text-center" [class.active]="stage == 4" [class.completed]="stage > 4" [routerLink]="['/cosul-meu', 'checkout']" id="step4">
+                    <li class="step0 text-center" [class.active]="stage == 3" [class.completed]="stage > 3" [routerLink]="['/cosul-meu', 'checkout']" id="step3">
                         <span>Confirmati</span>
                     </li>
                 </ul>

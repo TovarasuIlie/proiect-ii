@@ -3,6 +3,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ProductsInterface } from '../../dashboard/models/products.model';
 import { ProductsService } from '../../dashboard/services/products.service';
 import { ShippingCartService } from '../../../services/shipping-cart.service';
+import { Title } from '@angular/platform-browser';
+import { PaginateConfig } from '../../../models/paginate.model';
 
 @Component({
   selector: 'app-search-page',
@@ -13,15 +15,22 @@ export class SearchPageComponent {
   keyword!: string;
   errorMessages!: string[];
   products: ProductsInterface[] = [];
+  paginatorConfig: PaginateConfig = {
+    totalItems: 10,
+    itemsPerPage: 10,
+    currentPage: 1,
+    currentPageName: 'cauta'
+  }
 
-  constructor(private activatedRoute: ActivatedRoute, private productService: ProductsService, private shippingCartService: ShippingCartService) {
+  constructor(private activatedRoute: ActivatedRoute, private productService: ProductsService, private shippingCartService: ShippingCartService, private title: Title) {
     this.activatedRoute.queryParams.subscribe({
       next: (value) => {
         this.keyword = value['keyword'];
         console.log(value);
         this.initializeSearch();
       }
-    })
+    });
+    title.setTitle("Cauti '" + this.keyword + "' - La Vericu' SRL")
   }
 
   initializeSearch() {
@@ -53,6 +62,10 @@ export class SearchPageComponent {
       returnedObj.push(object[i]);
     }
     return returnedObj;
+  }
+
+  getImage(folderName:string, imageID: string) {
+    return 'http://localhost:5020/SiteUploads/ShopImages/' + folderName + "/" + folderName + "_" + imageID + ".png";
   }
 }
 

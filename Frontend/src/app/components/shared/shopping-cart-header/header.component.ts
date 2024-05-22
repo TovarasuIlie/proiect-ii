@@ -19,14 +19,11 @@ export class ShoppingCartHeaderComponent implements OnInit {
         if(value.length === 0) {
           this.stage = 1;
         } else {
-          if(value[0].path.includes('adresa-de-livrare')) {
+          if(value[0].path.includes('plata')) {
             this.stage = 2;
           }
-          if(value[0].path.includes('plata')) {
-            this.stage = 3;
-          }
           if(value[0].path.includes('checkout')) {
-            this.stage = 4;
+            this.stage = 3;
           }
         }
       },

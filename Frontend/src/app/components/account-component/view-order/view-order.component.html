@@ -1,0 +1,82 @@
+<app-header></app-header>
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-5">
+            <div class="card shadow mb-5 rounded border-0">
+                <div class="card-header">
+                    <h4>Detalii de livrare</h4>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <td>ID Comanda</td>
+                                    <td><b>{{ order.id }}</b></td>
+                                </tr>
+                                <tr>
+                                    <td>Nume</td>
+                                    <td><b>{{ (userService.user$ | async)?.fullName }}</b></td>
+                                </tr>
+                                <tr>
+                                    <td>Status comanda</td>
+                                    <td>
+                                        <span *ngIf="!order?.isConfirmed" class="badge bg-danger">Coamnda Noua</span>
+                                        <span *ngIf="order?.isConfirmed" class="badge bg-success">Coamnda Finalizata</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Adresa de livrare</td>
+                                    <td><b>{{ (userService.user$ | async)?.address }}</b></td>
+                                </tr>
+                                <tr>
+                                    <td>Numer de telefon</td>
+                                    <td><b>{{ (userService.user$ | async)?.phone }}</b></td>
+                                </tr>
+                                <tr>
+                                    <td>Total comanda</td>
+                                    <td><b>{{ order.orderPrice | number: '1.2-2' }} lei</b></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md">
+            <div class="card shadow mb-5 rounded border-0">
+                <div class="card-header">
+                    <h4>Lista cu produse</h4>
+                </div>
+                <div class="card-body table-responsive">
+                    <table class="table text-center align-middle">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Nume Produs</th>
+                                <th>Cantitate</th>
+                                <th>Pret/buc</th>
+                                <th>Pret total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let product of products; let i = index">
+                                <td>
+                                    <img [attr.src]="getImage(product.folderName, '0')" class="img-fluid" style="max-width: 100px;">
+                                </td>
+                                <td>
+                                    <a [routerLink]="['/piese-de-schimb/vizualizare-produs', product.id ]" class="text-decoration-none fw-semibold">{{ product.title }}</a>
+                                </td>
+                                <td>{{ order.orderDetails[i].quantity }} buc</td>
+                                <td>{{ product.price }} lei</td>
+                                <td>{{ calculatePrice(order.orderDetails[i].quantity, product.price || 0) | number: '1.2-2' }} lei</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<app-footer></app-footer>

@@ -2,7 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { ShareDataService } from '../../../../services/share-data.service';
 import { ShippingCartInterface } from '../../../../models/shipping-cart.model';
 import { ToastService } from '../../../shared/services/toast.service';
-import { computeStyles } from '@popperjs/core';
+import { UserService } from '../../../../services/user.service';
+import { OrderDetailInterface, OrderInterface } from '../../../../models/order.model';
+import { OrderService } from '../../../../services/order.service';
+import { Router } from '@angular/router';
+import { PaginateConfig } from '../../../../models/paginate.model';
 
 @Component({
   selector: 'app-shopping-cart-checkout',
@@ -14,20 +18,32 @@ export class ShoppingCartCheckoutComponent implements OnInit {
   totalBasketPriceWithoutDelivery: number = 0;
   totalBasketPriceWithDelivery: number = 0;
   deliveryPrice: number = 25;
-  currentPage: number = 1;
-  itemsPerPage: number = 10;
+  paginatorConfig: PaginateConfig = {
+    currentPage: 1,
+    itemsPerPage: 10,
+    totalItems: 10,
+    currentPageName: "checkout"
+  }
+  orderDetails: OrderDetailInterface[] = [];
 
-  constructor(private shareData: ShareDataService, private toastService: ToastService) {
+  constructor(private toastService: ToastService, public userService: UserService, private orderService: OrderService, private router: Router) {
     
   }
 
   ngOnInit(): void {
-    const itemsFromCart = localStorage.getItem('shoppingCart');
+    const itemsFromCart = localStorage.getItem(this.userService.getEmail());
     if(itemsFromCart == undefined) {
-      localStorage.setItem("shoppingCart", JSON.stringify(this.shoppingList));
+      localStorage.setItem(this.userService.getEmail(), JSON.stringify(this.shoppingList));
     } else {
       this.shoppingList = JSON.parse(itemsFromCart);
     }
+    this.shoppingList.forEach((item) => {
+      const newItem: OrderDetailInterface = {
+        productId: item.product.id,
+        quantity: item.quantity
+      }
+      this.orderDetails.push(newItem);
+    })
     this.calculateTotalPrice();
   }
 
@@ -51,6 +67,8 @@ export class ShoppingCartCheckoutComponent implements OnInit {
         this.toastService.show({title: "Lipsa stoc produs!", message: "Produsul selectat nu are indeajuns stoc!", classname: "text-danger"})
       }
     }
+    this.shoppingList.filter(p => p.id === id)[0] = shopping;
+    localStorage.setItem(this.userService.getEmail(), JSON.stringify(this.shoppingList));
     this.calculateTotalPrice();
   }
 
@@ -64,6 +82,8 @@ export class ShoppingCartCheckoutComponent implements OnInit {
         this.shoppingList.filter(p => p.id === id)[0].totalPrice = shopping.quantity * productPrice;
       }
     }
+    this.shoppingList.filter(p => p.id === id)[0] = shopping;
+    localStorage.setItem(this.userService.getEmail(), JSON.stringify(this.shoppingList));
     this.calculateTotalPrice();
   }
 
@@ -74,14 +94,31 @@ export class ShoppingCartCheckoutComponent implements OnInit {
   }
 
   changePage(page: number) {
-    this.currentPage = page;
+    this.paginatorConfig.currentPage = page;
   }
 
   get paginateData() {
-    const start = (this.currentPage - 1) * this.itemsPerPage;
-    const end = start + this.itemsPerPage;
+    const start = (this.paginatorConfig.currentPage - 1) * this.paginatorConfig.currentPage;
+    const end = start + this.paginatorConfig.currentPage;
 
     return this.shoppingList.slice(start, end);
+  }
+
+  submitOrder() {
+    this.orderService.newOrder(this.userService.getID(), this.orderDetails, this.totalBasketPriceWithDelivery).subscribe({
+      next: (response) => {
+        localStorage.removeItem(this.userService.getEmail());
+        this.router.navigateByUrl('/');
+        this.toastService.show({title: "Comanda plasata!", message: "Comanda a fost plasata cu succes!", classname:"text-success"});
+      },
+      error: (response) => {
+        console.log(response);
+      }
+    })
+  }
+
+  getImage(folderName:string, imageID: string) {
+    return 'http://localhost:5020/SiteUploads/ShopImages/' + folderName + "/" + folderName + "_" + imageID + ".png";
   }
   
 }

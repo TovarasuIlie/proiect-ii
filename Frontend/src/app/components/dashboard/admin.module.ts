@@ -14,12 +14,12 @@ import { ProductsDetailsPageComponent } from './products-management/products-det
 import { FilePondModule, registerPlugin } from 'ngx-filepond';
 
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
+import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
 import { ActiveOrdersComponent } from './orders-management/active-orders/active-orders.component';
-import { ReturnedOrdersComponent } from './orders-management/returned-orders/returned-orders.component';
 import { ViewOrderComponent } from './orders-management/view-order/view-order.component';
-import { SettingsPageComponent } from './settings-page/settings-page.component';
 
 registerPlugin(FilePondPluginImagePreview);
+registerPlugin(FilePondPluginFileValidateType);
 
 @NgModule({
   declarations: [
@@ -31,9 +31,7 @@ registerPlugin(FilePondPluginImagePreview);
     AddProductsPageComponent,
     ProductsDetailsPageComponent,
     ActiveOrdersComponent,
-    ReturnedOrdersComponent,
-    ViewOrderComponent,
-    SettingsPageComponent,
+    ViewOrderComponent
   ],
   imports: [
     CommonModule,

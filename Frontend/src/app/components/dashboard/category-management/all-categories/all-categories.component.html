@@ -63,15 +63,6 @@
                             <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
                             Comezi Active
                         </a>
-                        <a class="nav-link" [routerLink]="['/dashboard', 'retur-comenzi']">
-                            <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                            Retur Comenzi
-                        </a>
-                        <div class="sb-sidenav-menu-heading">Setari</div>
-                        <a class="nav-link" [routerLink]="['/dashboard', 'setari-magazin']">
-                            <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                            Setari Magazin Online
-                        </a>
                     </div>
                 </div>
                 <div class="sb-sidenav-footer">
@@ -166,30 +157,32 @@
                                 </form>
                             </div>
                         </div>
-                        <table class="table text-center table-striped">
-                            <thead class="table-dark">
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Nume Categorie</th>
-                                    <th>Actiuni</th>
-                                </tr>
-                            </thead>
-                            <tbody *ngIf="categories.length > 0">
-                                <tr *ngFor="let category of categories">
-                                    <td>{{ category.id }}</td>
-                                    <td>{{ category.name }}</td>
-                                    <td>
-                                        <button type="button" class="btn btn-sm btn-danger mx-2" (click)="deleteCategory(category.id)">Sterge Categorie</button>
-                                        <button type="button" class="btn btn-sm btn-warning mx-2" data-bs-toggle="modal" data-bs-target="#edit-category-modal" (click)="setCategoryID(category.id)">Editeaza Categorie</button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                            <tbody *ngIf="categories.length === 0">
-                                <tr>
-                                    <td colspan="3">Nu a fost adaugata nici o categorie momentan</td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        <div class="table-responsive">
+                            <table class="table text-center table-striped">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Nume Categorie</th>
+                                        <th>Actiuni</th>
+                                    </tr>
+                                </thead>
+                                <tbody *ngIf="categories.length > 0">
+                                    <tr *ngFor="let category of categories">
+                                        <td>{{ category.id }}</td>
+                                        <td>{{ category.name }}</td>
+                                        <td>
+                                            <button type="button" class="btn btn-sm btn-danger mx-2" (click)="deleteCategory(category.id)">Sterge Categorie</button>
+                                            <button type="button" class="btn btn-sm btn-warning mx-2" data-bs-toggle="modal" data-bs-target="#edit-category-modal" (click)="setCategoryID(category.id)">Editeaza Categorie</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                <tbody *ngIf="categories.length === 0">
+                                    <tr>
+                                        <td colspan="3">Nu a fost adaugata nici o categorie momentan</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                         <app-pagination [itemsPerPage]="paginatorConfig.itemsPerPage" [totalItems]="paginatorConfig.totalItems" [currentPage]="paginatorConfig.currentPage" (onClick)="changePage($event)" class="float-end"></app-pagination>
                     </div>
                 </div>

@@ -9,9 +9,8 @@ import { ViewProductsPageComponent } from './products-management/view-products-p
 import { AddProductsPageComponent } from './products-management/add-products-page/add-products-page.component';
 import { ProductsDetailsPageComponent } from './products-management/products-details-page/products-details-page.component';
 import { ActiveOrdersComponent } from './orders-management/active-orders/active-orders.component';
-import { ReturnedOrdersComponent } from './orders-management/returned-orders/returned-orders.component';
 import { ViewOrderComponent } from './orders-management/view-order/view-order.component';
-import { SettingsPageComponent } from './settings-page/settings-page.component';
+import { OrderResolverService } from '../../resolvers/orders.resolver';
 
 const routes: Routes = [
   {
@@ -54,16 +53,11 @@ const routes: Routes = [
         component: ActiveOrdersComponent
       },
       {
-        path: 'retur-comenzi',
-        component: ReturnedOrdersComponent
-      },
-      {
-        path: 'comenzi/vezi-comanda/:id',
-        component: ViewOrderComponent
-      },
-      {
-        path: 'setari-magazin',
-        component: SettingsPageComponent
+        path: 'comenzi-active/comanda/:id',
+        component: ViewOrderComponent,
+        resolve: {
+          order: OrderResolverService 
+        }
       }
     ]
   }

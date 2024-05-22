@@ -6,6 +6,7 @@ import { ShareDataService } from '../../../../services/share-data.service';
 import { CategoryInterface } from '../../../dashboard/models/category-interface';
 import { ShippingCartService } from '../../../../services/shipping-cart.service';
 import { Title } from '@angular/platform-browser';
+import { PaginateConfig } from '../../../../models/paginate.model';
 
 @Component({
   selector: 'app-spare-parts-list',
@@ -17,6 +18,12 @@ export class SparePartsListComponent implements OnInit {
   errorMessages: string[] = [];
   category!: CategoryInterface;
   currentCategoryPath: string = '';
+  paginatorConfig: PaginateConfig = {
+    currentPage: 1,
+    totalItems: 10,
+    itemsPerPage: 10,
+    currentPageName: "piese-de-schimb"
+  }
 
   constructor(private activatedRoute: ActivatedRoute, private shareData: ShareDataService, private shippingCartService: ShippingCartService, private title: Title) {
     this.activatedRoute.paramMap.subscribe({
@@ -45,7 +52,6 @@ export class SparePartsListComponent implements OnInit {
         response.productsList.map((product: any) => {
           product.technicalDetailsJson = JSON.parse(product.technicalDetailsJson);
           this.products.push(product);
-          console.log(product);
         })
       } else {
         this.errorMessages.push(response.productsList.error);

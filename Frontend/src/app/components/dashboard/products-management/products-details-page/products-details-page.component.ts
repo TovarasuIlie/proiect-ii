@@ -164,4 +164,8 @@ export class ProductsDetailsPageComponent implements OnInit {
         this.errorMessages.push("Trebuie sa ai minim 3 specificatii pentru acest obiect!");
     }
   }
+
+  getImage(folderName:string, imageID: string) {
+    return 'http://localhost:5020/SiteUploads/ShopImages/' + folderName + "/" + folderName + "_" + imageID + ".png";
+  }
 }

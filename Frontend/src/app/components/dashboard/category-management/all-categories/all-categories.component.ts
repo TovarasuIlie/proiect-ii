@@ -43,8 +43,7 @@ export class AllCategoriesComponent implements OnInit {
 
   constructor(private titleService: Title, private _renderer2: Renderer2, @Inject(DOCUMENT) private _document: Document, public userService: UserService, private categoryService: CategoriesService, 
               private formBuilder: FormBuilder, private toastService: ToastService, private router: ActivatedRoute) {
-    this.titleService.setTitle("Vizualizare Categori - La Verucu' SRL");
-    console.log(router.snapshot.url[0].path);
+    this.titleService.setTitle("Vizualizare Categori - La Verucu' SRL")
   }
 
   ngOnInit(): void {
@@ -173,6 +172,7 @@ export class AllCategoriesComponent implements OnInit {
       this.categoryService.getCategory(this.categoryID).subscribe({
         next: (value) => {
           this.categoryForm.patchValue({name: value.name});
+          this.categoryForm.patchValue({id: id});
         }
       });
       this.initializeGategory();

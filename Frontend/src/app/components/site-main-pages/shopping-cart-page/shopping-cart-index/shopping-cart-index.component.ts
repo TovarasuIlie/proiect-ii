@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ShippingCartInterface } from '../../../../models/shipping-cart.model';
 import { ToastService } from '../../../shared/services/toast.service';
+import { UserService } from '../../../../services/user.service';
+import { PaginateConfig } from '../../../../models/paginate.model';
 
 @Component({
   selector: 'app-shopping-cart-index',
@@ -12,15 +14,21 @@ export class ShoppingCartIndexComponent implements OnInit {
   totalBasketPriceWithoutDelivery: number = 0;
   totalBasketPriceWithDelivery: number = 0;
   deliveryPrice: number = 25;
+  paginatorConfig: PaginateConfig = {
+    currentPage: 1,
+    itemsPerPage: 10,
+    totalItems: 10,
+    currentPageName: "checkout"
+  }
 
-  constructor(private toastService: ToastService) {
+  constructor(private toastService: ToastService, private userService: UserService) {
     
   }
 
   ngOnInit(): void {
-    const itemsFromCart = localStorage.getItem('shoppingCart');
+    const itemsFromCart = localStorage.getItem(this.userService.getEmail());
     if(itemsFromCart == undefined) {
-      localStorage.setItem("shoppingCart", JSON.stringify(this.shoppingList));
+      localStorage.setItem(this.userService.getEmail(), JSON.stringify(this.shoppingList));
     } else {
       this.shoppingList = JSON.parse(itemsFromCart);
     }
@@ -47,6 +55,8 @@ export class ShoppingCartIndexComponent implements OnInit {
         this.toastService.show({title: "Lipsa stoc produs!", message: "Produsul selectat nu are indeajuns stoc!", classname: "text-danger"})
       }
     }
+    this.shoppingList.filter(p => p.id === id)[0] = shopping;
+    localStorage.setItem(this.userService.getEmail(), JSON.stringify(this.shoppingList));
     this.calculateTotalPrice();
   }
 
@@ -60,6 +70,8 @@ export class ShoppingCartIndexComponent implements OnInit {
         this.shoppingList.filter(p => p.id === id)[0].totalPrice = shopping.quantity * productPrice;
       }
     }
+    this.shoppingList.filter(p => p.id === id)[0] = shopping;
+    localStorage.setItem(this.userService.getEmail(), JSON.stringify(this.shoppingList));
     this.calculateTotalPrice();
   }
 
@@ -67,6 +79,18 @@ export class ShoppingCartIndexComponent implements OnInit {
     this.shoppingList.splice(this.shoppingList.findIndex(p => p.id === id), 1);
     console.log(this.shoppingList);
     this.calculateTotalPrice();
+  }
+
+  changePage(page: number) {
+    this.paginatorConfig.currentPage = page;
+  }
+
+  jsonSpecs(id: number) {
+    return JSON.parse(this.shoppingList[id].product.technicalDetailsJson);
+  }
+
+  getImage(folderName:string, imageID: string) {
+    return 'http://localhost:5020/SiteUploads/ShopImages/' + folderName + "/" + folderName + "_" + imageID + ".png";
   }
 
 }

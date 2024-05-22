@@ -1,8 +1,16 @@
 .list-group-item {
     cursor: pointer;
+    border: 2px solid white;
+    border-radius: 3px;
 }
 
 .list-group-item-action:hover {
-    background-color: #d8d8d8;
-    transition: .4s ease
+    border-color: #dc3545;
+    transition: .4s ease;
+    background-color: white;
+}
+
+.active {
+    background-color: white;
+    border: 2px solid black;
 }
