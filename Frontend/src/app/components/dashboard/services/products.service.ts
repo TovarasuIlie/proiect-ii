@@ -48,10 +48,13 @@ export class ProductsService {
     productData.append("category.name", product.category?.name || "");
     productData.append("category.imageFilename", product.category?.imageFilename || "");
     productData.append("category.categoryNameSearch", product.category?.categoryNameSearch || "");
-
-    product.image.forEach(element => {
-      productData.append("image", element);
-    });
+    if(product.image.length > 0) {
+      product.image.forEach(element => {
+        productData.append("image", element);
+      });
+    } else {
+      productData.append("image", "null");
+    }
     return this.http.post(environment.apiUrl + "/api/Product/add-product", productData, {headers});
   }
 

@@ -74,5 +74,5 @@ export class RegisterModalComponent implements OnInit {
         const abstractControl = this.registerForm.controls[key];
         abstractControl.setErrors(null);
     });
-}
+  }
 }

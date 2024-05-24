@@ -20,7 +20,7 @@ export class ShoppingCartComponent implements OnInit {
   constructor(public userService: UserService, private shippingCartService: ShippingCartService, private productService: ProductsService, private toastService: ToastService) {
     this.subscription = this.shippingCartService.getUpdate().subscribe({
       next: (value) => {
-        if(Number(value)) {
+        if(typeof value === "number") {
           this.addProductToCart(value);
         } else {
           if(value) {
@@ -55,6 +55,7 @@ export class ShoppingCartComponent implements OnInit {
   }
 
   addProductToCart(productID: number) {
+    if(this.userService.getEmail()) {
       this.productService.getProduct(productID).subscribe({
         next: (value) => {
           let itemsFromCart = JSON.parse(localStorage.getItem(this.userService.getEmail()) || "");
@@ -85,9 +86,12 @@ export class ShoppingCartComponent implements OnInit {
           }
         }
       });
-    setTimeout(() => {
-      this.initializeCart();
-    }, 100);
+      setTimeout(() => {
+        this.initializeCart();
+      }, 100);
+    } else {
+      this.toastService.show({title: "Eroare!", message: "Trebuie sa fi autentificat ca sa poti adauga produsul in cos!", classname: "text-danger"});
+    }
   }
 
   ngOnDestroy() {

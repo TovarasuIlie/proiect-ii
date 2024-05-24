@@ -99,14 +99,14 @@ export class AddProductsPageComponent implements OnInit {
           price: parseFloat(this.addProductForm.get('price')?.value.replace(",", ".")),
           image: this.addProductForm.get('image')?.value
         };
-        console.log(addProduct);
         this.productsService.addNewProduct(addProduct).subscribe({
           next: (response: any) => {
-            console.log(response);
+            this.resetForm();
             this.toastService.show({title: "Produs Adaugat!", message: "Produsul a fost adaugat cu succes!", classname: "text-success"});
           },
           error: (response) => {
-            console.log(response);
+            this.errorMessages.pop();
+            this.errorMessages.push(response.error);
           }
         })
       } else {
@@ -128,6 +128,24 @@ export class AddProductsPageComponent implements OnInit {
     this.imageArray.splice(index, 1);
     this.addProductForm.patchValue({
       image: this.imageArray
+    });
+  }
+
+  resetForm() {
+    this.addProductForm.reset();
+    this.addProductForm.patchValue({
+      category: 0
+    });
+    while((this.addProductForm.get('technicalDetailsJson') as FormArray).length > 0) {
+      this.technicalDetailsJson.removeAt((this.addProductForm.get('technicalDetailsJson') as FormArray).length - 1);
+    }
+    this.markControlsUntouched();
+  }
+
+  public markControlsUntouched(): void {
+    Object.keys(this.addProductForm.controls).forEach((key: string) => {
+        const abstractControl = this.addProductForm.controls[key];
+        abstractControl.setErrors(null);
     });
   }
 }

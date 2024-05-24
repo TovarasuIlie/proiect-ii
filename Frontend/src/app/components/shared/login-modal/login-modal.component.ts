@@ -30,7 +30,7 @@ export class LoginModalComponent implements OnInit {
   initializerForm() {
     this.loginForm = this.formBuilder.group({
       userName: ['', [Validators.required, Validators.email, EmojiValidator.hasEmoji]],
-      password: ['', [Validators.required, Validators.minLength(6), EmojiValidator.hasEmoji]]
+      password: ['', [Validators.required, EmojiValidator.hasEmoji]]
     })
   }
 

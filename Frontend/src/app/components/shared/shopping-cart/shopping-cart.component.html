@@ -16,7 +16,7 @@
             Momentat cosul este gol!
         </div>
         <div class="px-2" *ngIf="shoppingList.length > 0">
-            <div class="row mb-2" *ngFor="let product of shoppingList"  style="min-width: 400px;">
+            <div class="row mb-2" *ngFor="let product of shoppingList"  style="min-width: 380px;">
                 <div class="col-3 pe-0">
                     <img [attr.src]="getImage(product.product.folderName, '0')" class="img-fluid">
                 </div>

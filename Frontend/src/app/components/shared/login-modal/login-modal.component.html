@@ -29,9 +29,6 @@
                             <div *ngIf="loginForm.get('password')?.errors?.['required']">
                                 <small>Este necesar sa introduci o parola!</small>
                             </div>
-                            <div *ngIf="loginForm.get('password')?.errors?.['minlength']">
-                                <small>Parola trebuie sa contina minim 8 caractere!</small>
-                            </div>
                             <div *ngIf="loginForm.get('password')?.errors?.['hasEmoji']">
                                 <small>Parola trebuie sa contina caractere mici, caractere mari, numere si caractere speciale!</small>
                             </div>

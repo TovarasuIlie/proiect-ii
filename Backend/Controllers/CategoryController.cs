@@ -27,7 +27,7 @@ namespace Backend.Controllers
             {
                 return Conflict("Exista o categorie cu acest nume");
             }
-            if (image != null)
+            if (image != null && image.Length > 0)
             {
                 string uploadsFolder = Path.Combine(imageUploadForFrontend, "category-icons");
                 if (!Directory.Exists(uploadsFolder))
@@ -45,12 +45,16 @@ namespace Backend.Controllers
 
                 category.ImageFilename = fileName;
                 category.CategoryNameSearch = categoryName;
+
+                _context.Categories.Add(category);
+                await _context.SaveChangesAsync();
+
+                return CreatedAtAction("GetCategory", new { id = category.Id }, category);
+            } 
+            else
+            {
+                return BadRequest("Trebuie sa incarci o imagine!");
             }
-
-            _context.Categories.Add(category);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetCategory", new { id = category.Id }, category);
         }
 
         [HttpGet("get-categories-pagination")]
@@ -86,7 +90,7 @@ namespace Backend.Controllers
         }
         [HttpPut("update-category")]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> UpdateCategory([FromForm] Category category, IFormFile image)
+        public async Task<IActionResult> UpdateCategory([FromForm] Category category, IFormFile image = null)
         {
             var categoryToUpdate = await _context.Categories.FindAsync(category.Id);
 

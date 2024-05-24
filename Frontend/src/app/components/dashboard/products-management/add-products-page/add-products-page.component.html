@@ -170,7 +170,7 @@
                                                     [class.is-invalid]="(formSubmited || addProductForm.get('quantity')?.touched) && (!addProductForm.get('quantity')?.valid)"
                                                     id="quantity" placeholder="Cantitate">
                                                 <label for="quantity">Cantitate</label>
-                                                <div class="invalid-feedback" *ngIf="(formSubmited || addProductForm.get('category')?.touched) && !addProductForm.get('category')?.valid">
+                                                <div class="invalid-feedback" *ngIf="(formSubmited || addProductForm.get('quantity')?.touched) && !addProductForm.get('quantity')?.valid">
                                                     <div *ngIf="addProductForm.get('quantity')?.errors?.['required']"><i class="fa-solid fa-triangle-exclamation"></i> Campul <b>Cantitate</b> trebuie completat!</div>
                                                     <div *ngIf="addProductForm.get('quantity')?.errors?.['min']"><i class="fa-solid fa-triangle-exclamation"></i> Este necesar sa introduci minim o bucata din acest produs!</div>
                                                     <div *ngIf="addProductForm.get('quantity')?.errors?.['pattern']"><i class="fa-solid fa-triangle-exclamation"></i> Sunt acceptate doar numere intregi!</div>
@@ -210,7 +210,7 @@
                                             <button type="submit" class="btn btn-danger w-100">Adauga Produs!</button>
                                         </div>
                                         <div class="col-md mb-3">
-                                            <button type="button" class="btn btn-warning w-100">Reseteza Formular!</button>
+                                            <button type="button" class="btn btn-warning w-100" (click)="resetForm()">Reseteza Formular!</button>
                                         </div>
                                     </div>
                                 </form>

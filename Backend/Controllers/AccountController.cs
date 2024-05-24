@@ -78,7 +78,7 @@ namespace Backend.Controllers
 
             if (result.IsLockedOut)
             {
-                return Unauthorized(string.Format("Contul este blocat. Asteptati pana la {0} (UTC time) pentru a va va loga", user.LockoutEnd));
+                return Unauthorized(string.Format("Contul este blocat. Asteptati pana la {0} pentru a va loga.", user.LockoutEnd?.ToString("dd.MM.yyyy HH:mm")));
             }
 
             if (!result.Succeeded)

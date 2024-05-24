@@ -20,6 +20,7 @@ export class AllCategoriesComponent implements OnInit {
   categories: CategoryInterface[] = [];
   categoryImage!: File;
   categoryForm: FormGroup = new FormGroup({});
+  categoryFormEdit: FormGroup = new FormGroup({});
   resultPerPage: FormGroup = new FormGroup({});
   errorMessages: string[] = [];
   @ViewChild('closeAddModal') closeAddModal: any;
@@ -96,7 +97,11 @@ export class AllCategoriesComponent implements OnInit {
 
   initializeForm() {
     this.categoryForm = this.formBuilder.group({
-      name: ['', [Validators.required, EmojiValidator.hasEmoji]],
+      name: [null, [Validators.required, EmojiValidator.hasEmoji]],
+      image: [null, [Validators.required]]
+    });
+    this.categoryFormEdit = this.formBuilder.group({
+      name: [null, [Validators.required, EmojiValidator.hasEmoji]],
       image: []
     });
     this.resultPerPage = this.formBuilder.group({
@@ -110,10 +115,27 @@ export class AllCategoriesComponent implements OnInit {
     });
   }
 
+  onChangeEdit($event: any) {
+    this.categoryFormEdit.patchValue({
+      image: $event.file.file
+    });
+  }
+
+  onRemove($event: any) {
+    this.categoryForm.patchValue({
+      image: []
+    });
+  }
+
+  onRemoveEdit($event: any) {
+    this.categoryFormEdit.patchValue({
+      image: []
+    });
+  }
+
   addCategory() {
     this.formSubmited = true;
     if(this.categoryForm.valid) {
-      console.log(this.categoryForm.value);
       this.categoryService.addCategory(this.categoryForm.value).subscribe({
         next: (response) => {
           this.closeAddModal.nativeElement.click();
@@ -121,16 +143,12 @@ export class AllCategoriesComponent implements OnInit {
           this.initializePagination();
           this.toastService.show({title: "Categorie adaugata!", message: "Categoria " + this.categoryForm.get('name')?.value + " a fost adaugata cu succes!", classname: "text-success"});
           this.categoryForm.reset();
-          this.categoryForm.clearValidators()
         },
         error: (response) => {
           this.errorMessages.pop();
-          this.errorMessages.push(response.error.error);
+          this.errorMessages.push(response.error);
         }
       })
-    } else {
-      this.errorMessages.pop();
-      this.errorMessages.push("Ambele campuri trebuie obligatoriu completate!");
     }
   }
 
@@ -147,24 +165,23 @@ export class AllCategoriesComponent implements OnInit {
   }
 
   editCategory() {
-    if(this.categoryForm.valid) {
-      this.categoryForm.addControl("id", new FormControl(this.categoryID));
-      console.log(this.categoryForm.value);
-      this.categoryService.updateCategory(this.categoryForm.value).subscribe({
+    this.formSubmited = true;
+    if(this.categoryFormEdit.valid) {
+      this.categoryFormEdit.addControl("id", new FormControl(this.categoryID));
+      this.categoryService.updateCategory(this.categoryFormEdit.value).subscribe({
         next: (response) => {
           this.closeEditModal.nativeElement.click();
           this.initializeGategory();
-          this.toastService.show({title: "Categorie editata!", message: "Categoria " + this.categoryForm.get('name')?.value + " a fost editata cu succes!", classname: "text-success"});
+          this.toastService.show({title: "Categorie editata!", message: "Categoria " + this.categoryFormEdit.get('name')?.value + " a fost editata cu succes!", classname: "text-success"});
           this.categoryForm.reset();
           this.categoryForm.clearValidators()
         },
         error: (response) => {
+          const message = response.error.error || response.error.errors
           this.errorMessages.pop();
-          this.errorMessages.push(response.error.errors);
+          this.errorMessages.push(message);
         }
       })
-    } else {
-      
     }
   }
 
@@ -173,8 +190,8 @@ export class AllCategoriesComponent implements OnInit {
       this.categoryID = id;
       this.categoryService.getCategory(this.categoryID).subscribe({
         next: (value) => {
-          this.categoryForm.patchValue({name: value.name});
-          this.categoryForm.patchValue({id: id});
+          this.categoryFormEdit.patchValue({name: value.name});
+          this.categoryFormEdit.patchValue({id: id});
         }
       });
       this.initializeGategory();
@@ -189,6 +206,7 @@ export class AllCategoriesComponent implements OnInit {
     this.initializeGategory();
   }
 
+
   resultPerPageChange() {
     this.paginatorConfig.itemsPerPage = this.resultPerPage.get('itemsPerPage')?.value;
     sessionStorage.setItem('paginatorConfig', JSON.stringify(this.paginatorConfig));
@@ -201,5 +219,12 @@ export class AllCategoriesComponent implements OnInit {
       this.paginatorConfig.currentPage = totalPages
     }
     this.initializeGategory();
+  }
+
+  public markControlsUntouched(): void {
+    Object.keys(this.categoryForm.controls).forEach((key: string) => {
+        const abstractControl = this.categoryForm.controls[key];
+        abstractControl.setErrors(null);
+    });
   }
 }
