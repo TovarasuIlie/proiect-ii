@@ -10,10 +10,10 @@
                     <li class="step0 text-center" [class.active]="stage == 1" [class.completed]="stage > 1" [routerLink]="['/cosul-meu']" id="step1">
                         <span>Cosul meu</span>
                     </li>
-                    <li class="step0 text-center" [class.active]="stage == 2" [class.completed]="stage > 2" [routerLink]="['/cosul-meu', 'plata']" id="step2">
+                    <li class="step0 text-center" [class.active]="stage == 2" [class.completed]="stage > 2" [class.disabled]="stage < 2" [routerLink]="['/cosul-meu', 'plata']" id="step2">
                         <span>Achitare</span>
                     </li>
-                    <li class="step0 text-center" [class.active]="stage == 3" [class.completed]="stage > 3" [routerLink]="['/cosul-meu', 'checkout']" id="step3">
+                    <li class="step0 text-center" [class.active]="stage == 3" [class.completed]="stage > 3" [class.disabled]="stage < 3" [routerLink]="['/cosul-meu', 'checkout']" id="step3">
                         <span>Confirmati</span>
                     </li>
                 </ul>

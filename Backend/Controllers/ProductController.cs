@@ -59,6 +59,12 @@ namespace Backend.Controllers
             return await _context.Products.Where(x => x.Title.Contains(name)).ToListAsync();
         }
 
+        [HttpGet("get-products-by-name-pagination/{name}")]
+        public async Task<ActionResult<IEnumerable<Product>>> GetProductsLikeNamePagination(string name, int page = 1, int pageSize = 10)
+        {
+            return await _context.Products.Where(x => x.Title.Contains(name)).Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
+        }
+
         [HttpPost("add-product")]
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult<Product>> CreateProduct([FromForm]  Product product, [FromForm(Name = "image")] IFormFile[] image)

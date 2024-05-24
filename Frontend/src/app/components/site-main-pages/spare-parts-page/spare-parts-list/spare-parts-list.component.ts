@@ -34,7 +34,7 @@ export class SparePartsListComponent implements OnInit {
         }
       },
     });
-    this.title.setTitle("Piese de schimb - La Vericu' SRL")
+    this.title.setTitle("Piese de schimb - La Vericu' SRL");
   }
 
   ngOnInit(): void {
@@ -47,10 +47,14 @@ export class SparePartsListComponent implements OnInit {
   }
 
   initializeProducts() {
+    this.errorMessages = [];
+    this.products = [];
     this.activatedRoute.data.subscribe((response: any) => { 
       if(!(response.productsList instanceof HttpErrorResponse)) {
         response.productsList.map((product: any) => {
-          product.technicalDetailsJson = JSON.parse(product.technicalDetailsJson);
+          if(!(product.technicalDetailsJson instanceof Array)) {
+            product.technicalDetailsJson = JSON.parse(product.technicalDetailsJson);
+          }
           this.products.push(product);
         })
       } else {

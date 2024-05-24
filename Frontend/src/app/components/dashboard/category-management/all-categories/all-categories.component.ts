@@ -8,6 +8,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { ToastService } from '../../../shared/services/toast.service';
 import { PaginateConfig } from '../../../../models/paginate.model';
 import { ActivatedRoute, Router } from '@angular/router';
+import { EmojiValidator } from '../../../../validators/emoji-input.validator';
 
 @Component({
   selector: 'app-all-categories',
@@ -48,8 +49,8 @@ export class AllCategoriesComponent implements OnInit {
 
   ngOnInit(): void {
     this.initializeForm();
-    this.initializePagination();
     this.initializeGategory();
+    this.initializePagination();
   }
 
   ngAfterViewInit() {
@@ -74,6 +75,11 @@ export class AllCategoriesComponent implements OnInit {
     const paginatorConfig = sessionStorage.getItem("paginatorConfig");
     if(paginatorConfig && paginatorConfig.includes(this.router.snapshot.url[0].path)) {
         this.paginatorConfig = JSON.parse(paginatorConfig);
+        this.categoryService.getCategoryCount().subscribe({
+          next: (value) => {
+            this.paginatorConfig.totalItems = value;
+          }
+        });
     } else {
       this.categoryService.getCategoryCount().subscribe({
         next: (value) => {
@@ -85,13 +91,12 @@ export class AllCategoriesComponent implements OnInit {
     if(this.paginatorConfig.currentPage > totalPages) {
       this.paginatorConfig.currentPage = totalPages
     }
-    console.log(this.paginatorConfig);
     sessionStorage.setItem('paginatorConfig', JSON.stringify(this.paginatorConfig));
   }
 
   initializeForm() {
     this.categoryForm = this.formBuilder.group({
-      name: ['', [Validators.required]],
+      name: ['', [Validators.required, EmojiValidator.hasEmoji]],
       image: []
     });
     this.resultPerPage = this.formBuilder.group({
@@ -111,21 +116,19 @@ export class AllCategoriesComponent implements OnInit {
       console.log(this.categoryForm.value);
       this.categoryService.addCategory(this.categoryForm.value).subscribe({
         next: (response) => {
-          console.log(response);
           this.closeAddModal.nativeElement.click();
           this.initializeGategory();
+          this.initializePagination();
           this.toastService.show({title: "Categorie adaugata!", message: "Categoria " + this.categoryForm.get('name')?.value + " a fost adaugata cu succes!", classname: "text-success"});
           this.categoryForm.reset();
           this.categoryForm.clearValidators()
         },
         error: (response) => {
-          console.log(response);
           this.errorMessages.pop();
-          this.errorMessages.push(response.error);
+          this.errorMessages.push(response.error.error);
         }
       })
     } else {
-      console.log(this.categoryForm.value);
       this.errorMessages.pop();
       this.errorMessages.push("Ambele campuri trebuie obligatoriu completate!");
     }
@@ -156,7 +159,6 @@ export class AllCategoriesComponent implements OnInit {
           this.categoryForm.clearValidators()
         },
         error: (response) => {
-          console.log(response);
           this.errorMessages.pop();
           this.errorMessages.push(response.error.errors);
         }

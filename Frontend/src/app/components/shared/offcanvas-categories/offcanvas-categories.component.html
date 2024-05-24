@@ -6,7 +6,7 @@
     <div class="offcanvas-body">
         <ul class="list-group gap-2">
             <li *ngFor="let category of categories" class="list-group-item list-group-item-action" [routerLinkActive]="['active']" >
-                <a [routerLink]="['/piese-de-schimb', category.categoryNameSearch]" class="text-decoration-none text-dark fw-semibold">
+                <a href="/piese-de-schimb/{{ category.categoryNameSearch }}" class="text-decoration-none text-dark fw-semibold">
                     <img [attr.src]="getImage(category.imageFilename)" class="img-fluid me-3" style="max-width: 45px;"> {{ category.name }}
                 </a>
             </li>

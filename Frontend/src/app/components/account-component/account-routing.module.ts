@@ -10,6 +10,7 @@ import { ConfirmEmailComponent } from './confirm-email/confirm-email.component';
 import { AuthorizationGuard } from '../../route-guards/authorization.guard';
 import { ViewOrderComponent } from './view-order/view-order.component';
 import { OrderResolverService } from '../../resolvers/orders.resolver';
+import { UnauthorizationGuard } from '../../route-guards/unauthorization.guard';
 
 const routes: Routes = [
   {
@@ -38,14 +39,17 @@ const routes: Routes = [
   {
     path: 'recuperare-parola',
     component: ForgotPasswordPageComponent,
+    canActivate: [UnauthorizationGuard]
   },
   {
     path: 'recuperare-parola/reseteaza',
     component: ResetPasswordPageComponent,
+    canActivate: [UnauthorizationGuard]
   },
   {
     path: 'confirmare-email',
     component: ConfirmEmailComponent,
+    canActivate: [UnauthorizationGuard]
   },
 ]
 

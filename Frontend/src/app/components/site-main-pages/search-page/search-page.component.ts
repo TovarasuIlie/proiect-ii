@@ -11,7 +11,8 @@ import { PaginateConfig } from '../../../models/paginate.model';
   templateUrl: './search-page.component.html',
   styleUrl: './search-page.component.css'
 })
-export class SearchPageComponent {
+
+export class SearchPageComponent implements OnInit {
   keyword!: string;
   errorMessages!: string[];
   products: ProductsInterface[] = [];
@@ -26,14 +27,17 @@ export class SearchPageComponent {
     this.activatedRoute.queryParams.subscribe({
       next: (value) => {
         this.keyword = value['keyword'];
-        console.log(value);
-        this.initializeSearch();
       }
     });
-    title.setTitle("Cauti '" + this.keyword + "' - La Vericu' SRL")
+    this.title.setTitle("Cauti '" + this.keyword + "' - La Vericu' SRL")
+  }
+
+  ngOnInit() {
+    this.initializeSearch();
   }
 
   initializeSearch() {
+    this.errorMessages = [];
     this.products = [];
     this.productService.getProductsByName(this.keyword).subscribe({
       next: (response) => {

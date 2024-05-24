@@ -173,6 +173,7 @@
                                                 <div class="invalid-feedback" *ngIf="(formSubmited || addProductForm.get('category')?.touched) && !addProductForm.get('category')?.valid">
                                                     <div *ngIf="addProductForm.get('quantity')?.errors?.['required']"><i class="fa-solid fa-triangle-exclamation"></i> Campul <b>Cantitate</b> trebuie completat!</div>
                                                     <div *ngIf="addProductForm.get('quantity')?.errors?.['min']"><i class="fa-solid fa-triangle-exclamation"></i> Este necesar sa introduci minim o bucata din acest produs!</div>
+                                                    <div *ngIf="addProductForm.get('quantity')?.errors?.['pattern']"><i class="fa-solid fa-triangle-exclamation"></i> Sunt acceptate doar numere intregi!</div>
                                                     <div *ngIf="addProductForm.get('quantity')?.errors?.['hasEmoji']"><i class="fa-solid fa-triangle-exclamation"></i> Nu poti adauga emoji-uri in text!</div>
                                                 </div>
                                             </div>

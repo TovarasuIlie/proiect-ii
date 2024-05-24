@@ -95,3 +95,7 @@
     color: #198754;
     font-weight: bold;
 }
+
+.disabled { 
+    pointer-events: none;
+}

@@ -198,7 +198,7 @@
                                     class="list-group-item" style="font-size: small;">
                                     <div class="row">
                                         <div class="col">
-                                            {{ spec.specificationTitle }}:
+                                            {{ spec.specificationTitle }}
                                         </div>
                                         <div class="col fw-semibold">
                                             {{ spec.specificationValue }}
@@ -212,7 +212,7 @@
                                         class="list-group-item" style="font-size: small;">
                                         <div class="row">
                                             <div class="col">
-                                                {{ spec.specificationTitle }}:
+                                                {{ spec.specificationTitle }}
                                             </div>
                                             <div class="col fw-semibold">
                                                 {{ spec.specificationValue }}
@@ -254,6 +254,6 @@
             </div>
         </div>
     </div>
-    <app-pagination [totalItems]="paginatorConfig.totalItems" [itemsPerPage]="paginatorConfig.itemsPerPage" [currentPage]="paginatorConfig.currentPage"></app-pagination>
+    <app-pagination class="float-end" [totalItems]="paginatorConfig.totalItems" [itemsPerPage]="paginatorConfig.itemsPerPage" [currentPage]="paginatorConfig.currentPage"></app-pagination>
 </div>
 <app-footer />

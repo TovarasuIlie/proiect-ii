@@ -28,7 +28,6 @@ export class SearchBarHeaderComponent {
   filtering(e: KeyboardEvent, string: string) {
     this.enterPressed(e, string);
     if(e.key.length == 1 || e.code === 'Backspace') {
-      console.log(e);
       if(string !== '') {
         this.isLoading = true;
         setTimeout(() => {
@@ -61,7 +60,9 @@ export class SearchBarHeaderComponent {
       const navigateExtra: NavigationExtras = {
         queryParams: { 'keyword': keyword }
       };
-      this.router.navigate(['/cauta'], navigateExtra);
+      this.router.navigate(['/cauta'], navigateExtra).then(() => {
+        window.location.reload();
+      });;
       this.searchBar.nativeElement.blur();
     }
   }

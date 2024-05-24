@@ -32,8 +32,8 @@ export class ViewProductsPageComponent implements OnInit {
   }
   ngOnInit(): void {
     this.initializeForm();
-    this.initializePagination();
     this.initializeProducts();
+    this.initializePagination();
   }
 
   initializeProducts() {
@@ -70,7 +70,7 @@ export class ViewProductsPageComponent implements OnInit {
       });
     }
     const totalPages = Math.ceil(this.paginatorConfig.totalItems / this.paginatorConfig.itemsPerPage);
-    if(this.paginatorConfig.currentPage > totalPages) {
+    if(this.paginatorConfig.currentPage >= totalPages) {
       this.paginatorConfig.currentPage = totalPages
     }
     sessionStorage.setItem('paginatorConfig', JSON.stringify(this.paginatorConfig));
@@ -90,7 +90,7 @@ export class ViewProductsPageComponent implements OnInit {
       this.paginatorConfig = JSON.parse(paginatorConfig);
     }
     const totalPages = Math.ceil(this.paginatorConfig.totalItems / this.paginatorConfig.itemsPerPage);
-    if(this.paginatorConfig.currentPage > totalPages) {
+    if(this.paginatorConfig.currentPage >= totalPages) {
       this.paginatorConfig.currentPage = totalPages
     }
     this.initializeProducts();

@@ -136,9 +136,9 @@
             <div class="carousel-inner">
                 <div class="carousel-item active px-5">
                     <div class="row row-cols-1 row-cols-lg-4 g-1">
-                        <div class="col">
+                        <div class="col" *ngFor="let tire of get4Tires(0, 4)">
                             <div class="card h-100">
-                                <img src="..\..\..\assets\tires-page-imgs\test.jpg"
+                                <img [attr.src]="getImage(tire.folderName, '0')"
                                     class="card-img-top tyre-card-img-object-fit mt-4" alt="...">
                                 <div class="card-body">
                                     <div class="row mb-3">
@@ -152,8 +152,7 @@
                                         </div>
                                     </div>
                                     <h6 class="card-title">
-                                        Tristar Sportpower 2<br>
-                                        <small class="text-muted">255/30 R19</small>
+                                        {{ tire.title }}
                                     </h6>
                                     <div class="card-text">
                                         <div class="row mb-3">
@@ -179,158 +178,8 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <p class="fs-3 ">345,95 RON</p>
-                                        <button class="btn btn-danger w-100"><i
-                                                class="fa-solid fa-cart-arrow-down"></i></button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="card h-100">
-                                <img src="..\..\..\assets\tires-page-imgs\test.jpg"
-                                    class="card-img-top tyre-card-img-object-fit mt-4" alt="...">
-                                <div class="card-body">
-                                    <div class="row mb-3">
-                                        <div class="col">
-                                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
-                                                class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
-                                                class="fa-solid fa-star"></i>
-                                        </div>
-                                        <div class="col-2">
-                                            <i class="fa-regular fa-heart"></i>
-                                        </div>
-                                    </div>
-                                    <h6 class="card-title">
-                                        Tristar Sportpower 2<br>
-                                        <small class="text-muted">255/30 R19</small>
-                                    </h6>
-                                    <div class="card-text">
-                                        <div class="row mb-3">
-                                            <div class="col pe-0"  style="max-width: 72px;">
-                                                <div class="input-group">
-                                                    <span class="badge text-bg-dark"><i
-                                                            class="fa-solid fa-gas-pump"></i></span>
-                                                    <span class="badge text-bg-warning">A</span>
-                                                </div>
-                                            </div>
-                                            <div class="col ps-0 pe-0" style="max-width: 60px;">
-                                                <div class="input-group">
-                                                    <span class="badge text-bg-dark"><i
-                                                            class="fa-solid fa-cloud-rain"></i></span>
-                                                    <span class="badge text-bg-warning">C</span>
-                                                </div>
-                                            </div>
-                                            <div class="col ps-0">
-                                                <div class="input-group">
-                                                    <span class="badge text-bg-dark"><i
-                                                            class="fa-solid fa-volume-low"></i></span>
-                                                    <span class="badge text-bg-warning">100dB</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <p class="fs-3 ">345,95 RON</p>
-                                        <button class="btn btn-danger w-100"><i
-                                                class="fa-solid fa-cart-arrow-down"></i></button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="card h-100">
-                                <img src="..\..\..\assets\tires-page-imgs\test.jpg"
-                                    class="card-img-top tyre-card-img-object-fit mt-4" alt="...">
-                                <div class="card-body">
-                                    <div class="row mb-3">
-                                        <div class="col">
-                                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
-                                                class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
-                                                class="fa-solid fa-star"></i>
-                                        </div>
-                                        <div class="col-2">
-                                            <i class="fa-regular fa-heart"></i>
-                                        </div>
-                                    </div>
-                                    <h6 class="card-title">
-                                        Tristar Sportpower 2<br>
-                                        <small class="text-muted">255/30 R19</small>
-                                    </h6>
-                                    <div class="card-text">
-                                        <div class="row mb-3">
-                                            <div class="col pe-0"  style="max-width: 72px;">
-                                                <div class="input-group">
-                                                    <span class="badge text-bg-dark"><i
-                                                            class="fa-solid fa-gas-pump"></i></span>
-                                                    <span class="badge text-bg-warning">A</span>
-                                                </div>
-                                            </div>
-                                            <div class="col ps-0 pe-0" style="max-width: 60px;">
-                                                <div class="input-group">
-                                                    <span class="badge text-bg-dark"><i
-                                                            class="fa-solid fa-cloud-rain"></i></span>
-                                                    <span class="badge text-bg-warning">C</span>
-                                                </div>
-                                            </div>
-                                            <div class="col ps-0">
-                                                <div class="input-group">
-                                                    <span class="badge text-bg-dark"><i
-                                                            class="fa-solid fa-volume-low"></i></span>
-                                                    <span class="badge text-bg-warning">100dB</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <p class="fs-3 ">345,95 RON</p>
-                                        <button class="btn btn-danger w-100"><i
-                                                class="fa-solid fa-cart-arrow-down"></i></button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="card h-100">
-                                <img src="..\..\..\assets\tires-page-imgs\test.jpg"
-                                    class="card-img-top tyre-card-img-object-fit mt-4" alt="...">
-                                <div class="card-body">
-                                    <div class="row mb-3">
-                                        <div class="col">
-                                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
-                                                class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
-                                                class="fa-solid fa-star"></i>
-                                        </div>
-                                        <div class="col-2">
-                                            <i class="fa-regular fa-heart"></i>
-                                        </div>
-                                    </div>
-                                    <h6 class="card-title">
-                                        Tristar Sportpower 2<br>
-                                        <small class="text-muted">255/30 R19</small>
-                                    </h6>
-                                    <div class="card-text">
-                                        <div class="row mb-3">
-                                            <div class="col pe-0"  style="max-width: 72px;">
-                                                <div class="input-group">
-                                                    <span class="badge text-bg-dark"><i
-                                                            class="fa-solid fa-gas-pump"></i></span>
-                                                    <span class="badge text-bg-warning">A</span>
-                                                </div>
-                                            </div>
-                                            <div class="col ps-0 pe-0" style="max-width: 60px;">
-                                                <div class="input-group">
-                                                    <span class="badge text-bg-dark"><i
-                                                            class="fa-solid fa-cloud-rain"></i></span>
-                                                    <span class="badge text-bg-warning">C</span>
-                                                </div>
-                                            </div>
-                                            <div class="col ps-0">
-                                                <div class="input-group">
-                                                    <span class="badge text-bg-dark"><i
-                                                            class="fa-solid fa-volume-low"></i></span>
-                                                    <span class="badge text-bg-warning">100dB</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <p class="fs-3 ">345,95 RON</p>
-                                        <button class="btn btn-danger w-100"><i
+                                        <p class="fs-3 "><b>{{ tire.price }}</b> Lei</p>
+                                        <button (click)="addProductToCart(tire.id)" class="btn btn-danger w-100"><i
                                                 class="fa-solid fa-cart-arrow-down"></i></button>
                                     </div>
                                 </div>
@@ -340,9 +189,9 @@
                 </div>
                 <div class="carousel-item px-5">
                     <div class="row row-cols-1 row-cols-lg-4 g-1">
-                        <div class="col">
+                        <div class="col" *ngFor="let tire of get4Tires(4, 8)">
                             <div class="card h-100">
-                                <img src="..\..\..\assets\tires-page-imgs\test.jpg"
+                                <img [attr.src]="getImage(tire.folderName, '0')"
                                     class="card-img-top tyre-card-img-object-fit mt-4" alt="...">
                                 <div class="card-body">
                                     <div class="row mb-3">
@@ -356,8 +205,7 @@
                                         </div>
                                     </div>
                                     <h6 class="card-title">
-                                        Tristar Sportpower 2<br>
-                                        <small class="text-muted">255/30 R19</small>
+                                        {{ tire.title }}
                                     </h6>
                                     <div class="card-text">
                                         <div class="row mb-3">
@@ -383,158 +231,8 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <p class="fs-3 ">345,95 RON</p>
-                                        <button class="btn btn-danger w-100"><i
-                                                class="fa-solid fa-cart-arrow-down"></i></button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="card h-100">
-                                <img src="..\..\..\assets\tires-page-imgs\test.jpg"
-                                    class="card-img-top tyre-card-img-object-fit mt-4" alt="...">
-                                <div class="card-body">
-                                    <div class="row mb-3">
-                                        <div class="col">
-                                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
-                                                class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
-                                                class="fa-solid fa-star"></i>
-                                        </div>
-                                        <div class="col-2">
-                                            <i class="fa-regular fa-heart"></i>
-                                        </div>
-                                    </div>
-                                    <h6 class="card-title">
-                                        Tristar Sportpower 2<br>
-                                        <small class="text-muted">255/30 R19</small>
-                                    </h6>
-                                    <div class="card-text">
-                                        <div class="row mb-3">
-                                            <div class="col pe-0"  style="max-width: 72px;">
-                                                <div class="input-group">
-                                                    <span class="badge text-bg-dark"><i
-                                                            class="fa-solid fa-gas-pump"></i></span>
-                                                    <span class="badge text-bg-warning">A</span>
-                                                </div>
-                                            </div>
-                                            <div class="col ps-0 pe-0" style="max-width: 60px;">
-                                                <div class="input-group">
-                                                    <span class="badge text-bg-dark"><i
-                                                            class="fa-solid fa-cloud-rain"></i></span>
-                                                    <span class="badge text-bg-warning">C</span>
-                                                </div>
-                                            </div>
-                                            <div class="col ps-0">
-                                                <div class="input-group">
-                                                    <span class="badge text-bg-dark"><i
-                                                            class="fa-solid fa-volume-low"></i></span>
-                                                    <span class="badge text-bg-warning">100dB</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <p class="fs-3 ">345,95 RON</p>
-                                        <button class="btn btn-danger w-100"><i
-                                                class="fa-solid fa-cart-arrow-down"></i></button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="card h-100">
-                                <img src="..\..\..\assets\tires-page-imgs\test.jpg"
-                                    class="card-img-top tyre-card-img-object-fit mt-4" alt="...">
-                                <div class="card-body">
-                                    <div class="row mb-3">
-                                        <div class="col">
-                                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
-                                                class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
-                                                class="fa-solid fa-star"></i>
-                                        </div>
-                                        <div class="col-2">
-                                            <i class="fa-regular fa-heart"></i>
-                                        </div>
-                                    </div>
-                                    <h6 class="card-title">
-                                        Tristar Sportpower 2<br>
-                                        <small class="text-muted">255/30 R19</small>
-                                    </h6>
-                                    <div class="card-text">
-                                        <div class="row mb-3">
-                                            <div class="col pe-0"  style="max-width: 72px;">
-                                                <div class="input-group">
-                                                    <span class="badge text-bg-dark"><i
-                                                            class="fa-solid fa-gas-pump"></i></span>
-                                                    <span class="badge text-bg-warning">A</span>
-                                                </div>
-                                            </div>
-                                            <div class="col ps-0 pe-0" style="max-width: 60px;">
-                                                <div class="input-group">
-                                                    <span class="badge text-bg-dark"><i
-                                                            class="fa-solid fa-cloud-rain"></i></span>
-                                                    <span class="badge text-bg-warning">C</span>
-                                                </div>
-                                            </div>
-                                            <div class="col ps-0">
-                                                <div class="input-group">
-                                                    <span class="badge text-bg-dark"><i
-                                                            class="fa-solid fa-volume-low"></i></span>
-                                                    <span class="badge text-bg-warning">100dB</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <p class="fs-3 ">345,95 RON</p>
-                                        <button class="btn btn-danger w-100"><i
-                                                class="fa-solid fa-cart-arrow-down"></i></button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="card h-100">
-                                <img src="..\..\..\assets\tires-page-imgs\test.jpg"
-                                    class="card-img-top tyre-card-img-object-fit mt-4" alt="...">
-                                <div class="card-body">
-                                    <div class="row mb-3">
-                                        <div class="col">
-                                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
-                                                class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
-                                                class="fa-solid fa-star"></i>
-                                        </div>
-                                        <div class="col-2">
-                                            <i class="fa-regular fa-heart"></i>
-                                        </div>
-                                    </div>
-                                    <h6 class="card-title">
-                                        Tristar Sportpower 2<br>
-                                        <small class="text-muted">255/30 R19</small>
-                                    </h6>
-                                    <div class="card-text">
-                                        <div class="row mb-3">
-                                            <div class="col pe-0"  style="max-width: 72px;">
-                                                <div class="input-group">
-                                                    <span class="badge text-bg-dark"><i
-                                                            class="fa-solid fa-gas-pump"></i></span>
-                                                    <span class="badge text-bg-warning">A</span>
-                                                </div>
-                                            </div>
-                                            <div class="col ps-0 pe-0" style="max-width: 60px;">
-                                                <div class="input-group">
-                                                    <span class="badge text-bg-dark"><i
-                                                            class="fa-solid fa-cloud-rain"></i></span>
-                                                    <span class="badge text-bg-warning">C</span>
-                                                </div>
-                                            </div>
-                                            <div class="col ps-0">
-                                                <div class="input-group">
-                                                    <span class="badge text-bg-dark"><i
-                                                            class="fa-solid fa-volume-low"></i></span>
-                                                    <span class="badge text-bg-warning">100dB</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <p class="fs-3 ">345,95 RON</p>
-                                        <button class="btn btn-danger w-100"><i
+                                        <p class="fs-3 "><b>{{ tire.price }}</b> Lei</p>
+                                        <button (click)="addProductToCart(tire.id)" class="btn btn-danger w-100"><i
                                                 class="fa-solid fa-cart-arrow-down"></i></button>
                                     </div>
                                 </div>
@@ -544,9 +242,9 @@
                 </div>
                 <div class="carousel-item px-5">
                     <div class="row row-cols-1 row-cols-lg-4 g-1">
-                        <div class="col">
+                        <div class="col" *ngFor="let tire of get4Tires(4, 8)">
                             <div class="card h-100">
-                                <img src="..\..\..\assets\tires-page-imgs\test.jpg"
+                                <img [attr.src]="getImage(tire.folderName, '0')"
                                     class="card-img-top tyre-card-img-object-fit mt-4" alt="...">
                                 <div class="card-body">
                                     <div class="row mb-3">
@@ -560,8 +258,7 @@
                                         </div>
                                     </div>
                                     <h6 class="card-title">
-                                        Tristar Sportpower 2<br>
-                                        <small class="text-muted">255/30 R19</small>
+                                        {{ tire.title }}
                                     </h6>
                                     <div class="card-text">
                                         <div class="row mb-3">
@@ -587,158 +284,8 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <p class="fs-3 ">345,95 RON</p>
-                                        <button class="btn btn-danger w-100"><i
-                                                class="fa-solid fa-cart-arrow-down"></i></button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="card h-100">
-                                <img src="..\..\..\assets\tires-page-imgs\test.jpg"
-                                    class="card-img-top tyre-card-img-object-fit mt-4" alt="...">
-                                <div class="card-body">
-                                    <div class="row mb-3">
-                                        <div class="col">
-                                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
-                                                class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
-                                                class="fa-solid fa-star"></i>
-                                        </div>
-                                        <div class="col-2">
-                                            <i class="fa-regular fa-heart"></i>
-                                        </div>
-                                    </div>
-                                    <h6 class="card-title">
-                                        Tristar Sportpower 2<br>
-                                        <small class="text-muted">255/30 R19</small>
-                                    </h6>
-                                    <div class="card-text">
-                                        <div class="row mb-3">
-                                            <div class="col pe-0"  style="max-width: 72px;">
-                                                <div class="input-group">
-                                                    <span class="badge text-bg-dark"><i
-                                                            class="fa-solid fa-gas-pump"></i></span>
-                                                    <span class="badge text-bg-warning">A</span>
-                                                </div>
-                                            </div>
-                                            <div class="col ps-0 pe-0" style="max-width: 60px;">
-                                                <div class="input-group">
-                                                    <span class="badge text-bg-dark"><i
-                                                            class="fa-solid fa-cloud-rain"></i></span>
-                                                    <span class="badge text-bg-warning">C</span>
-                                                </div>
-                                            </div>
-                                            <div class="col ps-0">
-                                                <div class="input-group">
-                                                    <span class="badge text-bg-dark"><i
-                                                            class="fa-solid fa-volume-low"></i></span>
-                                                    <span class="badge text-bg-warning">100dB</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <p class="fs-3 ">345,95 RON</p>
-                                        <button class="btn btn-danger w-100"><i
-                                                class="fa-solid fa-cart-arrow-down"></i></button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="card h-100">
-                                <img src="..\..\..\assets\tires-page-imgs\test.jpg"
-                                    class="card-img-top tyre-card-img-object-fit mt-4" alt="...">
-                                <div class="card-body">
-                                    <div class="row mb-3">
-                                        <div class="col">
-                                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
-                                                class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
-                                                class="fa-solid fa-star"></i>
-                                        </div>
-                                        <div class="col-2">
-                                            <i class="fa-regular fa-heart"></i>
-                                        </div>
-                                    </div>
-                                    <h6 class="card-title">
-                                        Tristar Sportpower 2<br>
-                                        <small class="text-muted">255/30 R19</small>
-                                    </h6>
-                                    <div class="card-text">
-                                        <div class="row mb-3">
-                                            <div class="col pe-0"  style="max-width: 72px;">
-                                                <div class="input-group">
-                                                    <span class="badge text-bg-dark"><i
-                                                            class="fa-solid fa-gas-pump"></i></span>
-                                                    <span class="badge text-bg-warning">A</span>
-                                                </div>
-                                            </div>
-                                            <div class="col ps-0 pe-0" style="max-width: 60px;">
-                                                <div class="input-group">
-                                                    <span class="badge text-bg-dark"><i
-                                                            class="fa-solid fa-cloud-rain"></i></span>
-                                                    <span class="badge text-bg-warning">C</span>
-                                                </div>
-                                            </div>
-                                            <div class="col ps-0">
-                                                <div class="input-group">
-                                                    <span class="badge text-bg-dark"><i
-                                                            class="fa-solid fa-volume-low"></i></span>
-                                                    <span class="badge text-bg-warning">100dB</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <p class="fs-3 ">345,95 RON</p>
-                                        <button class="btn btn-danger w-100"><i
-                                                class="fa-solid fa-cart-arrow-down"></i></button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="card h-100">
-                                <img src="..\..\..\assets\tires-page-imgs\test.jpg"
-                                    class="card-img-top tyre-card-img-object-fit mt-4" alt="...">
-                                <div class="card-body">
-                                    <div class="row mb-3">
-                                        <div class="col">
-                                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
-                                                class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
-                                                class="fa-solid fa-star"></i>
-                                        </div>
-                                        <div class="col-2">
-                                            <i class="fa-regular fa-heart"></i>
-                                        </div>
-                                    </div>
-                                    <h6 class="card-title">
-                                        Tristar Sportpower 2<br>
-                                        <small class="text-muted">255/30 R19</small>
-                                    </h6>
-                                    <div class="card-text">
-                                        <div class="row mb-3">
-                                            <div class="col pe-0"  style="max-width: 72px;">
-                                                <div class="input-group">
-                                                    <span class="badge text-bg-dark"><i
-                                                            class="fa-solid fa-gas-pump"></i></span>
-                                                    <span class="badge text-bg-warning">A</span>
-                                                </div>
-                                            </div>
-                                            <div class="col ps-0 pe-0" style="max-width: 60px;">
-                                                <div class="input-group">
-                                                    <span class="badge text-bg-dark"><i
-                                                            class="fa-solid fa-cloud-rain"></i></span>
-                                                    <span class="badge text-bg-warning">C</span>
-                                                </div>
-                                            </div>
-                                            <div class="col ps-0">
-                                                <div class="input-group">
-                                                    <span class="badge text-bg-dark"><i
-                                                            class="fa-solid fa-volume-low"></i></span>
-                                                    <span class="badge text-bg-warning">100dB</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <p class="fs-3 ">345,95 RON</p>
-                                        <button class="btn btn-danger w-100"><i
+                                        <p class="fs-3 "><b>{{ tire.price }}</b> Lei</p>
+                                        <button (click)="addProductToCart(tire.id)" class="btn btn-danger w-100"><i
                                                 class="fa-solid fa-cart-arrow-down"></i></button>
                                     </div>
                                 </div>

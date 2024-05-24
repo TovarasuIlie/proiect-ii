@@ -45,8 +45,7 @@ const routes: Routes = [
   },
   {
     path: 'cont', 
-    loadChildren: () => import('./components/account-component/account.module').then(module => module.AccountModule),
-    canActivate: [AuthorizationGuard]
+    loadChildren: () => import('./components/account-component/account.module').then(module => module.AccountModule)
   },
   {
     path: 'cosul-meu', 

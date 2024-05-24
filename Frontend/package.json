@@ -24,6 +24,7 @@
     "@popperjs/core": "^2.11.8",
     "bootstrap": "^5.3.2",
     "chart.js": "^4.4.3",
+    "emoji-regex": "^10.3.0",
     "filepond": "^4.31.1",
     "filepond-plugin-file-validate-type": "^1.2.9",
     "filepond-plugin-image-preview": "^4.6.12",

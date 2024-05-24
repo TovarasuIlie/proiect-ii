@@ -11,6 +11,14 @@ export class ShippingCartService {
       this.subjectName.next(productID); //next() will feed the value in Subject
   }
 
+  loginSignal() {
+    this.subjectName.next(true);
+  }
+
+  logoutSignal() {
+    this.subjectName.next(false);
+  }
+
   getUpdate(): Observable<any> { //the receiver component calls this function 
       return this.subjectName.asObservable(); //it returns as an observable to which the receiver funtion will subscribe
   }

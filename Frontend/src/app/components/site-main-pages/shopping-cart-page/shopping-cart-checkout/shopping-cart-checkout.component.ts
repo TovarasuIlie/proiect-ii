@@ -47,6 +47,10 @@ export class ShoppingCartCheckoutComponent implements OnInit {
     this.calculateTotalPrice();
   }
 
+  getJson(string: string) {
+    return JSON.parse(string);
+  }
+
   calculateTotalPrice() {
     this.totalBasketPriceWithoutDelivery = 0;
     this.shoppingList.forEach((item) => {
@@ -99,7 +103,7 @@ export class ShoppingCartCheckoutComponent implements OnInit {
 
   get paginateData() {
     const start = (this.paginatorConfig.currentPage - 1) * this.paginatorConfig.currentPage;
-    const end = start + this.paginatorConfig.currentPage;
+    const end = start + this.paginatorConfig.itemsPerPage;
 
     return this.shoppingList.slice(start, end);
   }

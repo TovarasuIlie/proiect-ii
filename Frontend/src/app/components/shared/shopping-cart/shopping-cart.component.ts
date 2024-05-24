@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ShippingCartInterface } from '../../../models/shipping-cart.model';
 import { UserService } from '../../../services/user.service';
 import { Subscription } from 'rxjs';
@@ -16,17 +16,22 @@ export class ShoppingCartComponent implements OnInit {
   totalCartPrice: number = 0;
   totalItems: number = 0;
   private subscription: Subscription;
-  @Input() 
-    get loginSignal() {
-      return true;
-    }
 
   constructor(public userService: UserService, private shippingCartService: ShippingCartService, private productService: ProductsService, private toastService: ToastService) {
     this.subscription = this.shippingCartService.getUpdate().subscribe({
       next: (value) => {
-        this.addProductToCart(value);
+        if(Number(value)) {
+          this.addProductToCart(value);
+        } else {
+          if(value) {
+            this.initializeCart();
+          } else {
+            this.shoppingList = [];
+            this.totalItems = 0;
+          }
+        }
       }
-    })
+    });
   }
 
   ngOnInit(): void {

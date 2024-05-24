@@ -12,7 +12,6 @@
                             <p>{{ (userService.user$ | async)?.address }}</p>
                             <p class="mb-4">{{ (userService.user$ | async)?.phone }}</p>
                         </div>
-                        <a [routerLink]="['/cosul-meu', 'adresa-adresa-de-livrare']" class="text-decoration-none fw-semibold">Modificati</a>
                     </div>
                     <div class="col-md">
                         <h6><i class="fa-solid fa-credit-card"></i> Modalitatea de plată</h6>
@@ -40,7 +39,7 @@
                         <div class="row">
                             <div class="col-md">
                                 <img [attr.src]="getImage(product.product.folderName, '0')"
-                                    class="img-fluid img-thumbnail">
+                                    class="img-fluid">
                             </div>
                             <div class="col-md p-1">
                                 <h5>{{ product.product.title }}</h5>
@@ -57,17 +56,9 @@
                             <div class="card card-body border-0">
                                 <table class="table">
                                     <tbody>
-                                        <tr>
-                                            <td>Specificatia:</td>
-                                            <td>Da</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Specificatia:</td>
-                                            <td>Da</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Specificatia:</td>
-                                            <td>Da</td>
+                                        <tr *ngFor="let spec of getJson(product.product.technicalDetailsJson)">
+                                            <td>{{ spec.specificationTitle }}</td>
+                                            <td><b>{{ spec.specificationValue }}</b></td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -111,5 +102,6 @@
             <button class="btn btn-danger w-100" (click)="submitOrder()">Confirmati comanda!</button>
         </div>
     </div>
+    <app-toast></app-toast>
 </div>
 <app-shopping-cart-footer></app-shopping-cart-footer>

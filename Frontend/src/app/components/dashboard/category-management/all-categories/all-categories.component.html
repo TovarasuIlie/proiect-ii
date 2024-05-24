@@ -87,6 +87,9 @@
                                     <div class="form-floating mb-3">
                                         <input formControlName="name" type="text" class="form-control" id="category-name" placeholder="Nume Categorie" [class.is-invalid]="(formSubmited || categoryForm.get('name')?.touched) && categoryForm.get('name')?.errors">
                                         <label for="category-name">Nume Categorie</label>
+                                        <div *ngIf="categoryForm.get('name')?.errors?.['hasEmoji']">
+                                            <small class="text-danger">Parola trebuie sa contina caractere mici, caractere mari, numere si caractere speciale!</small>
+                                        </div>
                                     </div>
                                     <file-pond #categoryImage [options]="pondOptions" (onaddfile)="onChange($event)"></file-pond>
                                     <div *ngIf="errorMessages.length > 0" class="alert alert-danger">
@@ -119,6 +122,9 @@
                                     <div class="form-floating mb-3">
                                         <input formControlName="name" type="text" class="form-control" id="category-name" placeholder="name@example.com">
                                         <label for="category-name">Nume Categorie</label>
+                                        <div *ngIf="categoryForm.get('name')?.errors?.['hasEmoji']">
+                                            <small class="text-danger">Parola trebuie sa contina caractere mici, caractere mari, numere si caractere speciale!</small>
+                                        </div>
                                     </div>
                                     <file-pond #categoryImage [options]="pondOptions" (onaddfile)="onChange($event)"></file-pond>
                                     <div *ngIf="errorMessages.length > 0" class="alert alert-danger">

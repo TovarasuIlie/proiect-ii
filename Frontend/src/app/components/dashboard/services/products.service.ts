@@ -31,6 +31,9 @@ export class ProductsService {
     return this.http.get<ProductsInterface[]>(environment.apiUrl + "/api/Product/get-product-by-name/" + name);
   }
 
+  getProductsByNamePagination(name: string, currentPage: number, pageSize: number) {
+    return this.http.get<ProductsInterface[]>(environment.apiUrl + "/api/Product/get-products-by-name-pagination/" + name + "?page=" + currentPage + "&pageSize=" + pageSize);
+  }
 
   addNewProduct(product: ProductAddInterface) {
     const headers = new HttpHeaders().append("Content-Disposition", 'multipart/form-data')

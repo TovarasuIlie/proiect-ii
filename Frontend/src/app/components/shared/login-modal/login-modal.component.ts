@@ -3,6 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService } from '../../../services/user.service';
 import { Router } from '@angular/router';
 import { ToastService } from '../services/toast.service';
+import { ShippingCartService } from '../../../services/shipping-cart.service';
+import { EmojiValidator } from '../../../validators/emoji-input.validator';
 
 @Component({
   selector: 'app-login-modal',
@@ -19,7 +21,7 @@ export class LoginModalComponent implements OnInit {
   toaster: any;
   @Output() loginEvent = new EventEmitter();
 
-  constructor(private formBuilder: FormBuilder, private userService: UserService, private router: Router, private toastService: ToastService) {}
+  constructor(private formBuilder: FormBuilder, private userService: UserService, private router: Router, private toastService: ToastService, private shoppingCartService: ShippingCartService) {}
 
   ngOnInit(): void {
     this.initializerForm();
@@ -27,8 +29,8 @@ export class LoginModalComponent implements OnInit {
 
   initializerForm() {
     this.loginForm = this.formBuilder.group({
-      userName: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]]
+      userName: ['', [Validators.required, Validators.email, EmojiValidator.hasEmoji]],
+      password: ['', [Validators.required, Validators.minLength(6), EmojiValidator.hasEmoji]]
     })
   }
 
@@ -38,10 +40,12 @@ export class LoginModalComponent implements OnInit {
     if(this.loginForm.valid) {
       this.userService.loginUser(this.loginForm.value).subscribe({
         next: (response: any) => {
-          this.loginEvent.emit(null);
+          this.shoppingCartService.loginSignal();
           this.router.navigateByUrl('/');
           this.closeModal.nativeElement.click();
           this.toastService.show({title: "Autentificare cu succes!", message: "Sunteti autentificat in contul dumnevoastra!", classname: "text-success"});
+          this.loginForm.reset();
+          this.loginForm.clearValidators();
         },
         error: (response) => {
           console.log(response);

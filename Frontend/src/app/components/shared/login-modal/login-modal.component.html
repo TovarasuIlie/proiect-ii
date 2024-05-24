@@ -17,6 +17,9 @@
                             <div *ngIf="loginForm.get('userName')?.errors?.['email']">
                                 <small>Adresa de email introdusa nu este valida!</small>
                             </div>
+                            <div *ngIf="loginForm.get('userName')?.errors?.['hasEmoji']">
+                                <small>Parola trebuie sa contina caractere mici, caractere mari, numere si caractere speciale!</small>
+                            </div>
                         </div>
                     </div>
                     <div class="form-floating mb-3">
@@ -28,6 +31,9 @@
                             </div>
                             <div *ngIf="loginForm.get('password')?.errors?.['minlength']">
                                 <small>Parola trebuie sa contina minim 8 caractere!</small>
+                            </div>
+                            <div *ngIf="loginForm.get('password')?.errors?.['hasEmoji']">
+                                <small>Parola trebuie sa contina caractere mici, caractere mari, numere si caractere speciale!</small>
                             </div>
                         </div>
                     </div>

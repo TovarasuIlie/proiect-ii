@@ -9,6 +9,7 @@ import { ProductsService } from '../../services/products.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastService } from '../../../shared/services/toast.service';
 import { CategoryInterface } from '../../models/category-interface';
+import { EmojiValidator } from '../../../../validators/emoji-input.validator';
 
 @Component({
   selector: 'app-products-details-page',
@@ -81,18 +82,18 @@ export class ProductsDetailsPageComponent implements OnInit {
 
   initializeForm() {
     this.editForm = this.formBuilder.group({
-      title: [this.product.title, [Validators.required]],
-      description: [this.product.description, [Validators.required]],
-      category: [this.product.category?.id, [Validators.required]],
-      quantity: [this.product.quantity, [Validators.required]],
-      price: [this.product.price?.toString(), [Validators.required]],
+      title: [this.product.title, [Validators.required, EmojiValidator.hasEmoji]],
+      description: [this.product.description, [Validators.required, EmojiValidator.hasEmoji]],
+      category: [this.product.category?.id, [Validators.required, EmojiValidator.hasEmoji]],
+      quantity: [this.product.quantity, [Validators.required, EmojiValidator.hasEmoji, Validators.pattern("[0-9]*")]],
+      price: [this.product.price?.toString(), [Validators.required, EmojiValidator.hasEmoji]],
       technicalDetailsJson: this.formBuilder.array([])
     });
 
     this.product.technicalDetailsJson.forEach((element: any) => {
       this.technicalDetailsJson.push(this.formBuilder.group({
-        specificationTitle: [element.specificationTitle ,[Validators.required, Validators.minLength(3)]],
-        specificationValue: [element.specificationValue,[Validators.required]]
+        specificationTitle: [element.specificationTitle ,[Validators.required, Validators.minLength(3), EmojiValidator.hasEmoji]],
+        specificationValue: [element.specificationValue,[Validators.required, EmojiValidator.hasEmoji]]
       }));
     });
   }
@@ -120,8 +121,8 @@ export class ProductsDetailsPageComponent implements OnInit {
   
   addItem() {
     this.technicalDetailsJson.push(this.formBuilder.group({
-        specificationTitle: [null, [Validators.required, Validators.minLength(3)]],
-        specificationValue: [null, [Validators.required]]
+        specificationTitle: [null, [Validators.required, Validators.minLength(3), EmojiValidator.hasEmoji]],
+        specificationValue: [null, [Validators.required, EmojiValidator.hasEmoji]]
       }));
   }
 

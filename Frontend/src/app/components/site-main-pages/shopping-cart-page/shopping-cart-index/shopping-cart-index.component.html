@@ -1,5 +1,5 @@
 <app-shopping-cart-header></app-shopping-cart-header>
-<div class="container" style="margin-bottom: 100px;" *ngIf="shoppingList.length > 0">
+<div class="container" style="padding-bottom: 100px;" *ngIf="shoppingList.length > 0">
     <div class="row">
         <div class="col-lg border-end">
             <div *ngFor="let product of shoppingList; let i = index" class="card card-body p-3 mb-3 shadow bg-body rounded border-0 mb-5">
@@ -11,7 +11,7 @@
                         <div class="row">
                             <div class="col-md">
                                 <img [attr.src]="getImage(product.product.folderName, '0')"
-                                    class="img-fluid img-thumbnail">
+                                    class="img-fluid">
                             </div>
                             <div class="col-md p-1">
                                 <h5>{{ product.product.title }}</h5>
@@ -30,7 +30,7 @@
                                     <tbody>
                                         <tr *ngFor="let spec of jsonSpecs(i)">
                                             <td>{{ spec.specificationTitle }}</td>
-                                            <td>{{ spec.specificationValue }}</td>
+                                            <td><b>{{ spec.specificationValue }}</b></td>
                                         </tr>
                                     </tbody>
                                 </table>

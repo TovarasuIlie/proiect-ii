@@ -55,9 +55,9 @@ export class AddProductsPageComponent implements OnInit {
     this.addProductForm = this.formBuilder.group({
       title: [, [Validators.required, Validators.minLength(8), EmojiValidator.hasEmoji]],
       description: [, [Validators.required, Validators.minLength(10), EmojiValidator.hasEmoji]],
-      category: [0, [Validators.required, Validators.min(1)]],
-      quantity: [, [Validators.required, Validators.min(1)]],
-      price: [, [Validators.required, Validators.pattern('[0-9]+.[0-9][0-9]')]],
+      category: [0, [Validators.required, Validators.min(1), EmojiValidator.hasEmoji]],
+      quantity: [, [Validators.required, Validators.min(1), Validators.pattern('[0-9]*'), EmojiValidator.hasEmoji]],
+      price: [, [Validators.required, Validators.pattern('[0-9]+.[0-9][0-9]'), EmojiValidator.hasEmoji]],
       technicalDetailsJson: this.formBuilder.array([]),
       image: [[]]
     })

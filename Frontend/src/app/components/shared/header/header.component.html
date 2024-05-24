@@ -43,7 +43,7 @@
                         <ul class="dropdown-menu">
                             <div *ngIf="(userService.user$ | async) === null">
                                 <li>
-                                    <a class="dropdown-item" role="button" data-bs-toggle="modal" data-bs-target="#login-form-modal">Autentificate</a>
+                                    <a class="dropdown-item" role="button" data-bs-toggle="modal" data-bs-target="#login-form-modal"><i class="fa-solid fa-right-to-bracket"></i> Autentifica-te</a>
                                 </li>
                             </div>
                             <div *ngIf="(userService.user$ | async) !== null">
@@ -68,7 +68,7 @@
                                 </ng-template>
                                 <li><hr class="dropdown-divider"></li>
                                 <li>
-                                    <a class="dropdown-item" role="button" (click)="logoutUser()">Delogheaza-te</a>
+                                    <a class="dropdown-item" role="button" (click)="logoutUser()"><i class="fa-solid fa-right-from-bracket"></i> Delogheaza-te</a>
                                 </li>
                             </div>
                         </ul>
