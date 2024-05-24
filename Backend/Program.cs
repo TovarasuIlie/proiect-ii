@@ -96,9 +96,24 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseStaticFiles(new StaticFileOptions
 {
-    FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"SiteUploads")),
+    FileProvider = new PhysicalFileProvider(GetOrCreateUploadsFolder()),
     RequestPath = new PathString("/SiteUploads")
 });
+
+// ... other middleware ...
+
+
+string GetOrCreateUploadsFolder()
+{
+    string uploadsFolderPath = Path.Combine(Directory.GetCurrentDirectory(), "SiteUploads");
+
+    if (!Directory.Exists(uploadsFolderPath))
+    {
+        Directory.CreateDirectory(uploadsFolderPath);
+    }
+
+    return uploadsFolderPath;
+}
 
 //determine identity of user
 app.UseAuthentication();

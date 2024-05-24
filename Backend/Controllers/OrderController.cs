@@ -79,10 +79,32 @@ namespace Backend.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> ConfirmOrder(int id)
         {
-            var order = await _context.Orders.FindAsync(id);
+            var order = await _context.Orders
+                .Include(o => o.OrderDetails) 
+                .FirstOrDefaultAsync(o => o.Id == id);
+
             if (order == null)
             {
                 return NotFound();
+            }
+
+            foreach (var orderItem in order.OrderDetails)
+            {
+                var product = await _context.Products.FindAsync(orderItem.ProductId);
+
+                if (product != null)
+                {
+                    
+                    if (product.Quantity >= orderItem.Quantity)
+                    {
+                        product.Quantity -= orderItem.Quantity;
+                        _context.Entry(product).State = EntityState.Modified;
+                    }
+                    else
+                    {
+                        return BadRequest("Stoc insuficient pentru produsul: " + product.Title);
+                    }
+                }
             }
 
             order.IsConfirmed = true;
