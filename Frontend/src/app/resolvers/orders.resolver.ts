@@ -12,7 +12,6 @@ export class OrderResolverService implements Resolve<Observable<ProductsInterfac
   constructor(private orderService: OrderService) {
   }
   resolve(router: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<ProductsInterface[]> {
-    console.log(router.paramMap.get("id"));
     return this.orderService.getOrder(parseInt(router.paramMap.get("id") || "0")).pipe(
       catchError((response) => {
         return of(response);

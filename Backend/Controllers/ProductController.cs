@@ -75,7 +75,7 @@ namespace Backend.Controllers
             return await _context.Products.Where(x => x.Title.Contains(name)).Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
         }
 
-        [HttpGet("get-product-by-car/{mark}/{model}/{engine}")]
+        [HttpGet("get-products-by-car/{mark}/{model}/{engine}")]
         public async Task<ActionResult<IEnumerable<Product>>> GetProductsLikeCar(string mark, string model, string engine)
         {
             var markId = await _context.Marks.FirstOrDefaultAsync(x => x.Name.Contains(mark));
@@ -87,8 +87,30 @@ namespace Backend.Controllers
             {
                 products.Add(await _context.Products.Include(p => p.Category).FirstOrDefaultAsync(p => p.Id == part));
             }
+            if(products.Count() == 0)
+            {
+                return NotFound("Nu a fost gasit nici un produs!");
+            }
+            return products;
+        }
 
-            return products.ToList();
+        [HttpGet("get-products-category-by-car/{category}/{mark}/{model}/{engine}")]
+        public async Task<ActionResult<IEnumerable<Product>>> GetProductsCategoryLikeCar(string category, string mark, string model, string engine)
+        {
+            var markId = await _context.Marks.FirstOrDefaultAsync(x => x.Name.Contains(mark));
+            var modelId = await _context.Models.FirstOrDefaultAsync(x => x.Name.Contains(model) && x.Mark.Id == markId.Id);
+            var engineId = await _context.Engines.FirstOrDefaultAsync(x => x.Name.Contains(engine) && x.Model.Id == modelId.Id);
+            var productsId = await _context.PartsForCars.Where(x => x.EngineId == engineId.Id).Select(x => x.ProductId).ToListAsync();
+            List<Product> products = new List<Product>();
+            foreach (var part in productsId)
+            {
+                products.Add(await _context.Products.Include(p => p.Category).FirstOrDefaultAsync(p => p.Id == part && p.Category.CategoryNameSearch == category));
+            }
+            if (products.Count() == 0 || products[0] == null)
+            {
+                return NotFound("Nu a fost gasit nici un produs!");
+            }
+            return products;
         }
 
         [HttpPost("add-product")]
@@ -98,7 +120,7 @@ namespace Backend.Controllers
             var existingCategory = await _context.Categories.FindAsync(product.Category.Id);
             if (existingCategory != null)
             {
-                if(image.Length >= 3)
+                if(image.Length >= 2)
                 {
                     // Associate the category
                     product.Category = existingCategory;
@@ -141,7 +163,7 @@ namespace Backend.Controllers
                 } 
                 else
                 {
-                    return BadRequest("Trebuie sa incarci minim 3 poze pentru acest produs!");
+                    return BadRequest("Trebuie sa incarci minim 2 poze pentru acest produs!");
                 }
             }
             else
@@ -157,11 +179,12 @@ namespace Backend.Controllers
         public async Task<IActionResult> UpdateProduct(ProductEditDto product)
         {
 
-            var productToUpdate = await _context.Products.FindAsync(product.Id);
+            var productToUpdate = await _context.Products.Include(p => p.Category).FirstOrDefaultAsync(p => p.Id == product.Id);
             if (productToUpdate == null)
             {
                 return NotFound();
             }
+            productToUpdate.Category = product.Category;
             _context.Entry(productToUpdate).State = EntityState.Detached;
             productToUpdate.Title = product.Title;
             productToUpdate.Description = product.Description;

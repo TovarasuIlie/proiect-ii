@@ -9,6 +9,7 @@ import { ToastService } from '../../../shared/services/toast.service';
 import { PaginateConfig } from '../../../../models/paginate.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EmojiValidator } from '../../../../validators/emoji-input.validator';
+import { map } from 'rxjs';
 
 @Component({
   selector: 'app-all-categories',
@@ -51,7 +52,7 @@ export class AllCategoriesComponent implements OnInit {
       next: (value) => {
         this.paginatorConfig.totalItems = value;
       }
-    });
+    })
   }
 
   ngOnInit(): void {
@@ -66,11 +67,13 @@ export class AllCategoriesComponent implements OnInit {
     this._renderer2.appendChild(this._document.body, script);
   }
 
+  initializePagination() {
+    this.router.data.subscribe((response: any) => {
+      this.paginatorConfig.totalItems = response.categoryNumber; 
+    });
+  }
+
   initializeGategory() {
-    const paginatorConfig = sessionStorage.getItem("paginatorConfig");
-    if(paginatorConfig) {
-        this.paginatorConfig = JSON.parse(paginatorConfig);
-    }
     this.categoryService.getCategoriesPagination(this.paginatorConfig.currentPage, this.paginatorConfig.itemsPerPage).subscribe({
       next: (categories) => {
         this.loading = false;
@@ -79,28 +82,6 @@ export class AllCategoriesComponent implements OnInit {
     });
   }
 
-  initializePagination() {
-    const paginatorConfig = sessionStorage.getItem("paginatorConfig");
-    if(paginatorConfig && paginatorConfig.includes(this.router.snapshot.url[0].path)) {
-        this.paginatorConfig = JSON.parse(paginatorConfig);
-        this.categoryService.getCategoryCount().subscribe({
-          next: (value) => {
-            this.paginatorConfig.totalItems = value;
-          }
-        });
-    } else {
-      this.categoryService.getCategoryCount().subscribe({
-        next: (value) => {
-          this.paginatorConfig.totalItems = value;
-        }
-      });
-    }
-    const totalPages = Math.ceil(this.paginatorConfig.totalItems / this.paginatorConfig.itemsPerPage);
-    if(this.paginatorConfig.currentPage > totalPages) {
-      this.paginatorConfig.currentPage = totalPages
-    }
-    sessionStorage.setItem('paginatorConfig', JSON.stringify(this.paginatorConfig));
-  }
 
   initializeForm() {
     this.categoryForm = this.formBuilder.group({
@@ -147,7 +128,6 @@ export class AllCategoriesComponent implements OnInit {
         next: (response) => {
           this.closeAddModal.nativeElement.click();
           this.initializeGategory();
-          this.initializePagination();
           this.toastService.show({title: "Categorie adaugata!", message: "Categoria " + this.categoryForm.get('name')?.value + " a fost adaugata cu succes!", classname: "text-success"});
           this.categoryForm.reset();
         },
@@ -209,18 +189,12 @@ export class AllCategoriesComponent implements OnInit {
 
   changePage(page: number) {
     this.paginatorConfig.currentPage = page;
-    sessionStorage.setItem('paginatorConfig', JSON.stringify(this.paginatorConfig));
     this.initializeGategory();
   }
 
 
   resultPerPageChange() {
     this.paginatorConfig.itemsPerPage = this.resultPerPage.get('itemsPerPage')?.value;
-    sessionStorage.setItem('paginatorConfig', JSON.stringify(this.paginatorConfig));
-    const paginatorConfig = sessionStorage.getItem("paginatorConfig");
-    if(paginatorConfig) {
-      this.paginatorConfig = JSON.parse(paginatorConfig);
-    }
     const totalPages = Math.ceil(this.paginatorConfig.totalItems / this.paginatorConfig.itemsPerPage);
     if(this.paginatorConfig.currentPage > totalPages) {
       this.paginatorConfig.currentPage = totalPages

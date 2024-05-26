@@ -3,16 +3,17 @@ import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/r
 import { Observable, catchError, of} from 'rxjs';
 import { ProductsService } from '../components/dashboard/services/products.service';
 import { ProductsInterface } from '../components/dashboard/models/products.model';
+import { CategoriesService } from '../components/dashboard/services/categories.service';
  
 @Injectable({
   providedIn: 'root'
 })
 
-export class ProductsForCarResolverService implements Resolve<Observable<ProductsInterface[]> > {
-  constructor(private productService: ProductsService) {
+export class ProductsCountResolverService implements Resolve<Observable<ProductsInterface[]> > {
+  constructor(private productsService: ProductsService) {
   }
   resolve(router: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<ProductsInterface[]> {
-    return this.productService.getProductsForCar(router.paramMap.get("mark") || "", router.paramMap.get("model") || "", router.paramMap.get("engine") || "").pipe(
+    return this.productsService.getProductsCount().pipe(
       catchError((response) => {
         return of(response);
       })

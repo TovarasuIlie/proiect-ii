@@ -36,10 +36,6 @@ export class AllUsersPageComponent implements OnInit {
   }
 
   initializeMembers() {
-    const paginatorConfig = sessionStorage.getItem("paginatorConfig");
-    if(paginatorConfig) {
-        this.paginatorConfig = JSON.parse(paginatorConfig);
-    }
     this.adminService.getMembersPagination(this.paginatorConfig.currentPage, this.paginatorConfig.itemsPerPage).subscribe({
       next: (members) => {
         this.loading = false;
@@ -62,31 +58,13 @@ export class AllUsersPageComponent implements OnInit {
   }
 
   initializePagination() {
-    const paginatorConfig = sessionStorage.getItem("paginatorConfig");
-    if(paginatorConfig && paginatorConfig.includes(this.router.snapshot.url[0].path)) {
-        this.paginatorConfig = JSON.parse(paginatorConfig);
-    } else {
-      this.adminService.getMembersCount().subscribe({
-        next: (value) => {
-          this.paginatorConfig.totalItems = value;
-        }
-      });
-    }
-    const totalPages = Math.ceil(this.paginatorConfig.totalItems / this.paginatorConfig.itemsPerPage);
-    if(this.paginatorConfig.currentPage > totalPages) {
-      this.paginatorConfig.currentPage = totalPages
-    }
-    console.log(this.paginatorConfig);
-    sessionStorage.setItem('paginatorConfig', JSON.stringify(this.paginatorConfig));
+    this.router.data.subscribe((response: any) => {
+      this.paginatorConfig.totalItems = response.productsNumber; 
+    })
   }
 
   resultPerPageChange() {
     this.paginatorConfig.itemsPerPage = this.filterForm.get('itemsPerPage')?.value;
-    sessionStorage.setItem("paginatorConfig", JSON.stringify(this.paginatorConfig));
-    const paginatorConfig = sessionStorage.getItem("paginatorConfig");
-    if(paginatorConfig) {
-      this.paginatorConfig = JSON.parse(paginatorConfig);
-    }
     const totalPages = Math.ceil(this.paginatorConfig.totalItems / this.paginatorConfig.itemsPerPage);
     if(this.paginatorConfig.currentPage > totalPages) {
       this.paginatorConfig.currentPage = totalPages
@@ -96,7 +74,6 @@ export class AllUsersPageComponent implements OnInit {
 
   changePage(page: number) {
     this.paginatorConfig.currentPage = page;
-    sessionStorage.setItem('paginatorConfig', JSON.stringify(this.paginatorConfig));
     this.initializeMembers();
   }
 }

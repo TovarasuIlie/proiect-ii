@@ -55,10 +55,10 @@ export class ViewOrderComponent implements AfterViewInit {
   initializeProductsList() {
     this.order.orderDetails.forEach((item) => {
       this.productService.getProduct(item.productId).subscribe({
-        next: (value) => {
-          this.products.push(value);
+        next: (value: any) => {
+          this.products.push(value.value.product);
         }
-      })
+      });
     });
   }
 

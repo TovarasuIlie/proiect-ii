@@ -11,6 +11,10 @@ import { ProductsDetailsPageComponent } from './products-management/products-det
 import { ActiveOrdersComponent } from './orders-management/active-orders/active-orders.component';
 import { ViewOrderComponent } from './orders-management/view-order/view-order.component';
 import { OrderResolverService } from '../../resolvers/orders.resolver';
+import { CategoryCountResolverService } from '../../resolvers/category-count.resolver';
+import { MembersCountResolverService } from '../../resolvers/member-count.resolver';
+import { ProductsForCarResolverService } from '../../resolvers/products-for-car.resolver';
+import { ProductsCountResolverService } from '../../resolvers/products-count.resolver';
 
 const routes: Routes = [
   {
@@ -26,7 +30,9 @@ const routes: Routes = [
       {
         path: 'utilizatori',
         component: AllUsersPageComponent,
-        data : {clearLocal : true}
+        resolve : {
+          membersNumber: MembersCountResolverService
+        }
       },
       {
         path: 'utilizatori/detalii-utilizator/:idUser',
@@ -34,11 +40,17 @@ const routes: Routes = [
       },
       {
         path: 'categorii',
-        component: AllCategoriesComponent
+        component: AllCategoriesComponent,
+        resolve: {
+          categoryNumber: CategoryCountResolverService
+        }
       },
       {
         path: 'produse',
-        component: ViewProductsPageComponent
+        component: ViewProductsPageComponent, 
+        resolve: {
+          productsNumber: ProductsCountResolverService
+        }
       },
       {
         path: 'produse/adauga-produs',

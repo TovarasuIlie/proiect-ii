@@ -33,13 +33,12 @@ export class SparePartsListComponent implements OnInit {
         const category = value.get('partCategory');
         if(category) {
           this.currentCategoryPath =  category;
-        } else {
-          const mark = value.get('mark');
-          const model = value.get('model');
-          const engine = value.get('engine');
-          if(mark && model && engine) {
-            this.carName = mark + " " + model + " " + engine;
-          }
+        }  
+        const mark = value.get('mark');
+        const model = value.get('model');
+        const engine = value.get('engine');
+        if(mark && model && engine) {
+          this.carName = mark + " " + model + " " + engine;
         }
       },
     });

@@ -21,13 +21,13 @@
               <label for="floatingSelect">Model</label>
             </div>
             <div class="form-floating mb-3">
-              <select class="form-select" [disabled]="enginesList.length === 0" id="floatingSelect" aria-label="Floating label select example">
+              <select class="form-select" [disabled]="enginesList.length === 0" id="floatingSelect" aria-label="Floating label select example" (change)="getEngine($event)">
                 <option selected>Alege motorizarea</option>
                 <option *ngFor="let engine of enginesList" [value]="engine.id">{{ engine.name }}</option>
               </select>
               <label for="floatingSelect">Motorizarea</label>
             </div>
-            <button class="btn btn-danger w-100 mb-3 p-3 fw-semibold"><i class="fa-solid fa-magnifying-glass"></i> Cauta!</button>
+            <button class="btn btn-danger w-100 mb-3 p-3 fw-semibold" (click)="searchButton()" [disabled]="!selectedEngine"><i class="fa-solid fa-magnifying-glass"></i> Cauta!</button>
           </form>
         </div>
       </div>

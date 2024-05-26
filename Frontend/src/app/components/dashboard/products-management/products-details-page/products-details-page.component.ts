@@ -182,7 +182,6 @@ export class ProductsDetailsPageComponent implements OnInit {
           partOfCar: this.createArrayOfCars(),
           photoNumber: 0
         };
-        console.log(editProduct);
         this.productsService.editProduct(editProduct).subscribe({
           next: (response) => {
             this.closeEditModal.nativeElement.click();

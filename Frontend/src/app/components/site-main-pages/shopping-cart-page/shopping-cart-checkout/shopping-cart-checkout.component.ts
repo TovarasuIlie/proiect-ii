@@ -123,7 +123,7 @@ export class ShoppingCartCheckoutComponent implements OnInit {
   }
 
   getImage(folderName:string, imageID: string) {
-    return environment.apiUrl + 'SiteUploads/ShopImages/' + folderName + "/" + folderName + "_" + imageID + ".png";
+    return environment.apiUrl + '/SiteUploads/ShopImages/' + folderName + "/" + folderName + "_" + imageID + ".png";
   }
   
 }

@@ -2,7 +2,7 @@ import { DOCUMENT } from '@angular/common';
 import { Component, Inject, Renderer2 } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { UserService } from '../../../../services/user.service';
-import { FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { PaginateConfig } from '../../../../models/paginate.model';
 import { OrderInterface } from '../../../../models/order.model';
 import { OrderService } from '../../../../services/order.service';
@@ -23,12 +23,14 @@ export class ActiveOrdersComponent {
   }
   orders: OrderInterface[] = [];
   
-  constructor(private titleService: Title, private _renderer2: Renderer2, @Inject(DOCUMENT) private _document: Document, public userService: UserService, private orderService: OrderService) {
+  constructor(private titleService: Title, private _renderer2: Renderer2, @Inject(DOCUMENT) private _document: Document, public userService: UserService, private orderService: OrderService,
+              private formBuilder: FormBuilder) {
     this.titleService.setTitle("Comenzi active - La Verucu' SRL");
   }
 
   ngOnInit(): void {
     this.initializeOrders();
+    this.initializeForm();
   }
 
   initializeOrders() {
@@ -40,13 +42,15 @@ export class ActiveOrdersComponent {
     })
   }
 
+  initializeForm() {
+    this.filterForm = this.formBuilder.group({
+      itemsPerPage: [this.paginatorConfig.itemsPerPage],
+      orderListType: ["ASC"]
+    });
+  }
+
   resultPerPageChange() {
     this.paginatorConfig.itemsPerPage = this.filterForm.get('itemsPerPage')?.value;
-    sessionStorage.setItem("paginatorConfig", JSON.stringify(this.paginatorConfig));
-    const paginatorConfig = sessionStorage.getItem("paginatorConfig");
-    if(paginatorConfig) {
-      this.paginatorConfig = JSON.parse(paginatorConfig);
-    }
     const totalPages = Math.ceil(this.paginatorConfig.totalItems / this.paginatorConfig.itemsPerPage);
     if(this.paginatorConfig.currentPage > totalPages) {
       this.paginatorConfig.currentPage = totalPages
@@ -56,7 +60,6 @@ export class ActiveOrdersComponent {
 
   changePage(page: number) {
     this.paginatorConfig.currentPage = page;
-    sessionStorage.setItem('paginatorConfig', JSON.stringify(this.paginatorConfig));
     this.initializeOrders();
   }
 

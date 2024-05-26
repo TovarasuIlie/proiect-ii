@@ -5,6 +5,7 @@ import { SparePartsComponent } from './spare-parts/spare-parts.component';
 import { ProductsResolverService } from '../../../resolvers/products.resolver';
 import { SparePartPresentationComponent } from './spare-part-presentation/spare-part-presentation.component';
 import { ProductsForCarResolverService } from '../../../resolvers/products-for-car.resolver';
+import { ProductsCategoryForCarResolverService } from '../../../resolvers/product-category-for-car.resolver';
 
 const routes: Routes = [
   {
@@ -27,6 +28,13 @@ const routes: Routes = [
     component: SparePartsListComponent,
     resolve: {
       productsList: ProductsForCarResolverService
+    }
+  },
+  {
+    path: ':partCategory/:mark/:model/:engine',
+    component: SparePartsListComponent,
+    resolve: {
+      productsList: ProductsCategoryForCarResolverService
     }
   },
 ]

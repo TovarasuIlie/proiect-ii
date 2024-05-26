@@ -57,8 +57,7 @@ const routes: Routes = [
   },
   {
     path: "dashboard",
-    loadChildren: () => import('./components/dashboard/admin.module').then(module => module.AdminModule),
-    canActivate: [AuthorizationGuard, AdminGuard]
+    loadChildren: () => import('./components/dashboard/admin.module').then(module => module.AdminModule)
   },
   {
     path: '**',

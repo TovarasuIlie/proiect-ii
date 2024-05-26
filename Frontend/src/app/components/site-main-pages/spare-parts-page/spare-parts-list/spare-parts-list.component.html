@@ -6,7 +6,7 @@
             <li class="breadcrumb-item"><a class="text-decoration-none" href="/">Acasa</a></li>
             <li class="breadcrumb-item"><a class="text-decoration-none" href="/piese-de-schimb">Piese de Schimb</a></li>
             <li class="breadcrumb-item active fw-semibold" aria-current="page" *ngIf="category">{{ category.name }}</li>
-            <li class="breadcrumb-item active fw-semibold" aria-current="page" *ngIf="!category">{{ carName }}</li>
+            <li class="breadcrumb-item active fw-semibold" aria-current="page" *ngIf="carName">{{ carName }}</li>
         </ol>
     </nav>
     <hr>
@@ -159,8 +159,9 @@
             </div>
         </div>
         <div class="col-lg border-start">
-            <h4 class="fw-semibold" *ngIf="category">{{ category.name }}</h4>
-            <h4 class="fw-semibold" *ngIf="!category">Piese pentru {{ carName }}</h4>
+            <h4 class="fw-semibold" *ngIf="category && !carName">{{ category.name }}</h4>
+            <h4 class="fw-semibold" *ngIf="!category && carName">Piese pentru {{ carName }}</h4>
+            <h4 class="fw-semibold" *ngIf="category && carName">{{ category.name }} pentru {{ carName }}</h4>
             <div class="container">
                 <div class="row">
                     <div class="col-md mb-3">

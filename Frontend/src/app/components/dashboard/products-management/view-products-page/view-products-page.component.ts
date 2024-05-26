@@ -31,28 +31,16 @@ export class ViewProductsPageComponent implements OnInit {
     this.titleService.setTitle("Dashboard - La Verucu' SRL");
   }
   ngOnInit(): void {
-    this.productsService.getProductsCount().subscribe({
-      next: (value) => {
-        this.paginatorConfig.totalItems = value;
-      }
-    });
     this.initializeForm();
     this.initializeProducts();
     this.initializePagination();
   }
 
   initializeProducts() {
-    const paginationConfig = sessionStorage.getItem("paginatorConfig");
-    if(paginationConfig) {
-      this.paginatorConfig = JSON.parse(paginationConfig);
-    }
     this.productsService.getProductsPagination(this.paginatorConfig.currentPage, this.paginatorConfig.itemsPerPage).subscribe({
       next: (value) => {
         this.loading = false;
         this.products = value;
-      },
-      error: (response) => {
-        console.log(response);
       }
     });
   }
@@ -61,25 +49,13 @@ export class ViewProductsPageComponent implements OnInit {
     this.filterForm = this.formBuilder.group({
       itemsPerPage: [this.paginatorConfig.itemsPerPage],
       orderListType: ["ASC"]
-    })
+    });
   }
 
   initializePagination() {
-    const paginatorConfig = sessionStorage.getItem("paginatorConfig");
-    if(paginatorConfig && paginatorConfig.includes(this.router.snapshot.url[0].path)) {
-        this.paginatorConfig = JSON.parse(paginatorConfig);
-    } else {
-      this.productsService.getProductsCount().subscribe({
-        next: (value) => {
-          this.paginatorConfig.totalItems = value;
-        }
-      });
-    }
-    const totalPages = Math.ceil(this.paginatorConfig.totalItems / this.paginatorConfig.itemsPerPage);
-    if(this.paginatorConfig.currentPage >= totalPages) {
-      this.paginatorConfig.currentPage = totalPages
-    }
-    sessionStorage.setItem('paginatorConfig', JSON.stringify(this.paginatorConfig));
+    this.router.data.subscribe((response: any) => {
+      this.paginatorConfig.totalItems = response.productsNumber; 
+    });
   }
 
   ngAfterViewInit() {
@@ -90,11 +66,6 @@ export class ViewProductsPageComponent implements OnInit {
 
   resultPerPageChange() {
     this.paginatorConfig.itemsPerPage = this.filterForm.get('itemsPerPage')?.value;
-    sessionStorage.setItem("paginatorConfig", JSON.stringify(this.paginatorConfig));
-    const paginatorConfig = sessionStorage.getItem("paginatorConfig");
-    if(paginatorConfig) {
-      this.paginatorConfig = JSON.parse(paginatorConfig);
-    }
     const totalPages = Math.ceil(this.paginatorConfig.totalItems / this.paginatorConfig.itemsPerPage);
     if(this.paginatorConfig.currentPage >= totalPages) {
       this.paginatorConfig.currentPage = totalPages
@@ -104,7 +75,6 @@ export class ViewProductsPageComponent implements OnInit {
 
   changePage(page: number) {
     this.paginatorConfig.currentPage = page;
-    sessionStorage.setItem('paginatorConfig', JSON.stringify(this.paginatorConfig));
     this.initializeProducts();
   }
 

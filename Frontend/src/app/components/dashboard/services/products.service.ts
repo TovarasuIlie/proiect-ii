@@ -69,8 +69,12 @@ export class ProductsService {
     return this.http.get<ProductsInterface[]>(environment.apiUrl + '/api/Product/products-by-category-name/' + categoryName);
   }
 
+  getProductsByCategoryNameForCar(categoryName: string, mark: string, model: string, engine: string) {
+    return this.http.get<ProductsInterface[]>(environment.apiUrl + '/api/Product/get-products-category-by-car/' + categoryName + "/" + mark + "/" + model + "/" + engine);
+  }
+
   getProductsForCar(mark: string, model: string, engine: string) {
-    return this.http.get<ProductsInterface[]>(environment.apiUrl + '/api/Product/get-product-by-car/' + mark + "/" + model + "/" + engine);
+    return this.http.get<ProductsInterface[]>(environment.apiUrl + '/api/Product/get-products-by-car/' + mark + "/" + model + "/" + engine);
   }
 
   editProduct(product: ProductsInterface) {

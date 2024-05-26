@@ -18,7 +18,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<ApiDbContext>(options=>
-options.UseSqlServer(builder.Configuration.GetConnectionString("ProiectIIConnectionString")));
+options.UseSqlServer(builder.Configuration.GetConnectionString("ProiectIIAzureConnectionString")));
 //inject JWTservice in controllers
 builder.Services.AddScoped<JWTService>();
 builder.Services.AddScoped<EmailService>();

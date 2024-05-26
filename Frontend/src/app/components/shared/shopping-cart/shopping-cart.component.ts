@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs';
 import { ShippingCartService } from '../../../services/shipping-cart.service';
 import { ProductsService } from '../../dashboard/services/products.service';
 import { ToastService } from '../services/toast.service';
+import { environment } from '../../../../environments/environment.development';
 
 @Component({
   selector: 'app-shopping-cart',
@@ -57,31 +58,31 @@ export class ShoppingCartComponent implements OnInit {
   addProductToCart(productID: number) {
     if(this.userService.getEmail()) {
       this.productService.getProduct(productID).subscribe({
-        next: (value) => {
+        next: (value: any) => {
           let itemsFromCart = JSON.parse(localStorage.getItem(this.userService.getEmail()) || "");
           let item = itemsFromCart.findIndex((p:any) => p.product.id == productID) 
           if(item != -1) {
-            if(value.quantity >= itemsFromCart[item].quantity + 1) {
+            if(value.value.product.quantity >= itemsFromCart[item].quantity + 1) {
               itemsFromCart[item].quantity ++;
               itemsFromCart[item].totalPrice = itemsFromCart[item].quantity * itemsFromCart[item].product.price;
               localStorage.setItem(this.userService.getEmail(), JSON.stringify(itemsFromCart));
               this.toastService.show({title: "Produs adaugat", message: "Produsul a fost adaugat in cos!", classname: "text-success"});
             } else {
-              this.toastService.show({title: "Lipsa stoc", message: "Din produsul nu mai este pe stoc!", classname: "text-danger"});
+              this.toastService.show({title: "Lipsa stoc", message: "Din pacate, produsul nu mai este pe stoc!", classname: "text-danger"});
             }
           } else {
-            if(value.quantity >= 1) {
+            if(value.value.product.quantity >= 1) {
               const item: ShippingCartInterface = {
                 id: itemsFromCart.length,
-                product: value,
+                product: value.value.product,
                 quantity: 1,
-                totalPrice: value.price || 0
+                totalPrice: value.value.product.price || 0
               }
               itemsFromCart.push(item);
               localStorage.setItem(this.userService.getEmail(), JSON.stringify(itemsFromCart));
               this.toastService.show({title: "Produs adaugat", message: "Produsul a fost adaugat in cos!", classname: "text-success"});
             } else {
-              this.toastService.show({title: "Lipsa stoc", message: "Din produsul nu mai este pe stoc!", classname: "text-danger"});
+              this.toastService.show({title: "Lipsa stoc", message: "Din pacate produsul nu mai este pe stoc!", classname: "text-danger"});
             }
           }
         }
@@ -107,6 +108,6 @@ export class ShoppingCartComponent implements OnInit {
   }
 
   getImage(folderName:string, imageID: string) {
-    return 'http://localhost:5020/SiteUploads/ShopImages/' + folderName + "/" + folderName + "_" + imageID + ".png";
+    return environment.apiUrl + '/SiteUploads/ShopImages/' + folderName + "/" + folderName + "_" + imageID + ".png";
   }
 }

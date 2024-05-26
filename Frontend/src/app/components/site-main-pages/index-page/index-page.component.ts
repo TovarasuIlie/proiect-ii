@@ -5,6 +5,7 @@ import { CategoryInterface } from '../../dashboard/models/category-interface';
 import { CarService } from '../../../services/car.service';
 import { EngineInterface, MarkInterface, ModelInterface } from '../../../models/car.model';
 import { environment } from '../../../../environments/environment.development';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-index-page',
@@ -16,9 +17,12 @@ export class IndexPageComponent {
   marksList: MarkInterface[] = [];
   modelsList: ModelInterface[] = [];
   enginesList: EngineInterface[] = [];
+  selectedMark!: string;
+  selectedModel!: string;
+  selectedEngine!: string;
   loading: boolean = true;
 
-  constructor(private titleService: Title, private categoryService: CategoriesService, private carService: CarService) {
+  constructor(private titleService: Title, private categoryService: CategoriesService, private carService: CarService, private router: Router) {
     this.titleService.setTitle("La Vericu' SRL");
   }
 
@@ -50,6 +54,9 @@ export class IndexPageComponent {
         this.modelsList = value;
       }
     })
+    this.selectedMark = this.marksList.filter(m => m.id == markID)[0].name;
+    this.selectedModel = "";
+    this.selectedEngine = "";
   }
 
   initializeEngines(modelID: number) {
@@ -57,11 +64,12 @@ export class IndexPageComponent {
       next: (value) => {
         this.enginesList = value;
       }
-    })
+    });
+    this.selectedModel = this.modelsList.filter(m => m.id == modelID)[0].name;
+    this.selectedEngine = "";
   }
 
   getMark($event: any) {
-    console.log($event.target);
     this.initializeModels($event.target.value);
     this.enginesList = [];
   }
@@ -70,11 +78,19 @@ export class IndexPageComponent {
     this.initializeEngines($event.target.value);
   }
 
+  getEngine($event: any) {
+    this.selectedEngine = this.enginesList.filter(e => e.id == $event.target.value)[0].name;
+  }
+
   getImage(imageName: string) {
     return environment.apiUrl + '/SiteUploads/category-icons/' + imageName;
   }
 
   getLink(categoryName: string) {
     return categoryName.includes('anvelope') ? '/anvelope' : '/piese-de-schimb/' + categoryName
+  }
+
+  searchButton() {
+    this.router.navigateByUrl("/piese-de-schimb/" + this.selectedMark + "/" + this.selectedModel + "/" + this.selectedEngine);
   }
 }
