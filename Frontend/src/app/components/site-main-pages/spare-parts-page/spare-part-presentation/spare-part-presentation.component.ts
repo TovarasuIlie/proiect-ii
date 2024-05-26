@@ -5,6 +5,7 @@ import { ProductsInterface } from '../../../dashboard/models/products.model';
 import { ShippingCartInterface } from '../../../../models/shipping-cart.model';
 import { ShippingCartService } from '../../../../services/shipping-cart.service';
 import { Title } from '@angular/platform-browser';
+import { environment } from '../../../../../environments/environment.development';
 
 @Component({
   selector: 'app-spare-part-presentation',
@@ -24,7 +25,7 @@ export class SparePartPresentationComponent {
     folderName: "",
     photoNumber: 0,
   };
-  photoLinks: string[] = ['test', 'test', 'test', 'test'];
+  cars: string[] = [];
 
   constructor(private activatedRoute: ActivatedRoute, private productService: ProductsService, private shippingCartService: ShippingCartService, private title: Title) {
     
@@ -37,10 +38,11 @@ export class SparePartPresentationComponent {
       }
     })
     this.productService.getProduct(this.productID).subscribe({
-      next: (value) => {
-        this.product = value;
-        this.product.technicalDetailsJson = JSON.parse(value.technicalDetailsJson);
-        this.title.setTitle(value.title + " - La Vericu' SRL")
+      next: (value: any) => {
+        this.cars = value.value.cars;
+        this.product = value.value.product;
+        this.product.technicalDetailsJson = JSON.parse(value.value.product.technicalDetailsJson);
+        this.title.setTitle(value.value.product.title + " - La Vericu' SRL")
       }
     });
   }
@@ -50,7 +52,7 @@ export class SparePartPresentationComponent {
   }
 
   getImage(folderName:string, imageID: string) {
-    return 'http://localhost:5020/SiteUploads/ShopImages/' + folderName + "/" + folderName + "_" + imageID + ".png";
+    return environment.apiUrl + '/SiteUploads/ShopImages/' + folderName + "/" + folderName + "_" + imageID + ".png";
   }
 
 }

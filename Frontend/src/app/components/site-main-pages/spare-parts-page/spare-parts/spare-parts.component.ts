@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CategoryInterface } from '../../../dashboard/models/category-interface';
 import { CategoriesService } from '../../../dashboard/services/categories.service';
+import { environment } from '../../../../../environments/environment.development';
 
 @Component({
   selector: 'app-spare-parts',
@@ -25,7 +26,7 @@ export class SparePartsComponent implements OnInit {
   }
 
   getImage(imageName: string) {
-    return 'http://localhost:5020/SiteUploads/category-icons/' + imageName;
+    return environment.apiUrl + '/SiteUploads/category-icons/' + imageName;
   }
 
   getLink(categoryName: string) {

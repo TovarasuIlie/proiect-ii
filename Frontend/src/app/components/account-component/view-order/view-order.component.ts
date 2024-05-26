@@ -5,6 +5,7 @@ import { ProductsInterface } from '../../dashboard/models/products.model';
 import { ProductsService } from '../../dashboard/services/products.service';
 import { UserService } from '../../../services/user.service';
 import { Title } from '@angular/platform-browser';
+import { environment } from '../../../../environments/environment.development';
 
 @Component({
   selector: 'app-view-order',
@@ -43,7 +44,7 @@ export class ViewOrderComponent implements OnInit {
   }
 
   getImage(folderName:string, imageID: string) {
-    return 'http://localhost:5020/SiteUploads/ShopImages/' + folderName + "/" + folderName + "_" + imageID + ".png";
+    return environment.apiUrl + '/SiteUploads/ShopImages/' + folderName + "/" + folderName + "_" + imageID + ".png";
   }
 
   calculatePrice(numberOfProducts: number, price: number) {

@@ -3,6 +3,7 @@ import { CategoriesService } from '../../dashboard/services/categories.service';
 import { CategoryInterface } from '../../dashboard/models/category-interface';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ShareDataService } from '../../../services/share-data.service';
+import { environment } from '../../../../environments/environment.development';
 
 @Component({
   selector: 'app-offcanvas-categories',
@@ -31,7 +32,7 @@ export class OffcanvasCategoriesComponent implements OnInit {
   }
 
   getImage(imageName: string) {
-    return 'http://localhost:5020/SiteUploads/category-icons/' + imageName;
+    return environment.apiUrl + '/SiteUploads/category-icons/' + imageName;
   }
 
 }

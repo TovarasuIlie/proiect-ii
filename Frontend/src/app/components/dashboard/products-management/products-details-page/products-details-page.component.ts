@@ -4,12 +4,15 @@ import { Title } from '@angular/platform-browser';
 import { UserService } from '../../../../services/user.service';
 import { CategoriesService } from '../../services/categories.service';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ProductsInterface } from '../../models/products.model';
+import { ProductEditInterface, ProductsInterface } from '../../models/products.model';
 import { ProductsService } from '../../services/products.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastService } from '../../../shared/services/toast.service';
 import { CategoryInterface } from '../../models/category-interface';
 import { EmojiValidator } from '../../../../validators/emoji-input.validator';
+import { environment } from '../../../../../environments/environment.development';
+import { EngineInterface, MarkInterface, ModelInterface } from '../../../../models/car.model';
+import { CarService } from '../../../../services/car.service';
 
 @Component({
   selector: 'app-products-details-page',
@@ -28,17 +31,22 @@ export class ProductsDetailsPageComponent implements OnInit {
     folderName: "",
     photoNumber: 0
   };
+  cars: string[] = [];
+  marks: MarkInterface[][] = [];
+  models: ModelInterface[][] = [];
+  engines: EngineInterface[][] = [];
   categories: CategoryInterface[] = [];
   id: number = 0;
   editForm: FormGroup = new FormGroup([]);
   formSubmited: boolean = false;
   errorMessages: string[] = [];
 
+  @ViewChild('closeModalEdit') closeEditModal: any;
   @ViewChild('closeModalDelete') closeDeleteModal: any;
 
   constructor(private titleService: Title, private _renderer2: Renderer2, @Inject(DOCUMENT) private _document: Document, public userService: UserService, 
               private categoryService: CategoriesService, private formBuilder: FormBuilder, private productsService: ProductsService, private activedroute: ActivatedRoute,
-              private router: Router, private toastService: ToastService) {
+              private router: Router, private toastService: ToastService, private carService: CarService) {
     this.titleService.setTitle("Dashboard - La Verucu' SRL");
     this.activedroute.paramMap.subscribe({
       next: (params) => {
@@ -64,9 +72,11 @@ export class ProductsDetailsPageComponent implements OnInit {
 
   initializeProduct() {
     this.productsService.getProduct(this.id).subscribe({
-      next: (value) => {
-        this.product = value;
-        this.product.technicalDetailsJson = JSON.parse(value.technicalDetailsJson);
+      next: (value: any) => {
+        console.log(value.value);
+        this.product = value.value.product;
+        this.cars = value.value.cars;
+        this.product.technicalDetailsJson = JSON.parse(value.value.product.technicalDetailsJson);
         this.initializeForm();
       }
     })
@@ -87,6 +97,7 @@ export class ProductsDetailsPageComponent implements OnInit {
       category: [this.product.category?.id, [Validators.required, EmojiValidator.hasEmoji]],
       quantity: [this.product.quantity, [Validators.required, EmojiValidator.hasEmoji, Validators.pattern("[0-9]*")]],
       price: [this.product.price?.toString(), [Validators.required, EmojiValidator.hasEmoji]],
+      partForCar: this.formBuilder.array([]),
       technicalDetailsJson: this.formBuilder.array([])
     });
 
@@ -126,6 +137,27 @@ export class ProductsDetailsPageComponent implements OnInit {
       }));
   }
 
+  get partForCar() {
+    return this.editForm.get('partForCar') as FormArray;
+  }
+
+  deleteItemCar(index: number) {
+    this.partForCar.removeAt(index);
+  }
+
+  addItemCar() {
+    const id = (this.editForm.get('partForCar') as FormArray).length;
+    this.marks[id] = [];
+    this.models[id] = [];
+    this.engines[id] = [];
+    this.initializeMarks(id);
+    this.partForCar.push(this.formBuilder.group({
+      mark: [0, [Validators.min(1)]],
+      model: [0, [Validators.min(1)]],
+      engine: [0, [Validators.min(1)]]
+    }));
+  }
+
   editProduct() {
     this.formSubmited = true;
     this.errorMessages = [];
@@ -138,7 +170,7 @@ export class ProductsDetailsPageComponent implements OnInit {
           imageFilename: 'categoria-nu-exista.png',
           categoryNameSearch: "categoria-nu-exista"
         };
-        const editProduct: ProductsInterface = {
+        const editProduct: ProductEditInterface = {
           id: this.id,
           title: this.editForm.get('title')?.value,
           description: this.editForm.get('description')?.value,
@@ -147,14 +179,15 @@ export class ProductsDetailsPageComponent implements OnInit {
           quantity: this.editForm.get('quantity')?.value,
           price: parseFloat(this.editForm.get('price')?.value.replace(",", ".")),
           folderName: "",
+          partOfCar: this.createArrayOfCars(),
           photoNumber: 0
         };
         console.log(editProduct);
         this.productsService.editProduct(editProduct).subscribe({
           next: (response) => {
+            this.closeEditModal.nativeElement.click();
             this.toastService.show({title: "Produsul editat!", message: "Produsul " + editProduct.title + " a fost editat cu succes!", classname: "text-success"});
             this.initializeProduct();
-            console.log(response);
           },
           error: (response) => {
             console.log(response);
@@ -167,6 +200,47 @@ export class ProductsDetailsPageComponent implements OnInit {
   }
 
   getImage(folderName:string, imageID: string) {
-    return 'http://localhost:5020/SiteUploads/ShopImages/' + folderName + "/" + folderName + "_" + imageID + ".png";
+    return environment.apiUrl + '/SiteUploads/ShopImages/' + folderName + "/" + folderName + "_" + imageID + ".png";
+  }
+
+  initializeMarks(id:number) {
+    this.carService.getMarks().subscribe({
+      next: (value) => {
+        this.marks[id] = value;
+      }
+    });
+  }
+
+  initializeModels(id:number, markID: number) {
+    this.carService.getModels(markID).subscribe({
+      next: (value) => {
+        this.models[id] = value;
+      }
+    })
+  }
+
+  initializeEngines(id:number, modelID: number) {
+    this.carService.getEngines(modelID).subscribe({
+      next: (value) => {
+        this.engines[id] = value;
+      }
+    })
+  }
+
+  getMark(id:number, $event: any) {
+    this.initializeModels(id, $event.target.value);
+    this.engines[id] = [];
+  }
+
+  getModel(id:number, $event: any) {
+    this.initializeEngines(id, $event.target.value);
+  }
+
+  createArrayOfCars() {
+    let cars: number[] = [];
+    this.editForm.get('partForCar')?.value.forEach((element: any) => {
+      cars.push(element.engine);
+    });
+    return cars;
   }
 }

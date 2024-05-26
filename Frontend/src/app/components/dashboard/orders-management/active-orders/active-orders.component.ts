@@ -14,6 +14,7 @@ import { OrderService } from '../../../../services/order.service';
 })
 export class ActiveOrdersComponent {
   filterForm: FormGroup = new FormGroup({});
+  loading: boolean = true;
   paginatorConfig: PaginateConfig = {
     currentPageName: 'produse',
     totalItems: 10,
@@ -33,6 +34,7 @@ export class ActiveOrdersComponent {
   initializeOrders() {
     this.orderService.getAdminOrders().subscribe({
       next: (value) => {
+        this.loading = false;
         this.orders = value;
       }
     })

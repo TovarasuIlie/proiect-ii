@@ -35,7 +35,7 @@ export class ConfirmEmailModalComponent implements OnInit {
         },
         error: (response) => {
           this.errorMessages.pop();
-          this.errorMessages.push(response.error.message);
+          this.errorMessages.push(response.error);
         }
       })
     } else {

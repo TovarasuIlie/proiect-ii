@@ -55,6 +55,13 @@ export class ProductsService {
     } else {
       productData.append("image", "null");
     }
+    if(product.partForCar.length > 0) {
+      product.partForCar.forEach(element => {
+        productData.append("partsForCar", element.toString());
+      })
+    } else {
+      productData.append("partForCars", "null");
+    }
     return this.http.post(environment.apiUrl + "/api/Product/add-product", productData, {headers});
   }
 
@@ -62,8 +69,12 @@ export class ProductsService {
     return this.http.get<ProductsInterface[]>(environment.apiUrl + '/api/Product/products-by-category-name/' + categoryName);
   }
 
+  getProductsForCar(mark: string, model: string, engine: string) {
+    return this.http.get<ProductsInterface[]>(environment.apiUrl + '/api/Product/get-product-by-car/' + mark + "/" + model + "/" + engine);
+  }
+
   editProduct(product: ProductsInterface) {
-    return this.http.put(environment.apiUrl + '/api/Product/update-product', product)
+    return this.http.put(environment.apiUrl + '/api/Product/update-product', product);
   }
   
   deleteProduct(ID: number) {

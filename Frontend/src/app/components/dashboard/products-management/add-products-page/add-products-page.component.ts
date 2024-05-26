@@ -9,6 +9,8 @@ import { ToastService } from '../../../shared/services/toast.service';
 import { ProductsService } from '../../services/products.service';
 import { ProductAddInterface } from '../../models/products.model';
 import { EmojiValidator } from '../../../../validators/emoji-input.validator';
+import { CarService } from '../../../../services/car.service';
+import { EngineInterface, MarkInterface, ModelInterface } from '../../../../models/car.model';
 
 @Component({
   selector: 'app-add-products-page',
@@ -23,13 +25,17 @@ export class AddProductsPageComponent implements OnInit {
     labelIdle: '<u>Drag & Drop</u> or <u>Browse</u> images here!',
     acceptedFileTypes: 'image/jpeg, image/png, image/jpg',
   }
+  marks: MarkInterface[][] = [];
+  models: ModelInterface[][] = [];
+  engines: EngineInterface[][] = [];
   addProductForm: FormGroup = new FormGroup({});
   formSubmited: boolean = false;
   errorMessages: string[] = [];
   imageArray: File[] = [];
 
   constructor(private titleService: Title, private _renderer2: Renderer2, @Inject(DOCUMENT) private _document: Document, public userService: UserService, 
-              private categoryService: CategoriesService, private formBuilder: FormBuilder, private toastService: ToastService, private productsService: ProductsService) {
+              private categoryService: CategoriesService, private formBuilder: FormBuilder, private toastService: ToastService, private productsService: ProductsService,
+              private carService: CarService) {
     this.titleService.setTitle("Dashboard - La Verucu' SRL");
   }
   ngOnInit(): void {
@@ -59,6 +65,7 @@ export class AddProductsPageComponent implements OnInit {
       quantity: [, [Validators.required, Validators.min(1), Validators.pattern('[0-9]*'), EmojiValidator.hasEmoji]],
       price: [, [Validators.required, Validators.pattern('[0-9]+.[0-9][0-9]'), EmojiValidator.hasEmoji]],
       technicalDetailsJson: this.formBuilder.array([]),
+      partForCar: this.formBuilder.array([]),
       image: [[]]
     })
   }
@@ -75,6 +82,27 @@ export class AddProductsPageComponent implements OnInit {
     this.technicalDetailsJson.push(this.formBuilder.group({
       specificationTitle: [,[Validators.required, Validators.minLength(3), EmojiValidator.hasEmoji]],
       specificationValue: [,[Validators.required, EmojiValidator.hasEmoji]]
+    }));
+  }
+
+  get partForCar() {
+    return this.addProductForm.get('partForCar') as FormArray;
+  }
+
+  deleteItemCar(index: number) {
+    this.partForCar.removeAt(index);
+  }
+
+  addItemCar() {
+    const id = (this.addProductForm.get('partForCar') as FormArray).length;
+    this.marks[id] = [];
+    this.models[id] = [];
+    this.engines[id] = [];
+    this.initializeMarks(id);
+    this.partForCar.push(this.formBuilder.group({
+      mark: [0, [Validators.min(1)]],
+      model: [0, [Validators.min(1)]],
+      engine: [0, [Validators.min(1)]]
     }));
   }
   
@@ -97,6 +125,7 @@ export class AddProductsPageComponent implements OnInit {
           category: selectedCategory,
           quantity: this.addProductForm.get('quantity')?.value,
           price: parseFloat(this.addProductForm.get('price')?.value.replace(",", ".")),
+          partForCar: this.createArrayOfCars(),
           image: this.addProductForm.get('image')?.value
         };
         this.productsService.addNewProduct(addProduct).subscribe({
@@ -105,6 +134,7 @@ export class AddProductsPageComponent implements OnInit {
             this.toastService.show({title: "Produs Adaugat!", message: "Produsul a fost adaugat cu succes!", classname: "text-success"});
           },
           error: (response) => {
+            console.log(response);
             this.errorMessages.pop();
             this.errorMessages.push(response.error);
           }
@@ -113,6 +143,7 @@ export class AddProductsPageComponent implements OnInit {
         this.errorMessages.push("Trebuie sa adaugi minim 3 specificatii produsului nou adaugat!");
       }
     } else {
+      console.log(this.addProductForm.value);
       this.errorMessages.push("Toate campurile sunt obligatorii!");
     }
   }
@@ -139,6 +170,9 @@ export class AddProductsPageComponent implements OnInit {
     while((this.addProductForm.get('technicalDetailsJson') as FormArray).length > 0) {
       this.technicalDetailsJson.removeAt((this.addProductForm.get('technicalDetailsJson') as FormArray).length - 1);
     }
+    while((this.addProductForm.get('partForCar') as FormArray).length > 0) {
+      this.partForCar.removeAt((this.addProductForm.get('partForCar') as FormArray).length - 1);
+    }
     this.markControlsUntouched();
   }
 
@@ -147,5 +181,47 @@ export class AddProductsPageComponent implements OnInit {
         const abstractControl = this.addProductForm.controls[key];
         abstractControl.setErrors(null);
     });
+  }
+
+  
+  initializeMarks(id:number) {
+    this.carService.getMarks().subscribe({
+      next: (value) => {
+        this.marks[id] = value;
+      }
+    });
+  }
+
+  initializeModels(id:number, markID: number) {
+    this.carService.getModels(markID).subscribe({
+      next: (value) => {
+        this.models[id] = value;
+      }
+    })
+  }
+
+  initializeEngines(id:number, modelID: number) {
+    this.carService.getEngines(modelID).subscribe({
+      next: (value) => {
+        this.engines[id] = value;
+      }
+    })
+  }
+
+  getMark(id:number, $event: any) {
+    this.initializeModels(id, $event.target.value);
+    this.engines[id] = [];
+  }
+
+  getModel(id:number, $event: any) {
+    this.initializeEngines(id, $event.target.value);
+  }
+
+  createArrayOfCars() {
+    let cars: number[] = [];
+    this.addProductForm.get('partForCar')?.value.forEach((element: any) => {
+      cars.push(element.engine);
+    });
+    return cars;
   }
 }

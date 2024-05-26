@@ -177,6 +177,57 @@
                                         </div>
                                         <button type="button" class="btn btn-sm w-100 btn-info mb-3" (click)="addItem()">Adauga
                                             Specificatie</button>
+                                            <div formArrayName="partForCar">
+                                                <div class="container-fluid p-0"
+                                                    *ngFor="let car of partForCar.controls; let i = index"
+                                                    [formGroupName]="i" style="max-width: 600px;">
+                                                    <div class="card mb-3">
+                                                        <div class="card-header">
+                                                            <div class="row">
+                                                                <div class="col">
+                                                                    <h5>Marca {{ i + 1 }}</h5>
+                                                                </div>
+                                                                <div class="col">
+                                                                    <button class="btn btn-sm btn-danger float-end"
+                                                                    (click)="deleteItemCar(i)"><i class="fa-solid fa-circle-xmark"></i></button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="card-body">
+                                                            <div class="row">
+                                                                <div class="col-md">
+                                                                    <div class="form-floating mb-3">
+                                                                        <select formControlName="mark" class="form-select" [class.is-invalid]="(formSubmited || car.get('mark')?.touched) && (!car.get('mark')?.valid)" id="mark-{{ i }}" aria-label="Floating label select example" (change)="getMark(i, $event)">
+                                                                          <option selected value="0">Alege marca</option>
+                                                                          <option *ngFor="let mark of marks[i]" [value]="mark.id">{{ mark.name }}</option>
+                                                                        </select>
+                                                                        <label for="mark-{{ i }}">Marca</label>
+                                                                      </div>
+                                                                </div>
+                                                                <div class="col-md">
+                                                                    <div class="form-floating mb-3">
+                                                                        <select formControlName="model" class="form-select" [class.is-invalid]="(formSubmited || car.get('model')?.touched) && (!car.get('model')?.valid)" id="model-{{ i }}" aria-label="Floating label select example" (change)="getModel(i, $event)">
+                                                                          <option selected value="0">Alege modelul</option>
+                                                                          <option *ngFor="let model of models[i]" [value]="model.id">{{ model.name }}</option>
+                                                                        </select>
+                                                                        <label for="model-{{ i }}">Model</label>
+                                                                      </div>
+                                                                </div>
+                                                                <div class="col-md">
+                                                                    <div class="form-floating mb-3">
+                                                                        <select formControlName="engine" class="form-select" [class.is-invalid]="(formSubmited || car.get('engine')?.touched) && (!car.get('engine')?.valid)" id="engine-{{ i }}" aria-label="Floating label select example">
+                                                                          <option selected value="0">Alege motorizarea</option>
+                                                                          <option *ngFor="let engine of engines[i]" [value]="engine.id">{{ engine.name }}</option>
+                                                                        </select>
+                                                                        <label for="engine-{{ i }}">Motorizarea</label>
+                                                                      </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <button type="button" class="btn btn-sm w-100 btn-info mb-3" (click)="addItemCar()">Adauga Marca</button>
                                         <div class="form-floating mb-3">
                                             <select formControlName="category" class="form-select" id="category"
                                                 [class.is-invalid]="(formSubmited || editForm.get('category')?.touched) && (!editForm.get('category')?.valid)"
@@ -279,6 +330,19 @@
                                                         </table>
                                                     </td>
                                                 </tr>
+                                                <tr *ngIf="cars.length > 0">
+                                                    <td><b>Compatibilitate cu masinile</b></td>
+                                                    <td>
+                                                        <table class="table">
+                                                            <tbody>
+                                                                <tr
+                                                                    *ngFor="let car of cars">
+                                                                    <td class="bg-transparent">{{ car }}</td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </td>
+                                                </tr>
                                                 <tr>
                                                     <td><b>Categorie Produs</b></td>
                                                     <td>{{ product.category?.name + ' ( ID Categorie: ' +
@@ -317,7 +381,7 @@
                                 <h4>Poze Produs</h4>
                             </div>
                             <div class="card-body">
-                                <div class="row row-cols-2 row-cols-lg-5 g-2 g-lg-3">
+                                <div class="row row-cols-2 row-cols-lg-3 g-2 g-lg-3">
                                     <div class="col" *ngFor="let photo of [].constructor(product.photoNumber); let i = index">
                                         <img [attr.src]="getImage(product.folderName, i.toString())" class="img-fluid">
                                     </div>

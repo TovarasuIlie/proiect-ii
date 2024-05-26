@@ -189,7 +189,7 @@
                             <img [attr.src]="getImage(product.folderName, '0')" class="img-fluid">
                         </div>
                         <div class="col">
-                            <a [routerLink]="['/piese-de-schimb', product.title?.replaceAll(' ', '-'), product.id]"
+                            <a [routerLink]="['/piese-de-schimb/vizualizare-produs', product.id]"
                                 class="text-decoration-none fs-4 text-dark">{{ product.title }}</a>
                             <h6 class="text-muted fw-lighter">Numar produs: {{ product.id }}</h6>
                             <ul class="list-group list-group-flush border-bottom mx-3">
@@ -197,7 +197,7 @@
                                     class="list-group-item" style="font-size: small;">
                                     <div class="row">
                                         <div class="col">
-                                            {{ spec.specificationTitle }}:
+                                            {{ spec.specificationTitle }}
                                         </div>
                                         <div class="col fw-semibold">
                                             {{ spec.specificationValue }}

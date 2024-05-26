@@ -28,6 +28,7 @@ export class AllCategoriesComponent implements OnInit {
   @ViewChild('categoryEditImage') categoryEditImage: any; 
   categoryID: number = 0;
   formSubmited!: boolean;
+  loading: boolean = true;
 
   paginatorConfig: PaginateConfig = {
     currentPageName: 'categorii',
@@ -45,13 +46,18 @@ export class AllCategoriesComponent implements OnInit {
 
   constructor(private titleService: Title, private _renderer2: Renderer2, @Inject(DOCUMENT) private _document: Document, public userService: UserService, private categoryService: CategoriesService, 
               private formBuilder: FormBuilder, private toastService: ToastService, private router: ActivatedRoute) {
-    this.titleService.setTitle("Vizualizare Categori - La Verucu' SRL")
+    this.titleService.setTitle("Vizualizare Categori - La Verucu' SRL");
+    this.categoryService.getCategoryCount().subscribe({
+      next: (value) => {
+        this.paginatorConfig.totalItems = value;
+      }
+    });
   }
 
   ngOnInit(): void {
+    this.initializePagination();
     this.initializeForm();
     this.initializeGategory();
-    this.initializePagination();
   }
 
   ngAfterViewInit() {
@@ -67,6 +73,7 @@ export class AllCategoriesComponent implements OnInit {
     }
     this.categoryService.getCategoriesPagination(this.paginatorConfig.currentPage, this.paginatorConfig.itemsPerPage).subscribe({
       next: (categories) => {
+        this.loading = false;
         this.categories = categories;
       }
     });

@@ -3,6 +3,7 @@ using Backend.Models.Shop;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Backend.Controllers
 {
@@ -44,13 +45,22 @@ namespace Backend.Controllers
             var product = await _context.Products
                                 .Include(p => p.Category)
                                 .FirstOrDefaultAsync(p => p.Id == id);
+            var cars = await _context.PartsForCars.Where(p => p.ProductId == id).Select(x => new { x.EngineId }).ToListAsync();
+            List<string> carName = new List<string>();
+            foreach(var car in cars)
+            {
+                var engine = await _context.Engines.Include(e => e.Model).FirstOrDefaultAsync(e => e.Id == car.EngineId);
+                var model = await _context.Models.Include(e => e.Mark).FirstOrDefaultAsync(m => m.Id == engine.Model.Id);
+                var mark = await _context.Marks.FindAsync(model.Mark.Id);
+                carName.Add(mark.Name + " " + model.Name + " " + engine.Name);
+            }
 
             if (product == null)
             {
                 return NotFound();
             }
 
-            return product;
+            return Ok(new JsonResult(new { product = product, cars = carName }));
         }
 
         [HttpGet("get-product-by-name/{name}")]
@@ -65,9 +75,25 @@ namespace Backend.Controllers
             return await _context.Products.Where(x => x.Title.Contains(name)).Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
         }
 
+        [HttpGet("get-product-by-car/{mark}/{model}/{engine}")]
+        public async Task<ActionResult<IEnumerable<Product>>> GetProductsLikeCar(string mark, string model, string engine)
+        {
+            var markId = await _context.Marks.FirstOrDefaultAsync(x => x.Name.Contains(mark));
+            var modelId = await _context.Models.FirstOrDefaultAsync(x => x.Name.Contains(model) && x.Mark.Id == markId.Id );
+            var engineId = await _context.Engines.FirstOrDefaultAsync(x => x.Name.Contains(engine) && x.Model.Id == modelId.Id);
+            var productsId = await _context.PartsForCars.Where(x => x.EngineId == engineId.Id).Select(x =>  x.ProductId).ToListAsync();
+            List<Product> products = new List<Product>();
+            foreach (var part in productsId)
+            {
+                products.Add(await _context.Products.Include(p => p.Category).FirstOrDefaultAsync(p => p.Id == part));
+            }
+
+            return products.ToList();
+        }
+
         [HttpPost("add-product")]
         [Authorize(Roles = "Admin")]
-        public async Task<ActionResult<Product>> CreateProduct([FromForm]  Product product, [FromForm(Name = "image")] IFormFile[] image)
+        public async Task<ActionResult<Product>> CreateProduct([FromForm]  Product product, [FromForm(Name = "image")] IFormFile[] image, [FromForm(Name = "partsForCar")] int[] partForCars)
         {
             var existingCategory = await _context.Categories.FindAsync(product.Category.Id);
             if (existingCategory != null)
@@ -96,7 +122,22 @@ namespace Backend.Controllers
                     _context.Products.Add(product);
                     await _context.SaveChangesAsync();
 
-                    return CreatedAtAction("GetProduct", new { id = product.Id }, product);
+                    var newProducts = CreatedAtAction("GetProduct", new { id = product.Id }, product);
+
+                    if (partForCars.Length > 0)
+                    {
+                        foreach (var car in partForCars)
+                        {
+                            var part = new PartsForCar
+                            {
+                                ProductId = product.Id,
+                                EngineId = car
+                            };
+                            _context.PartsForCars.Add(part);
+                            await _context.SaveChangesAsync();
+                        }
+                    }
+                    return newProducts;
                 } 
                 else
                 {
@@ -113,7 +154,7 @@ namespace Backend.Controllers
 
         [HttpPut("update-product")]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> UpdateProduct(Product product)
+        public async Task<IActionResult> UpdateProduct(ProductEditDto product)
         {
 
             var productToUpdate = await _context.Products.FindAsync(product.Id);
@@ -128,6 +169,23 @@ namespace Backend.Controllers
             productToUpdate.Quantity = product.Quantity;
             productToUpdate.Price = product.Price;
             _context.Entry(productToUpdate).State = EntityState.Modified;
+
+            if (product.PartOfCar.Length > 0)
+            {
+                foreach (var car in product.PartOfCar)
+                {
+                    if(_context.PartsForCars.Where(x => x.EngineId == car).Where(x => x.ProductId == product.Id).IsNullOrEmpty())
+                    {
+                        var part = new PartsForCar
+                        {
+                            ProductId = product.Id,
+                            EngineId = car
+                        };
+                        _context.PartsForCars.Add(part);
+                        await _context.SaveChangesAsync();
+                    }
+                }
+            }
 
             try
             {

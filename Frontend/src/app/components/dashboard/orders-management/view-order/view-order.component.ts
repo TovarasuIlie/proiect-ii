@@ -11,6 +11,7 @@ import { MemberViewInterface } from '../../models/admin.model';
 import { ProductsInterface } from '../../models/products.model';
 import { ProductsService } from '../../services/products.service';
 import { ToastService } from '../../../shared/services/toast.service';
+import { environment } from '../../../../../environments/environment.development';
 
 @Component({
   selector: 'app-view-order',
@@ -45,10 +46,8 @@ export class ViewOrderComponent implements AfterViewInit {
     }, 100);
   }
 
-
   initializeOrder() {
     this.activatedRoute.data.subscribe((response: any) => { 
-      console.log(response);
       this.order = response.order;
     });
   }
@@ -86,7 +85,7 @@ export class ViewOrderComponent implements AfterViewInit {
   }
 
   getImage(folderName:string, imageID: string) {
-    return 'http://localhost:5020/SiteUploads/ShopImages/' + folderName + "/" + folderName + "_" + imageID + ".png";
+    return environment.apiUrl + '/SiteUploads/ShopImages/' + folderName + "/" + folderName + "_" + imageID + ".png";
   }
 
   calculatePrice(numberOfProducts: number, price: number) {

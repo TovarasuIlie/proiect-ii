@@ -191,8 +191,15 @@
                                     </tr>
                                 </tbody>
                                 <tbody *ngIf="categories.length === 0">
-                                    <tr>
-                                        <td colspan="3">Nu a fost adaugata nici o categorie momentan</td>
+                                    <tr *ngIf="!loading">
+                                        <td colspan="3">Nu s-a adaugat nicio categorie!</td>
+                                    </tr>
+                                    <tr *ngIf="loading">
+                                        <td colspan="3">
+                                            <div class="spinner-border" role="status">
+                                                <span class="visually-hidden">Loading...</span>
+                                            </div>
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>

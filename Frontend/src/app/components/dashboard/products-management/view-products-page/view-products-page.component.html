@@ -125,8 +125,15 @@
                                     </tr>
                                 </tbody>
                                 <tbody *ngIf="products.length === 0">
-                                    <tr>
+                                    <tr *ngIf="!loading">
                                         <td colspan="5">Nu s-a gasit nici un produs!</td>
+                                    </tr>
+                                    <tr *ngIf="loading">
+                                        <td colspan="5">
+                                            <div class="spinner-border" role="status">
+                                                <span class="visually-hidden">Loading...</span>
+                                            </div>
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>

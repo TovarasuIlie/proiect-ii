@@ -16,6 +16,7 @@ import { UserInteface } from '../../../../models/user.model';
 })
 export class AllUsersPageComponent implements OnInit {
   members: MemberViewInterface[] = [];
+  loading: boolean = true;
   paginatorConfig: PaginateConfig = {
     currentPageName: 'utilizatori',
     totalItems: 10,
@@ -41,6 +42,7 @@ export class AllUsersPageComponent implements OnInit {
     }
     this.adminService.getMembersPagination(this.paginatorConfig.currentPage, this.paginatorConfig.itemsPerPage).subscribe({
       next: (members) => {
+        this.loading = false;
         this.members = members;
       }
     });

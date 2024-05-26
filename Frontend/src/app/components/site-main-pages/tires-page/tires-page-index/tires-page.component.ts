@@ -3,6 +3,7 @@ import { Title } from '@angular/platform-browser';
 import { ProductsService } from '../../../dashboard/services/products.service';
 import { ProductsInterface } from '../../../dashboard/models/products.model';
 import { ShippingCartService } from '../../../../services/shipping-cart.service';
+import { environment } from '../../../../../environments/environment.development';
 
 @Component({
   selector: 'app-tires-page',
@@ -29,7 +30,7 @@ export class TiresPageComponent implements OnInit {
   }
 
   getImage(folderName:string, imageID: string) {
-    return 'http://localhost:5020/SiteUploads/ShopImages/' + folderName + "/" + folderName + "_" + imageID + ".png";
+    return environment.apiUrl + '/SiteUploads/ShopImages/' + folderName + "/" + folderName + "_" + imageID + ".png";
   }
 
   addProductToCart(productID: number) {

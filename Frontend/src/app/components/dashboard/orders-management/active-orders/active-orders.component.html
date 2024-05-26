@@ -120,8 +120,15 @@
                                     </tr>
                                 </tbody>
                                 <tbody *ngIf="orders.length === 0">
-                                    <tr>
-                                        <td colspan="5">Nu s-a gasit nici o comanda!</td>
+                                    <tr *ngIf="!loading">
+                                        <td colspan="5">Momentan nu este nici o comanda activa!</td>
+                                    </tr>
+                                    <tr *ngIf="loading">
+                                        <td colspan="5">
+                                            <div class="spinner-border" role="status">
+                                                <span class="visually-hidden">Loading...</span>
+                                            </div>
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>

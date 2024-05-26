@@ -1,6 +1,6 @@
 ﻿namespace Backend.Models.Shop
 {
-    public class Product
+    public class ProductEditDto
     {
         public int Id { get; set; }
         public string Title { get; set; }
@@ -11,5 +11,6 @@
         public double Price { get; set; }
         public int PhotoNumber { get; set; }
         public string FolderName { get; set; }
+        public int[] PartOfCar { get; set; }
     }
 }

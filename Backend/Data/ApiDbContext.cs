@@ -13,10 +13,9 @@ namespace Backend.Data
         public DbSet<Product> Products { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderDetails> OrderDetails { get; set; }
-
-
         public DbSet<Mark> Marks { get; set; }
         public DbSet<Model> Models { get; set; }
         public DbSet<Engine> Engines { get; set; }
+        public DbSet<PartsForCar> PartsForCars { get; set; }
     }
 }

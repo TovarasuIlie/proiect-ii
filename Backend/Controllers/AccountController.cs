@@ -248,7 +248,7 @@ namespace Backend.Controllers
         {
             var token=await _userManager.GenerateEmailConfirmationTokenAsync(user);
             token=WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
-            var url = $"{_config["JWT:ClientUrl"]}/{_config["Email:ConfirmEmailPath"]}?token={token}&email={user.Email}";
+            var url = $"{_config["JWT:ClientUrlAzure"]}/{_config["Email:ConfirmEmailPath"]}?token={token}&email={user.Email}";
             var body = $"<p>Buna: {user.FullName}</p>" +
                 "<p>Va rugam confirmati adresa de email accesand link-ul de mai jos.</p>" +
                 $"<p><a href=\"{url}\">Apasa aici</a></p>" +
@@ -261,7 +261,7 @@ namespace Backend.Controllers
         {
             var token = await _userManager.GeneratePasswordResetTokenAsync(user);
             token = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
-            var url = $"{_config["JWT:ClientUrl"]}/{_config["Email:ResetPasswordPath"]}?token={token}&email={user.Email}";
+            var url = $"{_config["JWT:ClientUrlAzure"]}/{_config["Email:ResetPasswordPath"]}?token={token}&email={user.Email}";
             var body = $"<p>Buna: {user.FullName}</p>" +
                $"<p>Utilizator: {user.UserName}</p>" +
                "<p>Accesati link-ul urmator pentru resetarea parolei</p>" +

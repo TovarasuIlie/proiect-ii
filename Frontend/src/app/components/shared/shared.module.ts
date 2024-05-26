@@ -55,6 +55,7 @@ import { ShoppingCartComponent } from './shopping-cart/shopping-cart.component';
     ShoppingCartHeaderComponent,
     ShoppingCartFooterComponent,
     PaginationComponent,
+    UserHasRoleDirective
   ]
 })
 export class SharedModule { }

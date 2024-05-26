@@ -16,6 +16,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class ViewProductsPageComponent implements OnInit {
   products: ProductsInterface[] = [];
+  loading: boolean = true;
 
   filterForm: FormGroup = new FormGroup({});
   paginatorConfig: PaginateConfig = {
@@ -25,12 +26,16 @@ export class ViewProductsPageComponent implements OnInit {
     currentPage: 1
   }
 
-
   constructor(private titleService: Title, private _renderer2: Renderer2, @Inject(DOCUMENT) private _document: Document, 
               public userService: UserService, private productsService: ProductsService, private formBuilder: FormBuilder, private router: ActivatedRoute) {
     this.titleService.setTitle("Dashboard - La Verucu' SRL");
   }
   ngOnInit(): void {
+    this.productsService.getProductsCount().subscribe({
+      next: (value) => {
+        this.paginatorConfig.totalItems = value;
+      }
+    });
     this.initializeForm();
     this.initializeProducts();
     this.initializePagination();
@@ -43,6 +48,7 @@ export class ViewProductsPageComponent implements OnInit {
     }
     this.productsService.getProductsPagination(this.paginatorConfig.currentPage, this.paginatorConfig.itemsPerPage).subscribe({
       next: (value) => {
+        this.loading = false;
         this.products = value;
       },
       error: (response) => {

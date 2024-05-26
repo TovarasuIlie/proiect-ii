@@ -3,6 +3,7 @@ import { ShippingCartInterface } from '../../../../models/shipping-cart.model';
 import { ToastService } from '../../../shared/services/toast.service';
 import { UserService } from '../../../../services/user.service';
 import { PaginateConfig } from '../../../../models/paginate.model';
+import { environment } from '../../../../../environments/environment.development';
 
 @Component({
   selector: 'app-shopping-cart-index',
@@ -90,7 +91,7 @@ export class ShoppingCartIndexComponent implements OnInit {
   }
 
   getImage(folderName:string, imageID: string) {
-    return 'http://localhost:5020/SiteUploads/ShopImages/' + folderName + "/" + folderName + "_" + imageID + ".png";
+    return environment.apiUrl + '/SiteUploads/ShopImages/' + folderName + "/" + folderName + "_" + imageID + ".png";
   }
 
 }

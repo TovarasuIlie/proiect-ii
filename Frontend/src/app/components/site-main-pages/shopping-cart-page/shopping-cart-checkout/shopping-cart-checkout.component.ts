@@ -7,6 +7,7 @@ import { OrderDetailInterface, OrderInterface } from '../../../../models/order.m
 import { OrderService } from '../../../../services/order.service';
 import { Router } from '@angular/router';
 import { PaginateConfig } from '../../../../models/paginate.model';
+import { environment } from '../../../../../environments/environment.development';
 
 @Component({
   selector: 'app-shopping-cart-checkout',
@@ -122,7 +123,7 @@ export class ShoppingCartCheckoutComponent implements OnInit {
   }
 
   getImage(folderName:string, imageID: string) {
-    return 'http://localhost:5020/SiteUploads/ShopImages/' + folderName + "/" + folderName + "_" + imageID + ".png";
+    return environment.apiUrl + 'SiteUploads/ShopImages/' + folderName + "/" + folderName + "_" + imageID + ".png";
   }
   
 }

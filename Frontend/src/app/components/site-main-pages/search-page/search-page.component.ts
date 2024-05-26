@@ -5,6 +5,8 @@ import { ProductsService } from '../../dashboard/services/products.service';
 import { ShippingCartService } from '../../../services/shipping-cart.service';
 import { Title } from '@angular/platform-browser';
 import { PaginateConfig } from '../../../models/paginate.model';
+import { environment } from '../../../../environments/environment.development';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-search-page',
@@ -29,7 +31,7 @@ export class SearchPageComponent implements OnInit {
         this.keyword = value['keyword'];
       }
     });
-    this.title.setTitle("Cauti '" + this.keyword + "' - La Vericu' SRL")
+    this.title.setTitle("Cauti '" + this.keyword + "' - La Vericu' SRL");
   }
 
   ngOnInit() {
@@ -39,13 +41,17 @@ export class SearchPageComponent implements OnInit {
   initializeSearch() {
     this.errorMessages = [];
     this.products = [];
-    this.productService.getProductsByName(this.keyword).subscribe({
-      next: (response) => {
-        response.forEach(p => {
-          p.technicalDetailsJson = JSON.parse(p.technicalDetailsJson);
-          this.products.push(p);
+    this.activatedRoute.data.subscribe((response: any) => { 
+      if(!(response.searchList instanceof HttpErrorResponse)) {
+        response.searchList.map((product: any) => {
+          if(!(product.technicalDetailsJson instanceof Array)) {
+            product.technicalDetailsJson = JSON.parse(product.technicalDetailsJson);
+          }
+          this.products.push(product);
         })
-      },
+      } else {
+        this.errorMessages.push(response.searchList.error);
+      }
     });
     if(this.products.length == 0 ) {
       this.errorMessages.pop();
@@ -69,7 +75,7 @@ export class SearchPageComponent implements OnInit {
   }
 
   getImage(folderName:string, imageID: string) {
-    return 'http://localhost:5020/SiteUploads/ShopImages/' + folderName + "/" + folderName + "_" + imageID + ".png";
+    return environment.apiUrl + '/SiteUploads/ShopImages/' + folderName + "/" + folderName + "_" + imageID + ".png";
   }
 }
 

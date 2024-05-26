@@ -7,6 +7,7 @@ import { CategoryInterface } from '../../../dashboard/models/category-interface'
 import { ShippingCartService } from '../../../../services/shipping-cart.service';
 import { Title } from '@angular/platform-browser';
 import { PaginateConfig } from '../../../../models/paginate.model';
+import { environment } from '../../../../../environments/environment.development';
 
 @Component({
   selector: 'app-spare-parts-list',
@@ -24,6 +25,7 @@ export class SparePartsListComponent implements OnInit {
     itemsPerPage: 10,
     currentPageName: "piese-de-schimb"
   }
+  carName!: string;
 
   constructor(private activatedRoute: ActivatedRoute, private shareData: ShareDataService, private shippingCartService: ShippingCartService, private title: Title) {
     this.activatedRoute.paramMap.subscribe({
@@ -31,6 +33,13 @@ export class SparePartsListComponent implements OnInit {
         const category = value.get('partCategory');
         if(category) {
           this.currentCategoryPath =  category;
+        } else {
+          const mark = value.get('mark');
+          const model = value.get('model');
+          const engine = value.get('engine');
+          if(mark && model && engine) {
+            this.carName = mark + " " + model + " " + engine;
+          }
         }
       },
     });
@@ -68,7 +77,7 @@ export class SparePartsListComponent implements OnInit {
   }
 
   getImage(folderName:string, imageID: string) {
-    return 'http://localhost:5020/SiteUploads/ShopImages/' + folderName + "/" + folderName + "_" + imageID + ".png";
+    return environment.apiUrl + '/SiteUploads/ShopImages/' + folderName + "/" + folderName + "_" + imageID + ".png";
   }
 
   sliceJSONArray(object: any[], from: number, to: number) {

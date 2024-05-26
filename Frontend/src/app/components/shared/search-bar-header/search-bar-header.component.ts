@@ -60,9 +60,7 @@ export class SearchBarHeaderComponent {
       const navigateExtra: NavigationExtras = {
         queryParams: { 'keyword': keyword }
       };
-      this.router.navigate(['/cauta'], navigateExtra).then(() => {
-        window.location.reload();
-      });;
+      this.router.navigate(['/cauta'], navigateExtra);
       this.searchBar.nativeElement.blur();
     }
   }

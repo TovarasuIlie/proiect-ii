@@ -8,6 +8,7 @@ import { AccesoriesPageComponent } from './components/site-main-pages/accesories
 import { SearchPageComponent } from './components/site-main-pages/search-page/search-page.component';
 import { AdminGuard } from './route-guards/admin.guard';
 import { AuthorizationGuard } from './route-guards/authorization.guard';
+import { SearchProductsResolverService } from './resolvers/search-products.resolver';
 
 const routes: Routes = [
   {
@@ -41,7 +42,10 @@ const routes: Routes = [
   },
   {
     path: 'cauta',
-    component: SearchPageComponent
+    component: SearchPageComponent,
+    resolve: {
+      searchList: SearchProductsResolverService
+    }
   },
   {
     path: 'cont', 

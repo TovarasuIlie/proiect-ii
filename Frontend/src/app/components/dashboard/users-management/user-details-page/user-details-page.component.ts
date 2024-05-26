@@ -98,7 +98,7 @@ export class UserDetailsPageComponent implements OnInit {
       fullName: [this.member.fullName, [Validators.required]],
       phone: [this.member.phone, [Validators.required]],
       address: [this.member.address, [Validators.required]],
-      roles: this.formBuilder.array(['Client'])
+      roles: this.formBuilder.array(this.member.roles)
     });
   }
 
@@ -111,6 +111,7 @@ export class UserDetailsPageComponent implements OnInit {
       },
       error: (response) => {
         console.log(response);
+        this.toastService.show({title: response.error.title, message: response.error.message, classname: "text-danger"});
       }
     })
   }
@@ -124,6 +125,7 @@ export class UserDetailsPageComponent implements OnInit {
       },
       error: (response) => {
         console.log(response);
+        this.toastService.show({title: response.error.title, message: response.error.message, classname: "text-danger"});
       }
     })
   }
@@ -140,6 +142,7 @@ export class UserDetailsPageComponent implements OnInit {
           },
           error: (response) => {
             console.log(response);
+            this.toastService.show({title: response.error.title, message: response.error.message, classname: "text-danger"});
           }
         })
       } else {
@@ -158,11 +161,12 @@ export class UserDetailsPageComponent implements OnInit {
         this.closeModalDelete.nativeElement.click();
         setTimeout(() => {
           this.router.navigateByUrl('/dashboard/utilizatori');
-        }, 500)
-        console.log(response);
+        }, 500);
+        this.toastService.show({title: "Utilizator sters!", message: "Utilizatorul a fost sters cu succes!", classname: "text-success"});
       },
       error: (response) => {
         console.log(response);
+        this.toastService.show({title: response.error.title, message: response.error.message, classname: "text-danger"});
       }
     })
   }

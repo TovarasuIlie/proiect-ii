@@ -2,7 +2,7 @@
 <div class="container mt-5">
     <div class="container-fluid mb-5" id="parts-catalog">
         <h4 class="mb-3 text-center">CATALOG PIESE AUTO DE LA LA VERICU' SRL</h4>
-        <div class="row row-cols-3 row-cols-md-6 g-2 mb-3">
+        <div class="row row-cols-2 row-cols-md-4 row-cols-lg-6 g-2 mb-3">
             <div *ngFor="let category of categoryList" class="col mb-3">
                 <a [attr.href]="getLink(category.categoryNameSearch)" class="text-decoration-none">
                     <div class="card p-4">
