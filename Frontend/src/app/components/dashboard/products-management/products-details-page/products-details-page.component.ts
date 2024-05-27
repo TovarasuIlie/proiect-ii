@@ -73,7 +73,6 @@ export class ProductsDetailsPageComponent implements OnInit {
   initializeProduct() {
     this.productsService.getProduct(this.id).subscribe({
       next: (value: any) => {
-        console.log(value.value);
         this.product = value.value.product;
         this.cars = value.value.cars;
         this.product.technicalDetailsJson = JSON.parse(value.value.product.technicalDetailsJson);

@@ -67,6 +67,9 @@ export class ShoppingCartComponent implements OnInit {
               itemsFromCart[item].totalPrice = itemsFromCart[item].quantity * itemsFromCart[item].product.price;
               localStorage.setItem(this.userService.getEmail(), JSON.stringify(itemsFromCart));
               this.toastService.show({title: "Produs adaugat", message: "Produsul a fost adaugat in cos!", classname: "text-success"});
+              setTimeout(() => {
+                this.initializeCart();
+              }, 1000);
             } else {
               this.toastService.show({title: "Lipsa stoc", message: "Din pacate, produsul nu mai este pe stoc!", classname: "text-danger"});
             }
@@ -81,15 +84,15 @@ export class ShoppingCartComponent implements OnInit {
               itemsFromCart.push(item);
               localStorage.setItem(this.userService.getEmail(), JSON.stringify(itemsFromCart));
               this.toastService.show({title: "Produs adaugat", message: "Produsul a fost adaugat in cos!", classname: "text-success"});
+              setTimeout(() => {
+                this.initializeCart();
+              }, 200);
             } else {
               this.toastService.show({title: "Lipsa stoc", message: "Din pacate produsul nu mai este pe stoc!", classname: "text-danger"});
             }
           }
         }
       });
-      setTimeout(() => {
-        this.initializeCart();
-      }, 100);
     } else {
       this.toastService.show({title: "Eroare!", message: "Trebuie sa fi autentificat ca sa poti adauga produsul in cos!", classname: "text-danger"});
     }

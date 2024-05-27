@@ -184,7 +184,6 @@ namespace Backend.Controllers
             {
                 return NotFound();
             }
-            productToUpdate.Category = product.Category;
             _context.Entry(productToUpdate).State = EntityState.Detached;
             productToUpdate.Title = product.Title;
             productToUpdate.Description = product.Description;
