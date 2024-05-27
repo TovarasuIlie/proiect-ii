@@ -117,7 +117,7 @@
                                         <h4>Admin Area</h4>
                                     </div>
                                     <div class="card-body">
-                                        <button class="btn btn-success w-100" (click)="markAsConfirm()">Finalizeaza Comanda!</button>
+                                        <button class="btn btn-success w-100" [disabled]="order.isConfirmed" (click)="markAsConfirm()">Finalizeaza Comanda!</button>
                                     </div>
                                 </div>
                             </div>
@@ -157,6 +157,7 @@
                     </div>
                 </div>
             </main>
+            <app-toast></app-toast>
             <footer class="py-4 bg-light mt-auto">
                 <div class="container-fluid px-4">
                     <div class="d-flex align-items-center justify-content-between small">

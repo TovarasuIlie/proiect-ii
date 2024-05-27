@@ -10,6 +10,7 @@ import { environment } from '../../../../../environments/environment.development
 })
 export class SparePartsComponent implements OnInit {
   categoryList: CategoryInterface[] = [];
+  loading: boolean = true;
 
   constructor(private categoryService: CategoriesService) {}
 
@@ -20,6 +21,7 @@ export class SparePartsComponent implements OnInit {
   initializeCategories() {
     this.categoryService.getCategories().subscribe({
       next: (value) => {
+        this.loading = false;
         this.categoryList = value;
       },
     })

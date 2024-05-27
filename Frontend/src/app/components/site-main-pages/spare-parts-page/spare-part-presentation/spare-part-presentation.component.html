@@ -12,8 +12,8 @@
                 </div>
                 <div class="carousel-inner">
                     <div *ngFor="let photo of [].constructor(product.photoNumber); let index = index"
-                        class="carousel-item p-5" [class.active]="index === 0">
-                        <img [attr.src]="  getImage(product.folderName , index.toString()) " class="img-fluid">
+                        class="carousel-item p-5 justify-content-center align-items-center" [class.active]="index === 0">
+                        <img [attr.src]="  getImage(product.folderName , index.toString()) " class="img-fluid text-center">
                     </div>
                 </div>
                 <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark"

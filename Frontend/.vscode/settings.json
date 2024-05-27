@@ -3,5 +3,7 @@
         "node_modules{,/**}",
         ".vscode{,/**}"
     ],
-    "appService.showBuildDuringDeployPrompt": false
+    "appService.showBuildDuringDeployPrompt": false,
+    "appService.defaultWebAppToDeploy": "/subscriptions/6f859922-4ad1-4d49-8e99-0dad1c606bdc/resourceGroups/ProiectII/providers/Microsoft.Web/sites/LaVericuSRL",
+    "appService.deploySubpath": "dist\\frontend\\browser"
 }

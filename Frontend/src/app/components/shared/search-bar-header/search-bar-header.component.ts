@@ -62,6 +62,9 @@ export class SearchBarHeaderComponent {
       };
       this.router.navigate(['/cauta'], navigateExtra);
       this.searchBar.nativeElement.blur();
+      setTimeout(() => {
+        window.location.reload();
+      }, 500);
     }
   }
 

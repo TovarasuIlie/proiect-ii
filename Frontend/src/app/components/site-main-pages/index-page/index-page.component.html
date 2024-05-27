@@ -67,7 +67,7 @@
     </div>
   </div>
   <div class="container-fluid mb-5" id="parts-catalog">
-    <h4 class="mb-3 text-center">CATALOG PIESE AUTO DE LA AUTODOC</h4>
+    <h4 class="mb-3 text-center">CATALOG PIESE AUTO DE LA VERICU'</h4>
     <div class="row row-cols-2 row-cols-md-4 row-cols-lg-6 g-2 mb-3" *ngIf="!loading">
       <div *ngFor="let category of categoryList" class="col mb-3">
           <a [attr.href]="getLink(category.categoryNameSearch)" class="text-decoration-none">
@@ -92,7 +92,7 @@
                   </p>
               </div>
           </div>
-    </div>
+        </div>
     </div>
     <div class="text-center">
       <a class="btn btn btn-outline-secondary fw-semibold" [routerLink]="['piese-de-schimb']">Mai multe piese auto <i class="fa-solid fa-arrow-right"></i></a>
